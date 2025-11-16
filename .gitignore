@@ -1,0 +1,47 @@
+# ─────────────────────────────
+# Node / Package Managers
+# ─────────────────────────────
+node_modules/
+.pnp*
+.pnpm-store/
+
+# ─────────────────────────────
+# Next.js / Build Artifacts
+# ─────────────────────────────
+.next/
+out/
+build/
+dist/
+.vercel/
+.turbo/
+*.tsbuildinfo
+tsconfig.tsbuildinfo
+
+# ─────────────────────────────
+# Environment
+# ─────────────────────────────
+.env
+.env.*.local
+.env.local
+
+# ─────────────────────────────
+# Fumadocs / MDX Generated Files
+# (depending on version)
+# ─────────────────────────────
+.qodo/
+.source/
+
+# ─────────────────────────────
+# Misc
+# ─────────────────────────────
+.DS_Store
+Thumbs.db
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Editor folders
+.idea/
+.vscode/*
+!.vscode/settings.json
