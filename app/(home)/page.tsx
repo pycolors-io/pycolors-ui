@@ -1,5 +1,5 @@
-import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 
 export default function HomePage() {
   return (
@@ -11,7 +11,7 @@ export default function HomePage() {
 
       <div className="mt-6 flex gap-4">
         <Button>Get started</Button>
-        <Button variant="outline">
+        <Button variant="outline" asChild>
           <Link href="/docs">View docs</Link>
         </Button>
       </div>

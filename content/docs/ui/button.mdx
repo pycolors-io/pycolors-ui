@@ -1,0 +1,494 @@
+---
+title: Button
+description: Action button component used across PyColors UI, built on shadcn/ui. Includes variants, sizes, and best practices.
+---
+
+The **Button** component is one of the core interactive elements of PyColors UI.
+It provides consistent styling, variants, accessibility, and flexible composition across marketing pages, dashboards, and applications.
+
+This implementation extends the **shadcn/ui `button` primitive** and integrates smoothly with the PyColors design system.
+
+---
+
+## Import
+
+```tsx
+import { Button } from "@/components/ui/button";
+```
+
+---
+
+## Usage
+
+<Tabs items={["Preview", "Usage", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Button>Click me</Button>
+    </Preview>
+  </Tab>
+
+  <Tab value="Usage">
+    ```tsx
+    <Button>Click me</Button>
+    ```
+  </Tab>
+
+  <Tab value="Code">
+    ```tsx
+    import { Button } from "@/components/ui/button";
+
+    export default function Demo() {
+      return (
+        <Button>Click me</Button>
+      );
+    }
+    ```
+  </Tab>
+</Tabs>
+
+The default button uses the primary color from the PyColors theme and adapts automatically to light/dark mode.
+
+---
+
+## Variants
+
+Buttons support several variants to adapt to different contexts.
+
+<Tabs items={["Preview", "Usage", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div className="flex flex-wrap gap-4">
+        <Button variant="default">Default</Button>
+        <Button variant="secondary">Secondary</Button>
+        <Button variant="outline">Outline</Button>
+        <Button variant="ghost">Ghost</Button>
+        <Button variant="destructive">Destructive</Button>
+        <Button variant="link">Link</Button>
+      </div>
+    </Preview>
+  </Tab>
+
+  <Tab value="Usage">
+    ```tsx
+    <div className="flex flex-wrap gap-4">
+      <Button variant="default">Default</Button>
+      <Button variant="secondary">Secondary</Button>
+      <Button variant="outline">Outline</Button>
+      <Button variant="ghost">Ghost</Button>
+      <Button variant="destructive">Destructive</Button>
+      <Button variant="link">Link</Button>
+    </div>
+    ```
+  </Tab>
+
+  <Tab value="Code">
+    ```tsx
+    import { Button } from "@/components/ui/button";
+
+    export default function ButtonVariantsExample() {
+      return (
+        <div className="flex flex-wrap gap-4">
+          <Button variant="default">Default</Button>
+          <Button variant="secondary">Secondary</Button>
+          <Button variant="outline">Outline</Button>
+          <Button variant="ghost">Ghost</Button>
+          <Button variant="destructive">Destructive</Button>
+          <Button variant="link">Link</Button>
+        </div>
+      );
+    }
+    ```
+  </Tab>
+</Tabs>
+
+### Available variants
+
+| Variant     | Description                          |
+| ---------- | ------------------------------------ |
+| default    | Primary action button, high emphasis |
+| secondary  | Neutral alternative to primary       |
+| outline    | Bordered button for medium emphasis  |
+| ghost      | Minimal UI footprint                 |
+| destructive| Used for destructive actions         |
+| link       | Text-style button for inline actions |
+
+---
+
+## Sizes
+
+<Tabs items={["Preview", "Usage", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div className="flex items-center gap-4 flex-wrap">
+        <Button size="sm">Small</Button>
+        <Button size="default">Default</Button>
+        <Button size="lg">Large</Button>
+        <Button size="icon">
+          <svg
+            className="size-4"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fillRule="evenodd"
+              d="M10 1a9 9 0 100 18 9 9 0 000-18zM9 5a1 1 0 012 0v5a1 1 0 01-.293.707l-3 3a1 1 0 11-1.414-1.414L9 9.586V5z"
+              clipRule="evenodd"
+            />
+          </svg>
+        </Button>
+      </div>
+    </Preview>
+  </Tab>
+
+  <Tab value="Usage">
+    ```tsx
+    <div className="flex items-center gap-4 flex-wrap">
+      <Button size="sm">Small</Button>
+      <Button size="default">Default</Button>
+      <Button size="lg">Large</Button>
+      <Button size="icon">
+        <svg
+          className="size-4"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+        >
+          <path
+            fillRule="evenodd"
+            d="M10 1a9 9 0 100 18 9 9 0 000-18zM9 5a1 1 0 012 0v5a1 1 0 01-.293.707l-3 3a1 1 0 11-1.414-1.414L9 9.586V5z"
+            clipRule="evenodd"
+          />
+        </svg>
+      </Button>
+    </div>
+    ```
+  </Tab>
+
+  <Tab value="Code">
+    ```tsx
+    import { Button } from "@/components/ui/button";
+
+    export default function ButtonSizesExample() {
+      return (
+        <div className="flex items-center gap-4 flex-wrap">
+          <Button size="sm">Small</Button>
+          <Button size="default">Default</Button>
+          <Button size="lg">Large</Button>
+          <Button size="icon">
+            <svg
+              className="size-4"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fillRule="evenodd"
+                d="M10 1a9 9 0 100 18 9 9 0 000-18zM9 5a1 1 0 012 0v5a1 1 0 01-.293.707l-3 3a1 1 0 11-1.414-1.414L9 9.586V5z"
+                clipRule="evenodd"
+              />
+            </svg>
+          </Button>
+        </div>
+      );
+    }
+    ```
+  </Tab>
+</Tabs>
+
+### Available sizes
+
+| Size   | Description                   |
+| ------ | ----------------------------- |
+| sm     | Compact buttons for dense UIs |
+| default| Standard button size          |
+| lg     | Larger visual weight          |
+| icon   | Square icon-only button       |
+
+---
+
+## Disabled state
+
+<Tabs items={["Preview", "Usage", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div className="flex gap-4">
+        <Button disabled>Disabled</Button>
+        <Button variant="secondary" disabled>
+          Disabled
+        </Button>
+      </div>
+    </Preview>
+  </Tab>
+
+  <Tab value="Usage">
+    ```tsx
+    <div className="flex gap-4">
+      <Button disabled>Disabled</Button>
+      <Button variant="secondary" disabled>
+        Disabled
+      </Button>
+    </div>
+    ```
+  </Tab>
+
+  <Tab value="Code">
+    ```tsx
+    import { Button } from "@/components/ui/button";
+
+    export default function ButtonDisabledExample() {
+      return (
+        <div className="flex gap-4">
+          <Button disabled>Disabled</Button>
+          <Button variant="secondary" disabled>
+            Disabled
+          </Button>
+        </div>
+      );
+    }
+    ```
+  </Tab>
+</Tabs>
+
+Disabled buttons use `pointer-events-none` and reduced opacity to indicate non-interactivity.
+
+---
+
+## With icon
+
+Use any icon library (Lucide, Heroicons, custom SVG).
+
+### Leading icon
+
+<Tabs items={["Preview", "Usage", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Button>
+        <svg
+          className="size-4 mr-2"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+        >
+          <path d="M12 5v14m7-7H5" />
+        </svg>
+        Add item
+      </Button>
+    </Preview>
+  </Tab>
+
+  <Tab value="Usage">
+    ```tsx
+    <Button>
+      <svg
+        className="size-4 mr-2"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+      >
+        <path d="M12 5v14m7-7H5" />
+      </svg>
+      Add item
+    </Button>
+    ```
+  </Tab>
+
+  <Tab value="Code">
+    ```tsx
+    import { Button } from "@/components/ui/button";
+
+    export default function ButtonWithIconExample() {
+      return (
+        <Button>
+          <svg
+            className="size-4 mr-2"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+          >
+            <path d="M12 5v14m7-7H5" />
+          </svg>
+          Add item
+        </Button>
+      );
+    }
+    ```
+  </Tab>
+</Tabs>
+
+### Trailing icon (Icon on the right)
+<Tabs items={["Preview", "Usage", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Button>
+        Continue
+        <svg
+          className="size-4 ml-2"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+        >
+          <path d="M9 5l7 7-7 7" />
+        </svg>
+      </Button>
+    </Preview>
+  </Tab>
+
+  <Tab value="Usage">
+    ```tsx
+    <Button>
+      Continue
+      <svg
+        className="size-4 ml-2"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+      >
+        <path d="M9 5l7 7-7 7" />
+      </svg>
+    </Button>
+    ```
+  </Tab>
+
+  <Tab value="Code">
+    ```tsx
+    import { Button } from "@/components/ui/button";
+
+    export default function ButtonTrailingIconExample() {
+      return (
+        <Button>
+          Continue
+          <svg
+            className="size-4 ml-2"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+          >
+            <path d="M9 5l7 7-7 7" />
+          </svg>
+        </Button>
+      );
+    }
+    ```
+  </Tab>
+</Tabs>
+
+---
+
+## As child (Slot)
+
+You can render the button as another component using `asChild`.
+
+<Tabs items={["Preview", "Usage", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Button asChild>
+        <a href="#docs">Go to docs</a>
+      </Button>
+    </Preview>
+  </Tab>
+
+  <Tab value="Usage">
+    ```tsx
+    <Button asChild>
+      <a href="#docs">Go to docs</a>
+    </Button>
+    ```
+  </Tab>
+
+  <Tab value="Code">
+    ```tsx
+    import { Button } from "@/components/ui/button";
+
+    export default function ButtonAsChildExample() {
+      return (
+        <Button asChild>
+          <a href="#docs">Go to docs</a>
+        </Button>
+      );
+    }
+    ```
+  </Tab>
+</Tabs>
+
+This allows styling links, router components, or custom components as buttons while maintaining semantics.
+
+---
+
+## API
+
+### Props
+
+| Prop      | Type          | Default   | Description                     |
+| --------- | ------------- | --------- | ------------------------------- |
+| variant   | ButtonVariant | "default" | Visual style of the button      |
+| size      | ButtonSize    | "default" | Size of the button              |
+| asChild   | boolean       | false     | Render using Radix Slot         |
+| disabled  | boolean       | false     | Disable interaction             |
+| className | string        | —         | Additional Tailwind classes     |
+
+The Button extends the standard HTML button props:
+
+```ts
+React.ButtonHTMLAttributes<HTMLButtonElement>
+```
+
+### TypeScript types
+
+The Button component exposes two typed props — `variant` and `size` — extending
+the shadcn/ui `button` primitive. These types ensure design-system consistency
+and catch incorrect values at compile-time.
+
+```ts
+/**
+ * Visual styles available for the Button component.
+ * Each variant corresponds to a semantic purpose
+ * and maps to a specific set of Tailwind classes.
+ */
+export type ButtonVariant =
+  | "default"        // Primary action button, high emphasis
+  | "secondary"      // Neutral, less prominent
+  | "outline"        // Bordered button for medium emphasis
+  | "ghost"          // Minimal footprint, subtle action
+  | "destructive"    // Destructive or irreversible actions
+  | "link";          // Inline link-style button
+
+/**
+ * Available sizes for the Button component.
+ * These values are aligned with the spacing scale of
+ * the PyColors design system for consistent layout rhythm.
+ */
+export type ButtonSize =
+  | "sm"      // Compact buttons, use in dense UI
+  | "default" // Standard size – the recommended default
+  | "lg"      // Larger visual weight for important actions
+  | "icon";   // Square button for icon-only interactions
+
+```
+
+## Accessibility
+
+- Use clear and descriptive labels for button text.
+- Preserve keyboard focus styles (focus-visible) for accessible navigation.
+- For icon-only buttons, provide an aria-label describing the action.
+- Avoid using Button with only an icon and no accessible text or label.
+
+---
+
+## Design guidelines
+
+- Use the default variant for primary actions on a page.
+- Use secondary or outline for less prominent or secondary actions.
+- Use destructive only for actions that are dangerous or irreversible.
