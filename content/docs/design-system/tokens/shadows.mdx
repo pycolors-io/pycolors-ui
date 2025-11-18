@@ -1,0 +1,108 @@
+---
+title: Shadows
+description: |
+  Shadow tokens used in PyColors UI. Provides a single, consistent drop-shadow scale
+  for subtle elevation across components.
+---
+
+PyColors UI keeps elevation **subtle and purposeful**. A single drop-shadow scale covers every surface, from compact buttons to floating panels, making depth predictable across light and dark themes.
+
+---
+
+## Token scale
+
+| Token        | Utility      | Intent                                   |
+|--------------|--------------|------------------------------------------|
+| `shadow-xs`  | `shadow-xs`  | Micro lift for buttons, pills, inputs    |
+| `shadow-sm`  | `shadow-sm`  | Default cards, dropdown triggers         |
+| `shadow-md`  | `shadow-md`  | Popovers, dropdown content, menus        |
+| `shadow-lg`  | `shadow-lg`  | Modals, floating panels, command palettes|
+
+Each step increases spread + blur by ~4px, keeping gradients soft and avoiding harsh halos. Use `shadow-none` for flat/secondary elements.
+
+---
+
+## Preview
+
+<Preview>
+  <div className="grid gap-4 sm:grid-cols-2">
+    <div className="rounded-lg border bg-card p-4 shadow-xs">
+      <div className="text-xs font-medium text-muted-foreground mb-1">
+        shadow-xs
+      </div>
+      <div className="text-sm leading-relaxed">
+        Buttons, segmented controls, small interaction chips.
+      </div>
+    </div>
+    <div className="rounded-lg border bg-card p-4 shadow-sm">
+      <div className="text-xs font-medium text-muted-foreground mb-1">
+        shadow-sm
+      </div>
+      <div className="text-sm leading-relaxed">
+        Default cards or navigation tiles.
+      </div>
+    </div>
+    <div className="rounded-lg border bg-card p-4 shadow-md">
+      <div className="text-xs font-medium text-muted-foreground mb-1">
+        shadow-md
+      </div>
+      <div className="text-sm leading-relaxed">
+        Popovers, dropdown menus, tooltips with tone.
+      </div>
+    </div>
+    <div className="rounded-lg border bg-card p-4 shadow-lg">
+      <div className="text-xs font-medium text-muted-foreground mb-1">
+        shadow-lg
+      </div>
+      <div className="text-sm leading-relaxed">
+        Modals and floating panels that should feel layered.
+      </div>
+    </div>
+  </div>
+</Preview>
+
+```tsx
+export function ShadowsPreview() {
+  const tokens = [
+    { className: 'shadow-xs', label: 'Buttons, segmented controls' },
+    { className: 'shadow-sm', label: 'Default cards, nav tiles' },
+    { className: 'shadow-md', label: 'Popovers, dropdowns' },
+    { className: 'shadow-lg', label: 'Modals, floating panes' },
+  ];
+
+  return (
+    <div className="grid gap-4 sm:grid-cols-2">
+      {tokens.map((token) => (
+        <div
+          key={token.className}
+          className={`rounded-lg border bg-card p-4 ${token.className}`}
+        >
+          <div className="text-xs font-medium text-muted-foreground mb-1">
+            {token.className}
+          </div>
+          <div className="text-sm leading-relaxed">{token.label}</div>
+        </div>
+      ))}
+    </div>
+  );
+}
+```
+
+---
+
+## Usage guidelines
+
+- Pair shadows with the matching radius token (`rounded-md` + `shadow-sm`) so the silhouette feels cohesive.
+- Use only one shadow per surface; stack depth with overlays or borders instead of multiple layers.
+- Increase elevation only when interaction requires focus—cards in dense grids usually stay on `shadow-xs` or `shadow-none`.
+- In dark mode, default tokens already lower alpha to prevent “glow”; avoid overriding colors unless absolutely needed.
+- Reset to `shadow-none` for inline elements or surfaces nested inside another elevated container.
+
+---
+
+## Related guides
+
+- Radius
+- Colors
+- Layout
+- Components

@@ -1,0 +1,117 @@
+---
+title: Radius
+description: Corner radius tokens used to create the PyColors UI visual style.
+---
+
+PyColors UI defines a small set of radius tokens to keep corners consistent across components and layouts.
+
+## Base radius
+
+All radiuses are derived from a single base variable:
+
+```css
+:root {
+  --radius: 0.625rem;
+}
+```
+
+From this base, we derive:
+```css
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+```
+
+These tokens are mapped to Tailwind’s border radius utilities in tailwind.config.ts:
+```css
+borderRadius: {
+  sm: "var(--radius-sm)",
+  DEFAULT: "var(--radius-md)",
+  md: "var(--radius-md)",
+  lg: "var(--radius-lg)",
+  xl: "var(--radius-xl)",
+},
+```
+
+This ensures that all components using Tailwind’s rounded-* utilities remain aligned with the PyColors design system.
+
+---
+
+## Radius tokens
+
+Defined once in `app/global.css` and consumed everywhere through Tailwind utilities:
+
+| Token         | Maps to                           |
+|---------------|-----------------------------------|
+| `--radius-sm` | Small cards, inputs, pills        |
+| `--radius-md` | Default UI radius (buttons, chips)|
+| `--radius-lg` | Large cards, panels               |
+| `--radius-xl` | Modals, overlays, featured blocks |
+
+When you use `rounded-sm/md/lg/xl`, Tailwind resolves the correct token automatically.
+
+---
+
+## Visual examples
+### Basic radius scale
+<Preview> <div className="grid gap-4 sm:grid-cols-2"> <div className="rounded-sm border bg-card px-4 py-3 text-sm"> <div className="text-xs font-medium text-muted-foreground mb-1"> rounded-sm </div> <div>Small radius (token: <code>--radius-sm</code>)</div> </div> <div className="rounded-md border bg-card px-4 py-3 text-sm"> <div className="text-xs font-medium text-muted-foreground mb-1"> rounded-md </div> <div>Default radius (token: <code>--radius-md</code>)</div> </div> <div className="rounded-lg border bg-card px-4 py-3 text-sm"> <div className="text-xs font-medium text-muted-foreground mb-1"> rounded-lg </div> <div>Large radius (token: <code>--radius-lg</code>)</div> </div> <div className="rounded-xl border bg-card px-4 py-3 text-sm"> <div className="text-xs font-medium text-muted-foreground mb-1"> rounded-xl </div> <div>Extra large radius (token: <code>--radius-xl</code>)</div> </div> </div> </Preview>
+
+```tsx
+export function RadiusExample() {
+  return (
+    <div className="grid gap-4 sm:grid-cols-2">
+      <div className="rounded-sm border bg-card px-4 py-3 text-sm">
+        <div className="text-xs font-medium text-muted-foreground mb-1">
+          rounded-sm
+        </div>
+        <div>Small radius (token: --radius-sm)</div>
+      </div>
+      <div className="rounded-md border bg-card px-4 py-3 text-sm">
+        <div className="text-xs font-medium text-muted-foreground mb-1">
+          rounded-md
+        </div>
+        <div>Default radius (token: --radius-md)</div>
+      </div>
+      <div className="rounded-lg border bg-card px-4 py-3 text-sm">
+        <div className="text-xs font-medium text-muted-foreground mb-1">
+          rounded-lg
+        </div>
+        <div>Large radius (token: --radius-lg)</div>
+      </div>
+      <div className="rounded-xl border bg-card px-4 py-3 text-sm">
+        <div className="text-xs font-medium text-muted-foreground mb-1">
+          rounded-xl
+        </div>
+        <div>Extra large radius (token: --radius-xl)</div>
+      </div>
+    </div>
+  );
+}
+```
+
+---
+
+## Usage guidelines
+
+- Use rounded-md as the default radius for most interactive elements (buttons, inputs, small cards).
+- Use rounded-lg for primary surfaces such as cards, panels, and important containers.
+- Use rounded-xl sparingly, for standout elements like featured cards, hero sections, or modals.
+- Use rounded-sm for subtle UI elements or compact, dense layouts.
+
+By limiting the number of radiuses and mapping them to a single base token, PyColors UI keeps visual consistency while remaining easy to adjust globally.
+
+Need elevation guidance? See the dedicated [Shadows tokens](../tokens/shadows) page for the matching drop-shadow scale.
+
+---
+
+## Related guides
+
+- Colors
+- Shadows
+- Typography
+- Button
+- Components
+- Theming
