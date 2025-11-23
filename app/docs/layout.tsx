@@ -21,7 +21,9 @@ export default function Layout({
         enabled: true,
         component: <SiteHeader docsLinks={docsLinks} />,
       }}
-      sidebar={{}}
+      sidebar={{
+        collapsible: false,
+      }}
     >
       {children}
       <Footer />

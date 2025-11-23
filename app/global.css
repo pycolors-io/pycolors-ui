@@ -3,18 +3,18 @@
 @import "fumadocs-ui/css/preset.css";
 @import "tw-animate-css";
 
-/* -------------------------------------------------------------------------- */
-/* Dark mode variant for Tailwind v4                                          */
-/* -------------------------------------------------------------------------- */
+/* ==========================================================================
+   Dark Mode Variant (Tailwind v4)
+   ========================================================================== */
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* -------------------------------------------------------------------------- */
-/* Tailwind v4 Theme Mapping                                                   */
-/* Map semantic tokens to Tailwind’s internal --color-* variables.            */
-/* This powers utilities like bg-primary, text-muted-foreground, etc.         */
-/* -------------------------------------------------------------------------- */
+/* ==========================================================================
+   Tailwind v4 Theme Mapping
+   Maps semantic tokens → Tailwind internal design tokens (--color-*)
+   Enables: bg-primary, text-muted-foreground, border-border, etc.
+   ========================================================================== */
 @theme inline {
-  /* Radius scale (based on base token --radius) */
+  /* Radius scale (derived from --radius) */
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -51,7 +51,7 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
 
-  /* Data visualization */
+  /* Charts */
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
   --color-chart-3: var(--chart-3);
@@ -69,38 +69,36 @@
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
-/* -------------------------------------------------------------------------- */
-/* Light Theme – PyColors Theme v1 (Tech Minimal)                             */
-/* -------------------------------------------------------------------------- */
+/* ==========================================================================
+   PyColors Theme v1 — Light Mode
+   ========================================================================== */
 :root {
   --fd-nav-height: 64px !important;
 
-  /* Base scale */
+  /* Base measurement */
   --radius: 0.625rem;
 
   /* Surfaces */
   --background: oklch(1 0 0);
   --foreground: oklch(0.141 0.005 285.823);
 
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.141 0.005 285.823);
+  --card: var(--background);
+  --card-foreground: var(--foreground);
 
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.141 0.005 285.823);
+  --popover: var(--background);
+  --popover-foreground: var(--foreground);
 
   /* Brand */
   --primary: oklch(0.21 0.006 285.885);
   --primary-foreground: oklch(0.985 0 0);
 
-  /* Accent & muted */
+  /* Accents */
   --secondary: oklch(0.967 0.001 286.375);
-  --secondary-foreground: oklch(0.21 0.006 285.885);
-
+  --secondary-foreground: var(--primary);
   --muted: oklch(0.967 0.001 286.375);
   --muted-foreground: oklch(0.552 0.016 285.938);
-
-  --accent: oklch(0.967 0.001 286.375);
-  --accent-foreground: oklch(0.21 0.006 285.885);
+  --accent: var(--secondary);
+  --accent-foreground: var(--primary);
 
   /* States */
   --destructive: oklch(0.577 0.245 27.325);
@@ -112,12 +110,12 @@
   --warning: oklch(0.85 0.12 95);
   --warning-foreground: oklch(0.2 0.02 95);
 
-  /* Borders / Inputs / Focus ring */
+  /* UI primitives */
   --border: oklch(0.92 0.004 286.32);
-  --input: oklch(0.92 0.004 286.32);
+  --input: var(--border);
   --ring: oklch(0.705 0.015 286.067);
 
-  /* Data Viz */
+  /* Charts */
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -125,47 +123,43 @@
   --chart-5: oklch(0.769 0.188 70.08);
 
   /* Sidebar */
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.141 0.005 285.823);
-  --sidebar-primary: oklch(0.21 0.006 285.885);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.967 0.001 286.375);
-  --sidebar-accent-foreground: oklch(0.21 0.006 285.885);
-  --sidebar-border: oklch(0.92 0.004 286.32);
-  --sidebar-ring: oklch(0.705 0.015 286.067);
+  --sidebar: var(--background);
+  --sidebar-foreground: var(--foreground);
+  --sidebar-primary: var(--primary);
+  --sidebar-primary-foreground: var(--primary-foreground);
+  --sidebar-accent: var(--accent);
+  --sidebar-accent-foreground: var(--accent-foreground);
+  --sidebar-border: var(--border);
+  --sidebar-ring: var(--ring);
 }
 
-/* -------------------------------------------------------------------------- */
-/* Dark Theme – PyColors Theme v1 (Tech Minimal)                              */
-/* -------------------------------------------------------------------------- */
+/* ==========================================================================
+   PyColors Theme v1 — Dark Mode
+   ========================================================================== */
 .dark {
-  /* Surfaces */
   --background: oklch(0.141 0.005 285.823);
   --foreground: oklch(0.985 0 0);
 
   --card: oklch(0.21 0.006 285.885);
-  --card-foreground: oklch(0.985 0 0);
+  --card-foreground: var(--foreground);
 
-  --popover: oklch(0.21 0.006 285.885);
-  --popover-foreground: oklch(0.985 0 0);
+  --popover: var(--card);
+  --popover-foreground: var(--foreground);
 
-  /* Brand */
   --primary: oklch(0.92 0.004 286.32);
   --primary-foreground: oklch(0.21 0.006 285.885);
 
-  /* Accent & muted */
   --secondary: oklch(0.274 0.006 286.033);
-  --secondary-foreground: oklch(0.985 0 0);
+  --secondary-foreground: var(--foreground);
 
   --muted: oklch(0.274 0.006 286.033);
   --muted-foreground: oklch(0.705 0.015 286.067);
 
-  --accent: oklch(0.274 0.006 286.033);
-  --accent-foreground: oklch(0.985 0 0);
+  --accent: var(--secondary);
+  --accent-foreground: var(--foreground);
 
-  /* States */
   --destructive: oklch(0.704 0.191 22.216);
-  --destructive-foreground: oklch(0.985 0 0);
+  --destructive-foreground: var(--foreground);
 
   --success: oklch(0.76 0.18 135);
   --success-foreground: oklch(0.12 0.02 135);
@@ -173,32 +167,29 @@
   --warning: oklch(0.85 0.12 95);
   --warning-foreground: oklch(0.2 0.02 95);
 
-  /* Borders / Inputs / Focus ring */
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.552 0.016 285.938);
 
-  /* Data Viz */
   --chart-1: oklch(0.488 0.243 264.376);
   --chart-2: oklch(0.696 0.17 162.48);
   --chart-3: oklch(0.769 0.188 70.08);
   --chart-4: oklch(0.627 0.265 303.9);
   --chart-5: oklch(0.645 0.246 16.439);
 
-  /* Sidebar */
   --sidebar: oklch(0.21 0.006 285.885);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.274 0.006 286.033);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.552 0.016 285.938);
+  --sidebar-foreground: var(--foreground);
+  --sidebar-primary: var(--chart-1);
+  --sidebar-primary-foreground: var(--foreground);
+  --sidebar-accent: var(--secondary);
+  --sidebar-accent-foreground: var(--foreground);
+  --sidebar-border: var(--border);
+  --sidebar-ring: var(--ring);
 }
 
-/* -------------------------------------------------------------------------- */
-/* Base Layer                                                                  */
-/* -------------------------------------------------------------------------- */
+/* ==========================================================================
+   Base Layer
+   ========================================================================== */
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -208,3 +199,30 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* ==========================================================================
+   Fumadocs — Documentation Sidebar Override (Pro)
+   ========================================================================== */
+
+/* Desktop Sidebar */
+#nd-sidebar {
+  background-color: transparent;
+  border-right: 1px solid rgba(128, 128, 128, 0.12);
+  position: fixed;
+  left: -3px;
+  width: var(--fd-sidebar-width, 260px);
+  top: var(--fd-nav-height);
+  height: calc(100vh - var(--fd-nav-height));
+  z-index: 30;
+}
+
+/* Mobile Sidebar */
+[data-sidebar][data-side="left"] {
+  background-color: var(--background);
+}
+
+/* Docs Layout Wrapper */
+#nd-docs-layout {
+  @apply bg-background/80 border-x border-border/50;
+}
+
