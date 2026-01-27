@@ -15,7 +15,7 @@ import { cn } from '../../lib/utils.js';
  * - Works with links or buttons
  * -------------------------------------------------------------------------- */
 
-export interface PaginationProps extends React.ComponentPropsWithoutRef<'nav'> {}
+export type PaginationProps = React.ComponentPropsWithoutRef<'nav'>;
 
 export function Pagination({ className, ...props }: PaginationProps) {
   return (
@@ -28,7 +28,8 @@ export function Pagination({ className, ...props }: PaginationProps) {
   );
 }
 
-export interface PaginationContentProps extends React.ComponentPropsWithoutRef<'ul'> {}
+export type PaginationContentProps =
+  React.ComponentPropsWithoutRef<'ul'>;
 
 export function PaginationContent({
   className,
@@ -43,7 +44,8 @@ export function PaginationContent({
   );
 }
 
-export interface PaginationItemProps extends React.ComponentPropsWithoutRef<'li'> {}
+export type PaginationItemProps =
+  React.ComponentPropsWithoutRef<'li'>;
 
 export function PaginationItem({
   className,

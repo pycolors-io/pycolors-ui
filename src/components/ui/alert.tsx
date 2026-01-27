@@ -38,10 +38,6 @@ export function Alert({
   ariaLive = 'polite',
   ...props
 }: AlertProps) {
-  // ARIA semantics:
-  // - assertive => role="alert"
-  // - polite    => role="status"
-  // - off       => no role / no aria-live
   const role =
     ariaLive === 'assertive'
       ? 'alert'
@@ -60,7 +56,8 @@ export function Alert({
   );
 }
 
-export interface AlertTitleProps extends React.HTMLAttributes<HTMLHeadingElement> {}
+export type AlertTitleProps =
+  React.HTMLAttributes<HTMLHeadingElement>;
 
 export function AlertTitle({ className, ...props }: AlertTitleProps) {
   return (
@@ -75,7 +72,8 @@ export function AlertTitle({ className, ...props }: AlertTitleProps) {
   );
 }
 
-export interface AlertDescriptionProps extends React.HTMLAttributes<HTMLDivElement> {}
+export type AlertDescriptionProps =
+  React.HTMLAttributes<HTMLDivElement>;
 
 export function AlertDescription({
   className,
@@ -93,11 +91,8 @@ export function AlertDescription({
   );
 }
 
-/**
- * Optional left indicator (icon or dot).
- * Keep it outside AlertTitle/AlertDescription for cleaner layout.
- */
-export interface AlertIndicatorProps extends React.HTMLAttributes<HTMLSpanElement> {}
+export type AlertIndicatorProps =
+  React.HTMLAttributes<HTMLSpanElement>;
 
 export function AlertIndicator({
   className,
@@ -115,11 +110,7 @@ export function AlertIndicator({
   );
 }
 
-/**
- * Content wrapper to align text with indicator.
- * Use when AlertIndicator is present.
- */
-export interface AlertContentProps extends React.HTMLAttributes<HTMLDivElement> {}
+export type AlertContentProps = React.HTMLAttributes<HTMLDivElement>;
 
 export function AlertContent({
   className,

@@ -4,10 +4,10 @@ import * as React from 'react';
 import { Eye, EyeOff } from 'lucide-react';
 import { Input, type InputProps } from './input.js';
 
-export interface PasswordInputProps extends Omit<
+export type PasswordInputProps = Omit<
   InputProps,
   'type' | 'rightIcon'
-> {}
+>;
 
 export const PasswordInput = React.forwardRef<
   HTMLInputElement,
