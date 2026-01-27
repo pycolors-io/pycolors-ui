@@ -10,4 +10,6 @@ export * from './components/ui/sheet.js';
 export * from './components/ui/dropdown-menu.js';
 export * from './components/ui/tabs.js';
 export * from './components/ui/toast.js';
+export * from './components/ui/pagination.js';
+export * from './components/ui/table.js';
 export * from './lib/utils.js';
