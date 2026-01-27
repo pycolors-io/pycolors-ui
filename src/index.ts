@@ -12,4 +12,5 @@ export * from './components/ui/tabs.js';
 export * from './components/ui/toast.js';
 export * from './components/ui/pagination.js';
 export * from './components/ui/table.js';
+export * from './components/ui/password-input.js';
 export * from './lib/utils.js';
