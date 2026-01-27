@@ -4,4 +4,7 @@ export * from './components/ui/badge.js';
 export * from './components/ui/input.js';
 export * from './components/ui/skeleton.js';
 export * from './components/ui/empty-state.js';
+export * from './components/ui/alert.js';
+export * from './components/ui/dialog.js';
+export * from './components/ui/sheet.js';
 export * from './lib/utils.js';
