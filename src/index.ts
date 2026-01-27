@@ -7,4 +7,7 @@ export * from './components/ui/empty-state.js';
 export * from './components/ui/alert.js';
 export * from './components/ui/dialog.js';
 export * from './components/ui/sheet.js';
+export * from './components/ui/dropdown-menu.js';
+export * from './components/ui/tabs.js';
+export * from './components/ui/toast.js';
 export * from './lib/utils.js';
