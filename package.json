@@ -1,6 +1,28 @@
 {
   "name": "@pycolors/ui",
-  "version": "1.0.0",
+  "version": "1.0.1",
+  "description": "Production-ready UI primitives for modern SaaS apps (Radix + Tailwind-friendly).",
+  "keywords": [
+    "pycolors",
+    "ui",
+    "components",
+    "radix",
+    "tailwind",
+    "saas",
+    "design-system",
+    "react"
+  ],
+  "license": "MIT",
+  "author": "PyColors",
+  "homepage": "https://pycolors.io",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pycolors-io",
+    "directory": "packages/ui"
+  },
+  "bugs": {
+    "url": "https://github.com/pycolors-io/pycolors-ui/issues"
+  },
   "private": false,
   "type": "module",
   "sideEffects": false,
@@ -12,7 +34,11 @@
       "default": "./dist/index.js"
     }
   },
-  "files": ["dist"],
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
   "publishConfig": {
     "access": "public"
   },
@@ -27,7 +53,13 @@
   },
   "peerDependencies": {
     "react": ">=18",
-    "react-dom": ">=18"
+    "react-dom": ">=18",
+    "lucide-react": ">=0.300.0"
+  },
+  "peerDependenciesMeta": {
+    "lucide-react": {
+      "optional": true
+    }
   },
   "dependencies": {
     "@radix-ui/react-alert-dialog": "^1.1.15",
