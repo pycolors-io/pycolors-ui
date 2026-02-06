@@ -1,6 +1,6 @@
 {
   "name": "@pycolors/ui",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Production-ready UI primitives for modern SaaS apps (Radix + Tailwind-friendly).",
   "keywords": [
     "pycolors",
@@ -17,7 +17,7 @@
   "homepage": "https://pycolors.io",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pycolors-io",
+    "url": "https://github.com/pycolors-io",
     "directory": "packages/ui"
   },
   "bugs": {
