@@ -35,7 +35,7 @@ import { Button, Card, CardHeader, CardTitle, CardContent } from "@pycolors/ui";
 
 export function Example() {
   return (
-    <Card bordered className="p-4">
+    <Card className="p-4">
       <CardHeader className="p-0">
         <CardTitle>Welcome</CardTitle>
       </CardHeader>
