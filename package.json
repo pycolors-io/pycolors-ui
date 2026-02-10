@@ -48,7 +48,8 @@
     "lint": "eslint . --max-warnings 0",
     "types:check": "tsc --noEmit",
     "verify": "pnpm lint && pnpm types:check && pnpm build",
-    "generate:component": "turbo gen react-component"
+    "generate:component": "turbo gen react-component",
+    "release": "pnpm clean && pnpm build:ts && pnpm publish --access public"
   },
   "peerDependencies": {
     "react": ">=18",
