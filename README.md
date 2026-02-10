@@ -1,16 +1,23 @@
+![npm](https://img.shields.io/npm/v/@pycolors/ui)
+![license](https://img.shields.io/npm/l/@pycolors/ui)
+
 # @pycolors/ui
 
-Production-ready UI primitives for modern SaaS apps — built for
-**speed**, **consistency**, and **real-world patterns**.
+> ⚠️ **Read-only mirror**
+>
+> This repository is automatically synced from the **PyColors monorepo**.
+> **Source of truth:** https://github.com/pycolors-io/pycolors/tree/main/packages/ui
+>
+> 👉 Please open issues and pull requests here — they are synced upstream.
 
--   Accessible defaults (Radix + sane patterns)
--   Works with Tailwind (tokens-driven styling)
--   "Starter-grade" components: Tables, Dialogs, Sheets, Alerts,
-    Tabs...
--   Designed to power the **PyColors SaaS Starter** and future Pro
-    templates
+Production-ready UI primitives for modern SaaS apps — built for **speed**, **consistency**, and **real-world patterns**.
 
-------------------------------------------------------------------------
+- Accessible defaults (Radix + sane patterns)
+- Tailwind-friendly (tokens-driven styling)
+- “Starter-grade” components: Tables, Dialogs, Sheets, Alerts, Tabs…
+- Designed to power the **PyColors SaaS Starter** and future Pro templates
+
+---
 
 ## Install
 
@@ -18,6 +25,8 @@ Production-ready UI primitives for modern SaaS apps — built for
 pnpm add @pycolors/ui
 # or
 npm i @pycolors/ui
+# or
+yarn add @pycolors/ui
 ```
 
 ## Peer dependencies
