@@ -1,4 +1,5 @@
 ![npm](https://img.shields.io/npm/v/@pycolors/ui)
+![downloads](https://img.shields.io/npm/dm/@pycolors/ui)
 ![license](https://img.shields.io/npm/l/@pycolors/ui)
 
 # @pycolors/ui
