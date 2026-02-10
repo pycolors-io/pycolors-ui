@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.0.4
+
+### Patch Changes
+
+- 0f9d818: Improve release automation and GitHub distribution workflow.
+  - Enable automated GitHub Releases for the mirror repository
+  - Align versioning between monorepo, npm, and GitHub
+  - Strengthen CI pipeline for production-grade publishing
+
 ## 1.0.3
 
 ### Patch Changes
