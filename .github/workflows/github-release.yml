@@ -25,36 +25,27 @@ jobs:
         with:
           fetch-depth: 0
 
-      # ✅ FIX: no nested quoting, no $(...) inside echo
+      # ✅ Zero substitution shell, écrit directement dans GITHUB_OUTPUT via Node
       - name: Read version
         id: v
-        shell: bash
         run: |
-          set -e
-          VERSION="$(node -p 'require("./package.json").version')"
-          echo "VERSION=$VERSION" >> "$GITHUB_OUTPUT"
-          echo "Detected version: $VERSION"
+          node -e "const fs=require('fs'); const v=require('./package.json').version; fs.appendFileSync(process.env.GITHUB_OUTPUT, `VERSION=${v}\n`); console.log('Detected version:', v);"
 
       - name: Extract release notes from CHANGELOG
-        id: notes
-        shell: bash
         run: |
           set -e
           VERSION="${{ steps.v.outputs.VERSION }}"
 
-          # Extract content under "## x.y.z" until next "## "
           awk "/^##[[:space:]]+${VERSION}[[:space:]]*$/{flag=1;next} /^##[[:space:]]+/{flag=0} flag" CHANGELOG.md > RELEASE_NOTES.md
 
           if [ ! -s RELEASE_NOTES.md ]; then
-            echo "No changelog section found for ${VERSION} — using fallback." > RELEASE_NOTES.md
-            echo "Release ${VERSION}" >> RELEASE_NOTES.md
+            echo "Release ${VERSION}" > RELEASE_NOTES.md
           fi
 
           echo "---- RELEASE NOTES ----"
           cat RELEASE_NOTES.md
 
       - name: Create or update GitHub Release
-        shell: bash
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -62,9 +53,9 @@ jobs:
           TAG="v${{ steps.v.outputs.VERSION }}"
 
           if gh release view "$TAG" >/dev/null 2>&1; then
-            echo "Release exists → updating $TAG"
             gh release edit "$TAG" --title "$TAG" --notes-file RELEASE_NOTES.md
+            echo "✅ Updated release $TAG"
           else
-            echo "Creating release $TAG"
             gh release create "$TAG" --title "$TAG" --notes-file RELEASE_NOTES.md
+            echo "✅ Created release $TAG"
           fi
