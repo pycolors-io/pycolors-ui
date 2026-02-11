@@ -1,4 +1,4 @@
-name: Release (@pycolors/ui)
+name: Release (@pycolors/ui) on merge
 
 on:
   push:
@@ -13,62 +13,32 @@ permissions:
 jobs:
   release:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      ################################################
-      # Get version
-      ################################################
-
       - name: Read version
-        id: version
+        id: v
+        run: echo "version=$(node -p \"require('./package.json').version\")" >> $GITHUB_OUTPUT
+
+      - name: Extract notes from CHANGELOG
         run: |
-          echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
-
-      ################################################
-      # Extract changelog section
-      ################################################
-
-      - name: Extract release notes
-        id: notes
-        run: |
-          VERSION=${{ steps.version.outputs.version }}
-
+          VERSION="${{ steps.v.outputs.version }}"
           awk "/## ${VERSION}/{flag=1;next}/## /{flag=0}flag" CHANGELOG.md > RELEASE_NOTES.md
-
           if [ ! -s RELEASE_NOTES.md ]; then
-            echo "No changelog section found — using fallback."
-            echo "Release ${VERSION}" > RELEASE_NOTES.md
+            echo "Release v${VERSION}" > RELEASE_NOTES.md
           fi
 
-      ################################################
-      # Create tag if missing
-      ################################################
-
-      - name: Create tag
-        run: |
-          TAG="v${{ steps.version.outputs.version }}"
-
-          if git rev-parse "$TAG" >/dev/null 2>&1; then
-            echo "Tag exists — skipping"
-            exit 0
-          fi
-
-          git tag "$TAG"
-          git push origin "$TAG"
-
-      ################################################
-      # Create GitHub Release
-      ################################################
-
-      - name: Create GitHub Release
+      - name: Create GitHub Release (idempotent)
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          TAG="v${{ steps.version.outputs.version }}"
+          TAG="v${{ steps.v.outputs.version }}"
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "Release $TAG already exists. Skipping."
+            exit 0
+          fi
 
           gh release create "$TAG" \
             --title "$TAG" \
