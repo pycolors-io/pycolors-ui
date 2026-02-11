@@ -2,47 +2,106 @@ name: Release (@pycolors/ui)
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
     paths:
       - "package.json"
       - "CHANGELOG.md"
-  workflow_dispatch: {}
+  workflow_dispatch:
 
 permissions:
   contents: write
+
+concurrency:
+  group: release-ui
+  cancel-in-progress: false
 
 jobs:
   release:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      ############################################################
+      # Checkout
+      ############################################################
+      - name: Checkout repository
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
+      ############################################################
+      # Read version safely (NO quoting bugs)
+      ############################################################
       - name: Read version
-        id: v
+        id: version
+        shell: bash
         run: |
-          echo "VERSION=$(node -p \"require('./package.json').version\")" >> $GITHUB_OUTPUT
+          set -e
+          VERSION=$(node -p "require('./package.json').version")
+          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+          echo "Detected version: $VERSION"
 
-      - name: Extract release notes from CHANGELOG
+      ############################################################
+      # Extract release notes from CHANGELOG
+      ############################################################
+      - name: Extract release notes
+        shell: bash
         run: |
-          VERSION="${{ steps.v.outputs.VERSION }}"
-          awk "/## ${VERSION}/{flag=1;next}/## /{flag=0}flag" CHANGELOG.md > RELEASE_NOTES.md
+          set -e
+
+          VERSION="${{ steps.version.outputs.VERSION }}"
+
+          awk "/^## ${VERSION}\b/{flag=1;next}/^## /{flag=0}flag" CHANGELOG.md > RELEASE_NOTES.md
+
           if [ ! -s RELEASE_NOTES.md ]; then
             echo "Release ${VERSION}" > RELEASE_NOTES.md
           fi
 
-      - name: Create or update GitHub Release
+          echo "------ RELEASE NOTES ------"
+          cat RELEASE_NOTES.md
+
+      ############################################################
+      # Create tag if missing
+      ############################################################
+      - name: Ensure git tag exists
+        shell: bash
+        run: |
+          set -e
+          TAG="v${{ steps.version.outputs.VERSION }}"
+
+          if git rev-parse "$TAG" >/dev/null 2>&1; then
+            echo "Tag already exists"
+          else
+            git tag "$TAG"
+            git push origin "$TAG"
+            echo "Tag created: $TAG"
+          fi
+
+      ############################################################
+      # Create OR update GitHub Release
+      ############################################################
+      - name: Create or Update GitHub Release
+        shell: bash
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          TAG="v${{ steps.v.outputs.VERSION }}"
+          set -e
 
-          if gh release view "$TAG" >/dev/null 2>&1; then
-            gh release edit "$TAG" --notes-file RELEASE_NOTES.md
-            echo "✅ Updated release $TAG"
+          REPO="pycolors-io/pycolors-ui"
+          TAG="v${{ steps.version.outputs.VERSION }}"
+
+          if gh release view "$TAG" --repo "$REPO" >/dev/null 2>&1; then
+            echo "Release exists → updating notes"
+            gh release edit "$TAG" \
+              --repo "$REPO" \
+              --title "$TAG" \
+              --notes-file RELEASE_NOTES.md
           else
-            gh release create "$TAG" --title "$TAG" --notes-file RELEASE_NOTES.md
-            echo "✅ Created release $TAG"
+            echo "Creating release"
+            gh release create "$TAG" \
+              --repo "$REPO" \
+              --title "$TAG" \
+              --notes-file RELEASE_NOTES.md
           fi
+
+          echo "✅ Release ready: $TAG"
