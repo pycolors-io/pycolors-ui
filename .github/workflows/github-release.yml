@@ -1,4 +1,4 @@
-name: Release (@pycolors/ui)
+name: GitHub Release (@pycolors/ui)
 
 on:
   push:
@@ -12,8 +12,8 @@ permissions:
   contents: write
 
 concurrency:
-  group: release-ui
-  cancel-in-progress: false
+  group: github-release-ui
+  cancel-in-progress: true
 
 jobs:
   release:
@@ -25,18 +25,30 @@ jobs:
         with:
           fetch-depth: 0
 
-      # ✅ Zero substitution shell, écrit directement dans GITHUB_OUTPUT via Node
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
       - name: Read version
         id: v
+        shell: bash
         run: |
-          node -e "const fs=require('fs'); const v=require('./package.json').version; fs.appendFileSync(process.env.GITHUB_OUTPUT, `VERSION=${v}\n`); console.log('Detected version:', v);"
+          VERSION="$(node -p "require('./package.json').version")"
+          echo "VERSION=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "Version: $VERSION"
 
       - name: Extract release notes from CHANGELOG
+        shell: bash
         run: |
           set -e
           VERSION="${{ steps.v.outputs.VERSION }}"
 
-          awk "/^##[[:space:]]+${VERSION}[[:space:]]*$/{flag=1;next} /^##[[:space:]]+/{flag=0} flag" CHANGELOG.md > RELEASE_NOTES.md
+          awk -v ver="$VERSION" '
+            $0 ~ "^## " ver "$" {flag=1; next}
+            $0 ~ "^## " {flag=0}
+            flag {print}
+          ' CHANGELOG.md > RELEASE_NOTES.md
 
           if [ ! -s RELEASE_NOTES.md ]; then
             echo "Release ${VERSION}" > RELEASE_NOTES.md
@@ -44,16 +56,18 @@ jobs:
 
           echo "---- RELEASE NOTES ----"
           cat RELEASE_NOTES.md
+          echo "-----------------------"
 
       - name: Create or update GitHub Release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
         run: |
           set -e
           TAG="v${{ steps.v.outputs.VERSION }}"
 
           if gh release view "$TAG" >/dev/null 2>&1; then
-            gh release edit "$TAG" --title "$TAG" --notes-file RELEASE_NOTES.md
+            gh release edit "$TAG" --notes-file RELEASE_NOTES.md
             echo "✅ Updated release $TAG"
           else
             gh release create "$TAG" --title "$TAG" --notes-file RELEASE_NOTES.md
