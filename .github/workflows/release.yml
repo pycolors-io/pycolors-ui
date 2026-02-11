@@ -1,11 +1,9 @@
-name: Release (@pycolors/ui) on merge
+name: Release (@pycolors/ui)
 
 on:
   push:
-    branches: [main]
-    paths:
-      - "package.json"
-      - "CHANGELOG.md"
+    tags:
+      - "v*"
 
 permissions:
   contents: write
@@ -13,33 +11,38 @@ permissions:
 jobs:
   release:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Read version
-        id: v
-        run: echo "version=$(node -p \"require('./package.json').version\")" >> $GITHUB_OUTPUT
+      ####################################
+      # Extract version
+      ####################################
 
-      - name: Extract notes from CHANGELOG
+      - name: Get version
+        id: version
         run: |
-          VERSION="${{ steps.v.outputs.version }}"
+          echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_ENV
+
+      ####################################
+      # Extract changelog section
+      ####################################
+
+      - name: Extract changelog
+        run: |
           awk "/## ${VERSION}/{flag=1;next}/## /{flag=0}flag" CHANGELOG.md > RELEASE_NOTES.md
+
           if [ ! -s RELEASE_NOTES.md ]; then
-            echo "Release v${VERSION}" > RELEASE_NOTES.md
+            echo "Release ${VERSION}" > RELEASE_NOTES.md
           fi
 
-      - name: Create GitHub Release (idempotent)
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          TAG="v${{ steps.v.outputs.version }}"
-          if gh release view "$TAG" >/dev/null 2>&1; then
-            echo "Release $TAG already exists. Skipping."
-            exit 0
-          fi
+      ####################################
+      # Create GitHub Release
+      ####################################
 
-          gh release create "$TAG" \
-            --title "$TAG" \
-            --notes-file RELEASE_NOTES.md
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          body_path: RELEASE_NOTES.md
