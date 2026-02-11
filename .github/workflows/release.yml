@@ -2,8 +2,11 @@ name: Release (@pycolors/ui)
 
 on:
   push:
-    tags:
-      - "v*"
+    branches: [main]
+    paths:
+      - "package.json"
+      - "CHANGELOG.md"
+  workflow_dispatch: {}
 
 permissions:
   contents: write
@@ -17,32 +20,29 @@ jobs:
         with:
           fetch-depth: 0
 
-      ####################################
-      # Extract version
-      ####################################
-
-      - name: Get version
-        id: version
+      - name: Read version
+        id: v
         run: |
-          echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_ENV
+          echo "VERSION=$(node -p \"require('./package.json').version\")" >> $GITHUB_OUTPUT
 
-      ####################################
-      # Extract changelog section
-      ####################################
-
-      - name: Extract changelog
+      - name: Extract release notes from CHANGELOG
         run: |
+          VERSION="${{ steps.v.outputs.VERSION }}"
           awk "/## ${VERSION}/{flag=1;next}/## /{flag=0}flag" CHANGELOG.md > RELEASE_NOTES.md
-
           if [ ! -s RELEASE_NOTES.md ]; then
             echo "Release ${VERSION}" > RELEASE_NOTES.md
           fi
 
-      ####################################
-      # Create GitHub Release
-      ####################################
+      - name: Create or update GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG="v${{ steps.v.outputs.VERSION }}"
 
-      - name: Create Release
-        uses: softprops/action-gh-release@v2
-        with:
-          body_path: RELEASE_NOTES.md
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release edit "$TAG" --notes-file RELEASE_NOTES.md
+            echo "✅ Updated release $TAG"
+          else
+            gh release create "$TAG" --title "$TAG" --notes-file RELEASE_NOTES.md
+            echo "✅ Created release $TAG"
+          fi
