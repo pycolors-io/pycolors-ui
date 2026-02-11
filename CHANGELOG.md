@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.0.5
+
+### Patch Changes
+
+- a0de088: Removes unnecessary prop from UI component example.
+  - Simplifies usage by eliminating the redundant bordered prop.
+  - Improves clarity for users referencing the example.
+
 ## 1.0.4
 
 ### Patch Changes
