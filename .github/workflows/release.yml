@@ -2,12 +2,11 @@ name: Release (@pycolors/ui)
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
     paths:
       - "package.json"
       - "CHANGELOG.md"
-  workflow_dispatch:
+  workflow_dispatch: {}
 
 permissions:
   contents: write
@@ -21,87 +20,51 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      ############################################################
-      # Checkout
-      ############################################################
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      ############################################################
-      # Read version safely (NO quoting bugs)
-      ############################################################
+      # ✅ FIX: no nested quoting, no $(...) inside echo
       - name: Read version
-        id: version
+        id: v
         shell: bash
         run: |
           set -e
-          VERSION=$(node -p "require('./package.json').version")
-          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+          VERSION="$(node -p 'require("./package.json").version')"
+          echo "VERSION=$VERSION" >> "$GITHUB_OUTPUT"
           echo "Detected version: $VERSION"
 
-      ############################################################
-      # Extract release notes from CHANGELOG
-      ############################################################
-      - name: Extract release notes
+      - name: Extract release notes from CHANGELOG
+        id: notes
         shell: bash
         run: |
           set -e
+          VERSION="${{ steps.v.outputs.VERSION }}"
 
-          VERSION="${{ steps.version.outputs.VERSION }}"
-
-          awk "/^## ${VERSION}\b/{flag=1;next}/^## /{flag=0}flag" CHANGELOG.md > RELEASE_NOTES.md
+          # Extract content under "## x.y.z" until next "## "
+          awk "/^##[[:space:]]+${VERSION}[[:space:]]*$/{flag=1;next} /^##[[:space:]]+/{flag=0} flag" CHANGELOG.md > RELEASE_NOTES.md
 
           if [ ! -s RELEASE_NOTES.md ]; then
-            echo "Release ${VERSION}" > RELEASE_NOTES.md
+            echo "No changelog section found for ${VERSION} — using fallback." > RELEASE_NOTES.md
+            echo "Release ${VERSION}" >> RELEASE_NOTES.md
           fi
 
-          echo "------ RELEASE NOTES ------"
+          echo "---- RELEASE NOTES ----"
           cat RELEASE_NOTES.md
 
-      ############################################################
-      # Create tag if missing
-      ############################################################
-      - name: Ensure git tag exists
-        shell: bash
-        run: |
-          set -e
-          TAG="v${{ steps.version.outputs.VERSION }}"
-
-          if git rev-parse "$TAG" >/dev/null 2>&1; then
-            echo "Tag already exists"
-          else
-            git tag "$TAG"
-            git push origin "$TAG"
-            echo "Tag created: $TAG"
-          fi
-
-      ############################################################
-      # Create OR update GitHub Release
-      ############################################################
-      - name: Create or Update GitHub Release
+      - name: Create or update GitHub Release
         shell: bash
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -e
+          TAG="v${{ steps.v.outputs.VERSION }}"
 
-          REPO="pycolors-io/pycolors-ui"
-          TAG="v${{ steps.version.outputs.VERSION }}"
-
-          if gh release view "$TAG" --repo "$REPO" >/dev/null 2>&1; then
-            echo "Release exists → updating notes"
-            gh release edit "$TAG" \
-              --repo "$REPO" \
-              --title "$TAG" \
-              --notes-file RELEASE_NOTES.md
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "Release exists → updating $TAG"
+            gh release edit "$TAG" --title "$TAG" --notes-file RELEASE_NOTES.md
           else
-            echo "Creating release"
-            gh release create "$TAG" \
-              --repo "$REPO" \
-              --title "$TAG" \
-              --notes-file RELEASE_NOTES.md
+            echo "Creating release $TAG"
+            gh release create "$TAG" --title "$TAG" --notes-file RELEASE_NOTES.md
           fi
-
-          echo "✅ Release ready: $TAG"
