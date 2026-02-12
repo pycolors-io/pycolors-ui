@@ -1,0 +1,74 @@
+name: GitHub Release (@pycolors/ui)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "package.json"
+      - "CHANGELOG.md"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: github-release-ui
+  cancel-in-progress: true
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Read version
+        id: v
+        shell: bash
+        run: |
+          VERSION="$(node -p "require('./package.json').version")"
+          echo "VERSION=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "Version: $VERSION"
+
+      - name: Extract release notes from CHANGELOG
+        shell: bash
+        run: |
+          set -e
+          VERSION="${{ steps.v.outputs.VERSION }}"
+
+          awk -v ver="$VERSION" '
+            $0 ~ "^## " ver "$" {flag=1; next}
+            $0 ~ "^## " {flag=0}
+            flag {print}
+          ' CHANGELOG.md > RELEASE_NOTES.md
+
+          if [ ! -s RELEASE_NOTES.md ]; then
+            echo "Release ${VERSION}" > RELEASE_NOTES.md
+          fi
+
+          echo "---- RELEASE NOTES ----"
+          cat RELEASE_NOTES.md
+          echo "-----------------------"
+
+      - name: Create or update GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
+        run: |
+          set -e
+          TAG="v${{ steps.v.outputs.VERSION }}"
+
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release edit "$TAG" --notes-file RELEASE_NOTES.md
+            echo "✅ Updated release $TAG"
+          else
+            gh release create "$TAG" --title "$TAG" --notes-file RELEASE_NOTES.md
+            echo "✅ Created release $TAG"
+          fi
