@@ -4,6 +4,13 @@
 
 # @pycolors/ui
 
+## Status
+
+✅ Production-ready for modern SaaS starters
+⚡ Actively maintained
+🔁 Automated releases from the PyColors monorepo
+
+
 > ⚠️ **Read-only mirror**
 >
 > This repository is automatically synced from the **PyColors monorepo**.\
