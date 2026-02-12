@@ -6,7 +6,7 @@
 
 > ⚠️ **Read-only mirror**
 >
-> This repository is automatically synced from the **PyColors monorepo**.
+> This repository is automatically synced from the **PyColors monorepo**.\
 > **Source of truth:** https://github.com/pycolors-io/pycolors/tree/main/packages/ui
 >
 > 👉 Please open issues and pull requests here — they are synced upstream.
@@ -17,6 +17,19 @@ Production-ready UI primitives for modern SaaS apps — built for **speed**, **c
 - Tailwind-friendly (tokens-driven styling)
 - “Starter-grade” components: Tables, Dialogs, Sheets, Alerts, Tabs…
 - Designed to power the **PyColors SaaS Starter** and future Pro templates
+
+---
+
+## Release & publishing
+
+This repository is a **distribution mirror**.
+
+- **NPM publishing** happens from the **PyColors monorepo** (Changesets).
+- This mirror receives version bumps (`package.json`) + `CHANGELOG.md` via sync PRs.
+- A GitHub Release is automatically created/updated on this repo when `package.json` + `CHANGELOG.md` change on `main`.
+
+If you want to propose changes, please contribute to the monorepo source of truth:
+https://github.com/pycolors-io/pycolors/tree/main/packages/ui
 
 ---
 
