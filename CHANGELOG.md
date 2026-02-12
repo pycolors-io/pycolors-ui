@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.0.6
+
+### Patch Changes
+
+- 243d833: docs: clarify project status and release architecture in README
+
+  Adds a new "Status" section to better communicate:
+  - production-readiness
+  - automated release pipeline (monorepo → mirror → GitHub Release → npm)
+  - active maintenance
+
+  This improves transparency for users and reinforces the distribution model of the library.
+
 ## 1.0.5
 
 ### Patch Changes
