@@ -1,5 +1,5 @@
 {
-  "extends": "@pycolors/typescript-config/react-library.json",
+  "extends": "@pycolors/typescript-config/react-library",
   "compilerOptions": {
     "rootDir": "src",
     "outDir": "dist",
