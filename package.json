@@ -73,8 +73,8 @@
     "tailwind-merge": "^3.4.0"
   },
   "devDependencies": {
-    "@pycolors/eslint-config": "workspace:*",
-    "@pycolors/typescript-config": "workspace:*",
+    "@pycolors/eslint-config": "^1.0.0",
+    "@pycolors/typescript-config": "^1.0.0",
     "@types/node": "^22.15.3",
     "@types/react": "19.2.2",
     "@types/react-dom": "19.2.2",
