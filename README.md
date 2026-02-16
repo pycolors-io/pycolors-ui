@@ -4,41 +4,74 @@
 
 # @pycolors/ui
 
+Production-ready UI primitives for modern SaaS apps — built for
+**speed**, **consistency**, and **real-world patterns**.
+
+👉 Docs: https://pycolors.io/docs \
+👉 Discussions: https://github.com/pycolors-io/pycolors-ui/discussions
+
+------------------------------------------------------------------------
+
 ## Status
 
-✅ Production-ready for modern SaaS starters
-⚡ Actively maintained
+✅ Production-ready for modern SaaS starters\
+⚡ Actively maintained\
 🔁 Automated releases from the PyColors monorepo
 
+------------------------------------------------------------------------
 
 > ⚠️ **Read-only mirror**
 >
-> This repository is automatically synced from the **PyColors monorepo**.\
-> **Source of truth:** https://github.com/pycolors-io/pycolors/tree/main/packages/ui
+> This repository is automatically synced from the **PyColors
+> monorepo**.\
+> **Source of truth:**
+> https://github.com/pycolors-io/pycolors/tree/main/packages/ui
 >
-> 👉 Please open issues and pull requests here — they are synced upstream.
+> You can safely open **Issues and Discussions here** --- they are part
+> of the public community surface.
 
-Production-ready UI primitives for modern SaaS apps — built for **speed**, **consistency**, and **real-world patterns**.
+------------------------------------------------------------------------
 
-- Accessible defaults (Radix + sane patterns)
-- Tailwind-friendly (tokens-driven styling)
-- “Starter-grade” components: Tables, Dialogs, Sheets, Alerts, Tabs…
-- Designed to power the **PyColors SaaS Starter** and future Pro templates
+## Why PyColors UI?
 
----
+PyColors UI is a **documentation-first design system** focused on one
+goal:
+
+👉 **Help developers ship SaaS interfaces faster.**
+
+It prioritizes:
+
+-   clarity over cleverness
+-   consistency over trendiness
+-   production readiness over demos
+
+If it helps you ship faster, it belongs here.
+
+------------------------------------------------------------------------
+
+## Community 💬
+
+Questions, feedback, ideas, or showcase your product:
+
+👉 https://github.com/pycolors-io/pycolors-ui/discussions
+
+We especially love seeing **real products built with PyColors**.
+
+------------------------------------------------------------------------
 
 ## Release & publishing
 
 This repository is a **distribution mirror**.
 
-- **NPM publishing** happens from the **PyColors monorepo** (Changesets).
-- This mirror receives version bumps (`package.json`) + `CHANGELOG.md` via sync PRs.
-- A GitHub Release is automatically created/updated on this repo when `package.json` + `CHANGELOG.md` change on `main`.
+-   NPM publishing happens from the **PyColors monorepo** (Changesets)
+-   This mirror receives version bumps + CHANGELOG via sync PRs
+-   A GitHub Release is automatically created when `package.json` and
+    `CHANGELOG.md` change on `main`
 
-If you want to propose changes, please contribute to the monorepo source of truth:
+If you want to propose changes, contribute to the monorepo:
 https://github.com/pycolors-io/pycolors/tree/main/packages/ui
 
----
+------------------------------------------------------------------------
 
 ## Install
 
@@ -50,13 +83,15 @@ npm i @pycolors/ui
 yarn add @pycolors/ui
 ```
 
-## Peer dependencies
+------------------------------------------------------------------------
 
-This library expects React + lucide-react:
+## Peer dependencies
 
 ``` bash
 pnpm add react react-dom lucide-react
 ```
+
+------------------------------------------------------------------------
 
 ## Quick usage
 
@@ -77,9 +112,11 @@ export function Example() {
 }
 ```
 
+------------------------------------------------------------------------
+
 ## What's inside (v1)
 
-Exports currently include:
+Starter-grade components focused on real SaaS interfaces:
 
 -   Button
 -   Card
@@ -98,15 +135,15 @@ Exports currently include:
 -   EmptyState
 -   cn / utils
 
-This is intentionally small and "starter-first": the goal is to ship a
-credible SaaS UX surface quickly, then expand.
+The library is intentionally **small and starter-first**:\
+ship fast → expand with real usage.
 
 ------------------------------------------------------------------------
 
 ## Design approach
 
-PyColors UI is not "just components".\
-It's a product system:
+PyColors UI is not just components.\
+It's a **product system** built around real SaaS needs:
 
 -   predictable layout primitives
 -   consistent tokens + spacing
@@ -117,21 +154,26 @@ It's a product system:
 
 ## Roadmap
 
-Next planned steps:
+Next steps:
 
--   `@pycolors/tokens` (CSS variables + semantic tokens)
 -   richer form primitives (Select, Checkbox, Radio, Switch)
--   "Pro" layer: advanced components/patterns for paid templates
+-   advanced SaaS patterns
+-   Pro layer for premium starters & templates
+
+Full roadmap → https://pycolors.io/roadmap
 
 ------------------------------------------------------------------------
 
 ## License
 
-MIT (unless you decide otherwise).
+MIT
 
 ------------------------------------------------------------------------
 
 ## Links
 
--   PyColors: https://pycolors.io
--   Starters: https://pycolors.io/starters
+Website → https://pycolors.io \
+Docs → https://pycolors.io/docs \
+Starters → https://pycolors.io/starters \
+Roadmap → https://pycolors.io/roadmap \
+Discussions → https://github.com/pycolors-io/pycolors-ui/discussions
