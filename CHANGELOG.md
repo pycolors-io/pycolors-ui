@@ -1,5 +1,19 @@
 # Changelog
 
+## 1.1.0
+
+### Minor Changes
+
+- 52e9c18: Adds Checkbox, Separator, and Textarea components to PyColors UI.
+
+  Introduces new production-ready form and layout primitives with:
+  - accessibility-first behavior
+  - semantic token integration
+  - improved form layout consistency
+  - indeterminate checkbox support
+  - validation and helper text support
+  - comprehensive MDX documentation
+
 ## 1.0.6
 
 ### Patch Changes
