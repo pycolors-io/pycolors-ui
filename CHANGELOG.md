@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.1
+
+### Patch Changes
+
+- Improve badge foreground color consistency with primary surfaces
+
 ## 1.1.0
 
 ### Minor Changes
