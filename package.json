@@ -49,7 +49,7 @@
     "types:check": "tsc --noEmit",
     "verify": "pnpm lint && pnpm types:check && pnpm build",
     "generate:component": "turbo gen react-component",
-    "release": "pnpm clean && pnpm build:ts && pnpm publish --access public"
+    "release": "pnpm clean && pnpm build && pnpm publish --access public"
   },
   "peerDependencies": {
     "lucide-react": ">=0.300.0",
