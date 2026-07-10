@@ -65,8 +65,8 @@ This repository is a **distribution mirror**.
 
 -   NPM publishing happens from the **PyColors monorepo** (Changesets)
 -   This mirror receives version bumps + CHANGELOG via sync PRs
--   A GitHub Release is automatically created when `package.json` and
-    `CHANGELOG.md` change on `main`
+-   A GitHub Release is created only when the mirror `main` branch and npm both
+    expose the same `@pycolors/ui` version
 
 If you want to propose changes, contribute to the monorepo:
 https://github.com/pycolors-io/pycolors/tree/main/packages/ui
