@@ -46,8 +46,9 @@
     "build": "tsc -p tsconfig.json",
     "prepublishOnly": "pnpm clean && pnpm build",
     "lint": "eslint . --max-warnings 0",
+    "test": "vitest run --config vitest.config.ts",
     "types:check": "tsc --noEmit",
-    "verify": "pnpm lint && pnpm types:check && pnpm build",
+    "verify": "pnpm test && pnpm lint && pnpm types:check && pnpm build",
     "generate:component": "turbo gen react-component",
     "release": "pnpm clean && pnpm build && pnpm publish --access public"
   },
@@ -76,10 +77,14 @@
   "devDependencies": {
     "@pycolors/eslint-config": "^1.0.0",
     "@pycolors/typescript-config": "^1.0.0",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
     "@types/node": "^22.15.3",
     "@types/react": "19.2.2",
     "@types/react-dom": "19.2.2",
     "eslint": "^9.39.1",
-    "typescript": "5.9.2"
+    "jsdom": "^29.1.1",
+    "typescript": "5.9.2",
+    "vitest": "^4.1.10"
   }
 }
