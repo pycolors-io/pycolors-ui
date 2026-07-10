@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.1.2
+
+### Patch Changes
+
+- 7d2dd2e: Fixes two accessibility gaps and adds regression test coverage across `@pycolors/ui`.
+  - `PasswordInput` now fully respects the `disabled` state: the show/hide visibility toggle is disabled along with the field, instead of remaining clickable on a disabled input.
+  - `TableLoading` now exposes accessible live-region semantics, so assistive technology users are notified when a table starts loading instead of the state being visual-only.
+  - Added focused regression tests covering the public export surface, form field accessibility wiring, password visibility toggling, table rendering, `Card` interactive/`asChild` semantics, and `EmptyState` status semantics.
+
+  No public API, export, prop, variant, or size changed.
+
 ## 1.1.1
 
 ### Patch Changes
