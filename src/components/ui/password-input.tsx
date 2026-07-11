@@ -12,17 +12,19 @@ export type PasswordInputProps = Omit<
 export const PasswordInput = React.forwardRef<
   HTMLInputElement,
   PasswordInputProps
->((props, ref) => {
+>(({ disabled, ...props }, ref) => {
   const [visible, setVisible] = React.useState(false);
 
   return (
     <Input
       {...props}
+      disabled={disabled}
       ref={ref}
       type={visible ? 'text' : 'password'}
       rightIcon={
         <button
           type="button"
+          disabled={disabled}
           aria-label={visible ? 'Hide password' : 'Show password'}
           aria-pressed={visible}
           onClick={() => setVisible((v) => !v)}
@@ -34,6 +36,8 @@ export const PasswordInput = React.forwardRef<
             focus-visible:ring-2
             focus-visible:ring-ring
             focus-visible:ring-offset-1
+            disabled:pointer-events-none
+            disabled:opacity-50
           "
         >
           {visible ? (

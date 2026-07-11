@@ -48,10 +48,10 @@ export function Alert({
   return (
     <div
       data-slot="alert"
+      {...props}
       role={role}
       aria-live={ariaLive === 'off' ? undefined : ariaLive}
       className={cn(alertVariants({ variant }), className)}
-      {...props}
     />
   );
 }

@@ -44,15 +44,31 @@ export type CardInteractive = NonNullable<CardProps['interactive']>;
 
 export const Card = React.forwardRef<CardElement, CardProps>(
   (
-    { className, variant, interactive, asChild = false, ...props },
+    { className, variant, interactive, asChild = false, onKeyDown, ...props },
     ref,
   ) => {
     const Comp = asChild ? Slot : 'div';
+    const isInteractiveElement = Boolean(interactive) && !asChild;
+
+    const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+      onKeyDown?.(event);
+      if (
+        isInteractiveElement &&
+        !event.defaultPrevented &&
+        (event.key === 'Enter' || event.key === ' ')
+      ) {
+        event.preventDefault();
+        event.currentTarget.click();
+      }
+    };
 
     return (
       <Comp
         ref={ref}
         data-slot="card"
+        role={isInteractiveElement ? 'button' : undefined}
+        tabIndex={isInteractiveElement ? 0 : undefined}
+        onKeyDown={handleKeyDown}
         className={cn(
           cardVariants({ variant, interactive }),
           className,

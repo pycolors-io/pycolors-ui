@@ -52,6 +52,7 @@ export function TableRow({
 }
 
 export function TableHead({
+  // eslint-disable-next-line react/prop-types -- TypeScript validates intrinsic table header props.
   className,
   ...props
 }: React.ThHTMLAttributes<HTMLTableCellElement>) {
@@ -67,6 +68,7 @@ export function TableHead({
 }
 
 export function TableCell({
+  // eslint-disable-next-line react/prop-types -- TypeScript validates intrinsic table cell props.
   className,
   ...props
 }: React.TdHTMLAttributes<HTMLTableCellElement>) {
@@ -114,8 +116,15 @@ export function TableLoading({ colSpan }: { colSpan: number }) {
   return (
     <TableRow className="hover:bg-transparent">
       <TableCell colSpan={colSpan} className="py-10">
-        <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
-          <span className="inline-block size-4 animate-spin rounded-full border-2 border-muted-foreground/30 border-t-muted-foreground" />
+        <div
+          role="status"
+          aria-live="polite"
+          className="flex items-center justify-center gap-2 text-sm text-muted-foreground"
+        >
+          <span
+            aria-hidden="true"
+            className="inline-block size-4 animate-spin rounded-full border-2 border-muted-foreground/30 border-t-muted-foreground"
+          />
           Loading…
         </div>
       </TableCell>
