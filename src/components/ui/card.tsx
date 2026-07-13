@@ -50,17 +50,20 @@ export const Card = React.forwardRef<CardElement, CardProps>(
     const Comp = asChild ? Slot : 'div';
     const isInteractiveElement = Boolean(interactive) && !asChild;
 
-    const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
-      onKeyDown?.(event);
-      if (
-        isInteractiveElement &&
-        !event.defaultPrevented &&
-        (event.key === 'Enter' || event.key === ' ')
-      ) {
-        event.preventDefault();
-        event.currentTarget.click();
-      }
-    };
+    const handleKeyDown =
+      isInteractiveElement || onKeyDown
+        ? (event: React.KeyboardEvent<HTMLDivElement>) => {
+            onKeyDown?.(event);
+            if (
+              isInteractiveElement &&
+              !event.defaultPrevented &&
+              (event.key === 'Enter' || event.key === ' ')
+            ) {
+              event.preventDefault();
+              event.currentTarget.click();
+            }
+          }
+        : undefined;
 
     return (
       <Comp
