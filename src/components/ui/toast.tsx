@@ -33,16 +33,35 @@ export interface ToastProps
     React.ComponentPropsWithoutRef<typeof ToastPrimitive.Root>,
     VariantProps<typeof toastVariants> {}
 
+// Radix announces `type="foreground"` toasts at aria-live="assertive" and
+// `type="background"` toasts at "polite". Only genuinely urgent variants
+// should interrupt; routine confirmations should announce politely. An
+// explicit `type` prop from the consumer always wins over this default.
+const toastTypeByVariant: Record<
+  NonNullable<ToastProps['variant']>,
+  NonNullable<ToastProps['type']>
+> = {
+  default: 'background',
+  success: 'background',
+  warning: 'foreground',
+  destructive: 'foreground',
+};
+
 export const Toast = React.forwardRef<
-  React.ElementRef<typeof ToastPrimitive.Root>,
+  React.ComponentRef<typeof ToastPrimitive.Root>,
   ToastProps
->(({ className, variant, ...props }, ref) => (
-  <ToastPrimitive.Root
-    ref={ref}
-    className={cn(toastVariants({ variant }), className)}
-    {...props}
-  />
-));
+>(({ className, variant, type, ...props }, ref) => {
+  const resolvedVariant = variant ?? 'default';
+
+  return (
+    <ToastPrimitive.Root
+      ref={ref}
+      type={type ?? toastTypeByVariant[resolvedVariant]}
+      className={cn(toastVariants({ variant }), className)}
+      {...props}
+    />
+  );
+});
 Toast.displayName = 'Toast';
 
 export const ToastTitle = ToastPrimitive.Title;
