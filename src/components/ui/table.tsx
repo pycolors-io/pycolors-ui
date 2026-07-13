@@ -51,13 +51,16 @@ export function TableRow({
   );
 }
 
+/* eslint-disable react/prop-types -- TypeScript validates intrinsic table header props. */
 export function TableHead({
-  // eslint-disable-next-line react/prop-types -- TypeScript validates intrinsic table header props.
+  scope = 'col',
   className,
   ...props
 }: React.ThHTMLAttributes<HTMLTableCellElement>) {
+  /* eslint-enable react/prop-types */
   return (
     <th
+      scope={scope}
       className={cn(
         'h-10 px-4 text-left align-middle font-medium text-muted-foreground',
         className,

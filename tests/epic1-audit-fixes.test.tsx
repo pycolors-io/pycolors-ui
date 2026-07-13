@@ -83,15 +83,19 @@ describe('EPIC 1 audit follow-up fixes', () => {
     expect(link.tagName).toBe('A');
   });
 
-  it('still applies keyboard-operable button semantics for a bare interactive Card', () => {
+  it('never synthesizes button semantics for a bare interactive Card — compose asChild with a real button instead', () => {
     render(
       <ui.Card interactive onClick={() => {}}>
         Selectable card
       </ui.Card>,
     );
 
-    const card = screen.getByRole('button', { name: 'Selectable card' });
+    const card = screen.getByText('Selectable card');
 
-    expect(card).toHaveAttribute('tabIndex', '0');
+    // A bare `interactive` Card is visual-only: no role, no tabIndex, and no
+    // synthesized keyboard handling. See packages/ui/tests/card-rsc-safety.test.tsx
+    // for the full regression suite covering this contract.
+    expect(card).not.toHaveAttribute('role');
+    expect(card).not.toHaveAttribute('tabindex');
   });
 });

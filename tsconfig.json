@@ -1,12 +1,9 @@
 {
   "extends": "@pycolors/typescript-config/react-library",
   "compilerOptions": {
-    "rootDir": "src",
-    "outDir": "dist",
-    "declaration": true,
-    "declarationMap": true,
-    "emitDeclarationOnly": false
+    "noEmit": true,
+    "rootDir": "."
   },
-  "include": ["src"],
+  "include": ["src", "tests", "vitest.d.ts"],
   "exclude": ["node_modules", "dist"]
 }

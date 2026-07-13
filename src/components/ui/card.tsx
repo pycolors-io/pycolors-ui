@@ -26,15 +26,16 @@ export const cardVariants = cva(
   },
 );
 
-type CardElement = React.ElementRef<'div'>;
-
 export interface CardProps
   extends
     React.HTMLAttributes<HTMLDivElement>,
     VariantProps<typeof cardVariants> {
   /**
-   * Render the Card as another element (e.g. <a />, <section />) via Radix Slot.
-   * Useful for clickable cards while keeping consistent styling.
+   * Render the Card as another element via Radix Slot instead of a plain
+   * `<div>`. Card never synthesizes click or keyboard behavior itself, so
+   * an interactive card must use `asChild` with a real `<a>`/`Link` for
+   * navigation or a real `<button>` for actions — that element provides
+   * correct keyboard, focus, and click semantics natively.
    */
   asChild?: boolean;
 }
@@ -42,33 +43,21 @@ export interface CardProps
 export type CardVariant = NonNullable<CardProps['variant']>;
 export type CardInteractive = NonNullable<CardProps['interactive']>;
 
-export const Card = React.forwardRef<CardElement, CardProps>(
-  (
-    { className, variant, interactive, asChild = false, onKeyDown, ...props },
-    ref,
-  ) => {
+// Card is a purely structural, server-renderable primitive: it must never
+// synthesize an event handler (onKeyDown, onClick) or inject role/tabIndex
+// during render, since a Server Component cannot pass a function prop
+// across the RSC boundary. `interactive` only contributes visual classes
+// (cursor, hover, focus-visible ring) via cardVariants below — real
+// keyboard/focus/click semantics come from composing `asChild` with a real
+// `<button>` or `<a>`/`Link`, which already provide them natively.
+export const Card = React.forwardRef<React.ComponentRef<'div'>, CardProps>(
+  ({ className, variant, interactive, asChild = false, ...props }, ref) => {
     const Comp = asChild ? Slot : 'div';
-    const isInteractiveElement = Boolean(interactive) && !asChild;
-
-    const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
-      onKeyDown?.(event);
-      if (
-        isInteractiveElement &&
-        !event.defaultPrevented &&
-        (event.key === 'Enter' || event.key === ' ')
-      ) {
-        event.preventDefault();
-        event.currentTarget.click();
-      }
-    };
 
     return (
       <Comp
         ref={ref}
         data-slot="card"
-        role={isInteractiveElement ? 'button' : undefined}
-        tabIndex={isInteractiveElement ? 0 : undefined}
-        onKeyDown={handleKeyDown}
         className={cn(
           cardVariants({ variant, interactive }),
           className,

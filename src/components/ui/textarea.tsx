@@ -63,6 +63,7 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
       id,
       disabled,
       required,
+      'aria-describedby': consumerDescribedBy,
       ...props
     },
     ref,
@@ -70,20 +71,23 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
     const generatedId = React.useId();
     const textareaId = id ?? generatedId;
 
-    const describedByIds: string[] = [];
+    const internalDescribedByIds: string[] = [];
 
     if (helperText && !error) {
-      describedByIds.push(`${textareaId}-helper`);
+      internalDescribedByIds.push(`${textareaId}-helper`);
     }
 
     if (error) {
-      describedByIds.push(`${textareaId}-error`);
+      internalDescribedByIds.push(`${textareaId}-error`);
     }
 
+    // Compose the consumer's own aria-describedby (if any) with the ids this
+    // component owns, rather than letting either side silently clobber the
+    // other — both descriptions are legitimate and should be announced.
     const describedBy =
-      describedByIds.length > 0
-        ? describedByIds.join(' ')
-        : undefined;
+      [...internalDescribedByIds, consumerDescribedBy]
+        .filter(Boolean)
+        .join(' ') || undefined;
 
     return (
       <div className="w-full">
@@ -104,12 +108,6 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
           ref={ref}
           disabled={disabled}
           required={required}
-          aria-invalid={!!error}
-          aria-describedby={describedBy}
-          aria-errormessage={
-            error ? `${textareaId}-error` : undefined
-          }
-          aria-required={required ? true : undefined}
           className={cn(
             textareaVariants({
               size,
@@ -119,6 +117,15 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
             className,
           )}
           {...props}
+          // Placed after the spread so a caller-supplied aria-invalid /
+          // aria-errormessage can never silently disagree with the
+          // component's own error state.
+          aria-invalid={!!error}
+          aria-describedby={describedBy}
+          aria-errormessage={
+            error ? `${textareaId}-error` : undefined
+          }
+          aria-required={required ? true : undefined}
         />
 
         {helperText && !error ? (
@@ -133,6 +140,7 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
         {error ? (
           <p
             id={`${textareaId}-error`}
+            role="alert"
             className="mt-1 text-xs text-destructive"
           >
             {error}
