@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Slot } from '@radix-ui/react-slot';
 import { cva, type VariantProps } from 'class-variance-authority';
 
 import { cn } from '../../lib/utils.js';
@@ -34,19 +35,31 @@ export const cardVariants = cva(
 
 type CardVariantProps = VariantProps<typeof cardVariants>;
 
-type CardElementProps = Omit<
-  React.HTMLAttributes<HTMLDivElement>,
-  'role' | 'tabIndex' | 'onClick' | 'onKeyDown' | 'onKeyUp'
->;
-
 export interface CardProps
-  extends CardElementProps, CardVariantProps {
+  extends React.HTMLAttributes<HTMLDivElement>, CardVariantProps {
+  /**
+   * Renders the card through Radix Slot.
+   *
+   * Use this when the card must behave as a native interactive element:
+   *
+   * @example
+   * <Card asChild interactive>
+   *   <a href="/products">...</a>
+   * </Card>
+   *
+   * @example
+   * <Card asChild interactive>
+   *   <button type="button" onClick={handleClick}>...</button>
+   * </Card>
+   */
+  asChild?: boolean;
+
   /**
    * Applies interactive visual styles only.
    *
-   * This prop does not provide interaction semantics or event handlers.
-   * Wrap the card with a native interactive element such as a Link,
-   * anchor, or button.
+   * This prop does not add `role`, `tabIndex`, `onClick`, or keyboard
+   * handlers. Use `asChild` with a native `<a>` or `<button>` to provide
+   * accessible interaction semantics.
    */
   interactive?: boolean;
 }
@@ -55,31 +68,40 @@ export type CardVariant = NonNullable<CardProps['variant']>;
 export type CardInteractive = NonNullable<CardProps['interactive']>;
 
 /**
- * Purely structural Card primitive compatible with React Server Components.
+ * Structural card primitive compatible with React Server Components.
  *
- * Card never adds:
- * - event handlers;
- * - role="button";
- * - tabIndex;
- * - client-side interaction behavior.
- *
- * Use a native anchor, Link, or button as the interactive parent.
+ * Card deliberately does not synthesize event handlers or accessibility
+ * semantics. Interactive behavior must be provided by the underlying native
+ * element through `asChild`.
  */
 export const Card = React.forwardRef<HTMLDivElement, CardProps>(
-  ({ className, variant, interactive = false, ...props }, ref) => (
-    <div
-      ref={ref}
-      data-slot="card"
-      className={cn(
-        cardVariants({
-          variant,
-          interactive,
-        }),
-        className,
-      )}
-      {...props}
-    />
-  ),
+  (
+    {
+      asChild = false,
+      className,
+      variant,
+      interactive = false,
+      ...props
+    },
+    ref,
+  ) => {
+    const Component = asChild ? Slot : 'div';
+
+    return (
+      <Component
+        ref={ref}
+        data-slot="card"
+        className={cn(
+          cardVariants({
+            variant,
+            interactive,
+          }),
+          className,
+        )}
+        {...props}
+      />
+    );
+  },
 );
 
 Card.displayName = 'Card';
