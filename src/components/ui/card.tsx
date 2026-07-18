@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { Slot } from '@radix-ui/react-slot';
 import { cva, type VariantProps } from 'class-variance-authority';
 
 import { cn } from '../../lib/utils.js';
@@ -35,31 +34,19 @@ export const cardVariants = cva(
 
 type CardVariantProps = VariantProps<typeof cardVariants>;
 
-export interface CardProps
-  extends React.HTMLAttributes<HTMLDivElement>, CardVariantProps {
-  /**
-   * Renders the card through Radix Slot.
-   *
-   * Use this when the card must behave as a native interactive element:
-   *
-   * @example
-   * <Card asChild interactive>
-   *   <a href="/products">...</a>
-   * </Card>
-   *
-   * @example
-   * <Card asChild interactive>
-   *   <button type="button" onClick={handleClick}>...</button>
-   * </Card>
-   */
-  asChild?: boolean;
+type CardElementProps = Omit<
+  React.HTMLAttributes<HTMLDivElement>,
+  'role' | 'tabIndex' | 'onClick' | 'onKeyDown' | 'onKeyUp'
+>;
 
+export interface CardProps
+  extends CardElementProps, CardVariantProps {
   /**
    * Applies interactive visual styles only.
    *
-   * This prop does not add `role`, `tabIndex`, `onClick`, or keyboard
-   * handlers. Use `asChild` with a native `<a>` or `<button>` to provide
-   * accessible interaction semantics.
+   * This prop does not provide interaction semantics or event handlers.
+   * Wrap the card with a native interactive element such as a Link,
+   * anchor, or button.
    */
   interactive?: boolean;
 }
@@ -68,50 +55,38 @@ export type CardVariant = NonNullable<CardProps['variant']>;
 export type CardInteractive = NonNullable<CardProps['interactive']>;
 
 /**
- * Structural card primitive compatible with React Server Components.
+ * Purely structural Card primitive compatible with React Server Components.
  *
- * Card deliberately does not synthesize event handlers or accessibility
- * semantics. Interactive behavior must be provided by the underlying native
- * element through `asChild`.
+ * Card never adds:
+ * - event handlers;
+ * - role="button";
+ * - tabIndex;
+ * - client-side interaction behavior.
+ *
+ * Use a native anchor, Link, or button as the interactive parent.
  */
 export const Card = React.forwardRef<HTMLDivElement, CardProps>(
-  (
-    {
-      asChild = false,
-      className,
-      variant,
-      interactive = false,
-      ...props
-    },
-    ref,
-  ) => {
-    const Component = asChild ? Slot : 'div';
-
-    return (
-      <Component
-        ref={ref}
-        data-slot="card"
-        className={cn(
-          cardVariants({
-            variant,
-            interactive,
-          }),
-          className,
-        )}
-        {...props}
-      />
-    );
-  },
+  ({ className, variant, interactive = false, ...props }, ref) => (
+    <div
+      ref={ref}
+      data-slot="card"
+      className={cn(
+        cardVariants({
+          variant,
+          interactive,
+        }),
+        className,
+      )}
+      {...props}
+    />
+  ),
 );
 
 Card.displayName = 'Card';
 
 export type CardHeaderProps = React.HTMLAttributes<HTMLDivElement>;
 
-export function CardHeader({
-  className,
-  ...props
-}: CardHeaderProps) {
+export function CardHeader({ className, ...props }: CardHeaderProps) {
   return (
     <div
       data-slot="card-header"
@@ -121,13 +96,9 @@ export function CardHeader({
   );
 }
 
-export type CardTitleProps =
-  React.HTMLAttributes<HTMLHeadingElement>;
+export type CardTitleProps = React.HTMLAttributes<HTMLHeadingElement>;
 
-export function CardTitle({
-  className,
-  ...props
-}: CardTitleProps) {
+export function CardTitle({ className, ...props }: CardTitleProps) {
   return (
     <h3
       data-slot="card-title"
@@ -156,8 +127,7 @@ export function CardDescription({
   );
 }
 
-export type CardContentProps =
-  React.HTMLAttributes<HTMLDivElement>;
+export type CardContentProps = React.HTMLAttributes<HTMLDivElement>;
 
 export function CardContent({
   className,
@@ -172,13 +142,9 @@ export function CardContent({
   );
 }
 
-export type CardFooterProps =
-  React.HTMLAttributes<HTMLDivElement>;
+export type CardFooterProps = React.HTMLAttributes<HTMLDivElement>;
 
-export function CardFooter({
-  className,
-  ...props
-}: CardFooterProps) {
+export function CardFooter({ className, ...props }: CardFooterProps) {
   return (
     <div
       data-slot="card-footer"
