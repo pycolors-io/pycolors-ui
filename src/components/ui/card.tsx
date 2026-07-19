@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Slot } from '@radix-ui/react-slot';
 import { cva, type VariantProps } from 'class-variance-authority';
+
 import { cn } from '../../lib/utils.js';
 
 export const cardVariants = cva(
@@ -13,10 +14,16 @@ export const cardVariants = cva(
         transparent: 'bg-transparent',
       },
       interactive: {
-        false: '',
-        true:
-          'cursor-pointer transition-colors hover:bg-accent/40 ' +
-          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
+        false: null,
+        true: [
+          'cursor-pointer',
+          'transition-colors',
+          'hover:bg-accent/40',
+          'focus-visible:outline-none',
+          'focus-visible:ring-2',
+          'focus-visible:ring-ring',
+          'focus-visible:ring-offset-2',
+        ],
       },
     },
     defaultVariants: {
@@ -26,40 +33,69 @@ export const cardVariants = cva(
   },
 );
 
+type CardVariantProps = VariantProps<typeof cardVariants>;
+
 export interface CardProps
-  extends
-    React.HTMLAttributes<HTMLDivElement>,
-    VariantProps<typeof cardVariants> {
+  extends React.HTMLAttributes<HTMLDivElement>, CardVariantProps {
   /**
-   * Render the Card as another element via Radix Slot instead of a plain
-   * `<div>`. Card never synthesizes click or keyboard behavior itself, so
-   * an interactive card must use `asChild` with a real `<a>`/`Link` for
-   * navigation or a real `<button>` for actions — that element provides
-   * correct keyboard, focus, and click semantics natively.
+   * Renders the card through Radix Slot.
+   *
+   * Use this when the card must behave as a native interactive element:
+   *
+   * @example
+   * <Card asChild interactive>
+   *   <a href="/products">...</a>
+   * </Card>
+   *
+   * @example
+   * <Card asChild interactive>
+   *   <button type="button" onClick={handleClick}>...</button>
+   * </Card>
    */
   asChild?: boolean;
+
+  /**
+   * Applies interactive visual styles only.
+   *
+   * This prop does not add `role`, `tabIndex`, `onClick`, or keyboard
+   * handlers. Use `asChild` with a native `<a>` or `<button>` to provide
+   * accessible interaction semantics.
+   */
+  interactive?: boolean;
 }
 
 export type CardVariant = NonNullable<CardProps['variant']>;
 export type CardInteractive = NonNullable<CardProps['interactive']>;
 
-// Card is a purely structural, server-renderable primitive: it must never
-// synthesize an event handler (onKeyDown, onClick) or inject role/tabIndex
-// during render, since a Server Component cannot pass a function prop
-// across the RSC boundary. `interactive` only contributes visual classes
-// (cursor, hover, focus-visible ring) via cardVariants below — real
-// keyboard/focus/click semantics come from composing `asChild` with a real
-// `<button>` or `<a>`/`Link`, which already provide them natively.
-export const Card = React.forwardRef<React.ComponentRef<'div'>, CardProps>(
-  ({ className, variant, interactive, asChild = false, ...props }, ref) => {
-    const Comp = asChild ? Slot : 'div';
+/**
+ * Structural card primitive compatible with React Server Components.
+ *
+ * Card deliberately does not synthesize event handlers or accessibility
+ * semantics. Interactive behavior must be provided by the underlying native
+ * element through `asChild`.
+ */
+export const Card = React.forwardRef<HTMLDivElement, CardProps>(
+  (
+    {
+      asChild = false,
+      className,
+      variant,
+      interactive = false,
+      ...props
+    },
+    ref,
+  ) => {
+    const Component = asChild ? Slot : 'div';
 
     return (
-      <Comp
+      <Component
         ref={ref}
         data-slot="card"
         className={cn(
-          cardVariants({ variant, interactive }),
+          cardVariants({
+            variant,
+            interactive,
+          }),
           className,
         )}
         {...props}
