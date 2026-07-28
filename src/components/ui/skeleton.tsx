@@ -16,13 +16,16 @@ export function Skeleton({
 }: SkeletonProps) {
   return (
     <div
-      aria-hidden="true"
       className={cn(
-        'animate-pulse bg-muted',
+        'animate-pulse motion-reduce:animate-none bg-muted',
         circle ? 'rounded-full' : 'rounded-md',
         className,
       )}
       {...props}
+      // Placed after the spread: Skeleton is decorative-only and must
+      // never be exposed to assistive tech, even if a caller (or a
+      // forwarded ...rest spread) passes its own aria-hidden value.
+      aria-hidden="true"
     />
   );
 }

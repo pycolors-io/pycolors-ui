@@ -5,7 +5,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '../../lib/utils.js';
 
 const inputVariants = cva(
-  'flex w-full items-center gap-2 rounded-md border bg-background text-sm ring-offset-background transition-colors focus-within:outline-none focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
+  'flex w-full items-center gap-2 rounded-md border bg-background text-sm ring-offset-background transition-colors focus-within:outline-none focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2',
   {
     variants: {
       size: {
@@ -70,6 +70,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       id,
       disabled,
       required,
+      'aria-describedby': consumerDescribedBy,
       ...props
     },
     ref,
@@ -77,15 +78,18 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     const generatedId = React.useId();
     const inputId = id ?? generatedId;
 
-    const describedByIds: string[] = [];
+    const internalDescribedByIds: string[] = [];
     if (helperText && !error)
-      describedByIds.push(`${inputId}-helper`);
-    if (error) describedByIds.push(`${inputId}-error`);
+      internalDescribedByIds.push(`${inputId}-helper`);
+    if (error) internalDescribedByIds.push(`${inputId}-error`);
 
+    // Compose the consumer's own aria-describedby (if any) with the ids this
+    // component owns, rather than letting either side silently clobber the
+    // other — both descriptions are legitimate and should be announced.
     const describedBy =
-      describedByIds.length > 0
-        ? describedByIds.join(' ')
-        : undefined;
+      [...internalDescribedByIds, consumerDescribedBy]
+        .filter(Boolean)
+        .join(' ') || undefined;
 
     return (
       <div className="w-full">
@@ -104,6 +108,10 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         <div
           className={cn(
             inputVariants({ size, hasError: !!error }),
+            // The disabled attribute lives on the inner <input>, so the
+            // wrapper (which owns the border/background) can never match
+            // the `disabled:` pseudo-class — drive it explicitly instead.
+            disabled && 'cursor-not-allowed opacity-50',
             className,
           )}
         >
@@ -118,16 +126,19 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             ref={ref}
             disabled={disabled}
             required={required}
-            aria-invalid={!!error}
-            aria-describedby={describedBy}
-            aria-errormessage={error ? `${inputId}-error` : undefined}
-            aria-required={required ? true : undefined}
             className={cn(
               'flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground',
               !leftIcon && 'pl-1',
               !rightIcon && 'pr-1',
             )}
             {...props}
+            // Placed after the spread so a caller-supplied aria-invalid /
+            // aria-errormessage can never silently disagree with the
+            // component's own error state.
+            aria-invalid={!!error}
+            aria-describedby={describedBy}
+            aria-errormessage={error ? `${inputId}-error` : undefined}
+            aria-required={required ? true : undefined}
           />
 
           {rightIcon && (
@@ -149,6 +160,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         {error && (
           <p
             id={`${inputId}-error`}
+            role="alert"
             className="mt-1 text-xs text-destructive"
           >
             {error}
