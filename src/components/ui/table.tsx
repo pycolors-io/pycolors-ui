@@ -115,13 +115,28 @@ export function TableEmpty({
   );
 }
 
-export function TableLoading({ colSpan }: { colSpan: number }) {
+export interface TableLoadingProps {
+  colSpan: number;
+  ariaLive?: 'off' | 'polite' | 'assertive';
+}
+
+export function TableLoading({
+  colSpan,
+  ariaLive = 'polite',
+}: TableLoadingProps) {
+  const role =
+    ariaLive === 'assertive'
+      ? 'alert'
+      : ariaLive === 'polite'
+        ? 'status'
+        : undefined;
+
   return (
     <TableRow className="hover:bg-transparent">
       <TableCell colSpan={colSpan} className="py-10">
         <div
-          role="status"
-          aria-live="polite"
+          role={role}
+          aria-live={ariaLive === 'off' ? undefined : ariaLive}
           className="flex items-center justify-center gap-2 text-sm text-muted-foreground"
         >
           <span

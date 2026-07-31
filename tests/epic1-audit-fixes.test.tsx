@@ -37,7 +37,7 @@ describe('EPIC 1 audit follow-up fixes', () => {
     expect(input).toHaveAttribute('type', 'text');
   });
 
-  it('announces TableLoading as a live status region with a decorative spinner', () => {
+  it('uses polite live-region semantics for TableLoading by default', () => {
     render(
       <ui.Table>
         <ui.TableBody>
@@ -49,10 +49,50 @@ describe('EPIC 1 audit follow-up fixes', () => {
     const status = screen.getByRole('status');
 
     expect(status).toHaveTextContent('Loading…');
+    expect(status).toHaveAttribute('aria-live', 'polite');
     expect(status.querySelector('span[aria-hidden="true"]')).not.toBeNull();
   });
 
-  it('renders EmptyState as a status live region by default', () => {
+  it('supports off, polite, and assertive ariaLive values for TableLoading', () => {
+    const { rerender } = render(
+      <ui.Table>
+        <ui.TableBody>
+          <ui.TableLoading colSpan={2} ariaLive="off" />
+        </ui.TableBody>
+      </ui.Table>,
+    );
+
+    expect(screen.queryByRole('status')).toBeNull();
+    expect(screen.queryByRole('alert')).toBeNull();
+
+    rerender(
+      <ui.Table>
+        <ui.TableBody>
+          <ui.TableLoading colSpan={2} ariaLive="polite" />
+        </ui.TableBody>
+      </ui.Table>,
+    );
+
+    expect(screen.getByRole('status')).toHaveAttribute(
+      'aria-live',
+      'polite',
+    );
+
+    rerender(
+      <ui.Table>
+        <ui.TableBody>
+          <ui.TableLoading colSpan={2} ariaLive="assertive" />
+        </ui.TableBody>
+      </ui.Table>,
+    );
+
+    expect(screen.getByRole('alert')).toHaveAttribute(
+      'aria-live',
+      'assertive',
+    );
+  });
+
+  it('renders EmptyState as a polite status live region by default', () => {
     render(
       <ui.EmptyState
         title="No projects yet"
@@ -61,12 +101,48 @@ describe('EPIC 1 audit follow-up fixes', () => {
     );
 
     expect(screen.getByRole('status')).toHaveTextContent('No projects yet');
+    expect(screen.getByRole('status')).toHaveAttribute(
+      'aria-live',
+      'polite',
+    );
   });
 
-  it('lets a consumer opt out of EmptyState default status semantics via role', () => {
-    render(<ui.EmptyState title="Static note" role="presentation" />);
+  it('supports off, polite, and assertive ariaLive values for EmptyState', () => {
+    const { rerender } = render(
+      <ui.EmptyState title="Static note" ariaLive="off" />,
+    );
 
     expect(screen.queryByRole('status')).toBeNull();
+    expect(screen.queryByRole('alert')).toBeNull();
+
+    rerender(<ui.EmptyState title="Static note" ariaLive="polite" />);
+
+    expect(screen.getByRole('status')).toHaveAttribute(
+      'aria-live',
+      'polite',
+    );
+
+    rerender(<ui.EmptyState title="Static note" ariaLive="assertive" />);
+
+    expect(screen.getByRole('alert')).toHaveAttribute(
+      'aria-live',
+      'assertive',
+    );
+  });
+
+  it('does not allow raw passthrough props to override EmptyState computed live-region semantics', () => {
+    render(
+      <ui.EmptyState
+        title="No overrides"
+        role="presentation"
+        aria-live="off"
+      />,
+    );
+
+    expect(screen.getByRole('status')).toHaveAttribute(
+      'aria-live',
+      'polite',
+    );
   });
 
   it('preserves native semantics of a real anchor when Card uses asChild + interactive', () => {
