@@ -1,12 +1,12 @@
-import * as React from 'react';
-import { cn } from '../../lib/utils.js';
+import * as React from "react";
+import { cn } from "../../lib/utils.js";
 
 export interface EmptyStateProps extends React.HTMLAttributes<HTMLDivElement> {
   icon?: React.ReactNode;
   title: string;
   description?: string;
   action?: React.ReactNode;
-  ariaLive?: 'off' | 'polite' | 'assertive';
+  ariaLive?: "off" | "polite" | "assertive";
 }
 
 export function EmptyState({
@@ -14,30 +14,28 @@ export function EmptyState({
   title,
   description,
   action,
-  ariaLive = 'polite',
+  ariaLive = "polite",
   className,
   ...props
 }: EmptyStateProps) {
   const role =
-    ariaLive === 'assertive'
-      ? 'alert'
-      : ariaLive === 'polite'
-        ? 'status'
+    ariaLive === "assertive"
+      ? "alert"
+      : ariaLive === "polite"
+        ? "status"
         : undefined;
 
   return (
     <div
       {...props}
       role={role}
-      aria-live={ariaLive === 'off' ? undefined : ariaLive}
+      aria-live={ariaLive === "off" ? undefined : ariaLive}
       className={cn(
-        'flex w-full flex-col items-center justify-center rounded-lg border border-dashed border-border p-8 text-center',
+        "flex w-full flex-col items-center justify-center rounded-lg border border-dashed border-border p-8 text-center",
         className,
       )}
     >
-      {icon && (
-        <div className="mb-4 text-muted-foreground">{icon}</div>
-      )}
+      {icon && <div className="mb-4 text-muted-foreground">{icon}</div>}
 
       <h3 className="text-sm font-medium">{title}</h3>
 

@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { cn } from '../../lib/utils.js';
+import * as React from "react";
+import { cn } from "../../lib/utils.js";
 
 export function Table({
   className,
@@ -8,7 +8,7 @@ export function Table({
   return (
     <div className="w-full overflow-auto rounded-lg border border-border/60">
       <table
-        className={cn('w-full caption-bottom text-sm', className)}
+        className={cn("w-full caption-bottom text-sm", className)}
         {...props}
       />
     </div>
@@ -19,9 +19,7 @@ export function TableHeader({
   className,
   ...props
 }: React.HTMLAttributes<HTMLTableSectionElement>) {
-  return (
-    <thead className={cn('bg-muted/40', className)} {...props} />
-  );
+  return <thead className={cn("bg-muted/40", className)} {...props} />;
 }
 
 export function TableBody({
@@ -29,10 +27,7 @@ export function TableBody({
   ...props
 }: React.HTMLAttributes<HTMLTableSectionElement>) {
   return (
-    <tbody
-      className={cn('[&_tr:last-child]:border-0', className)}
-      {...props}
-    />
+    <tbody className={cn("[&_tr:last-child]:border-0", className)} {...props} />
   );
 }
 
@@ -43,7 +38,7 @@ export function TableRow({
   return (
     <tr
       className={cn(
-        'border-b border-border/60 transition-colors hover:bg-accent/30',
+        "border-b border-border/60 transition-colors hover:bg-accent/30",
         className,
       )}
       {...props}
@@ -53,7 +48,7 @@ export function TableRow({
 
 /* eslint-disable react/prop-types -- TypeScript validates intrinsic table header props. */
 export function TableHead({
-  scope = 'col',
+  scope = "col",
   className,
   ...props
 }: React.ThHTMLAttributes<HTMLTableCellElement>) {
@@ -62,7 +57,7 @@ export function TableHead({
     <th
       scope={scope}
       className={cn(
-        'h-10 px-4 text-left align-middle font-medium text-muted-foreground',
+        "h-10 px-4 text-left align-middle font-medium text-muted-foreground",
         className,
       )}
       {...props}
@@ -75,9 +70,7 @@ export function TableCell({
   className,
   ...props
 }: React.TdHTMLAttributes<HTMLTableCellElement>) {
-  return (
-    <td className={cn('p-4 align-middle', className)} {...props} />
-  );
+  return <td className={cn("p-4 align-middle", className)} {...props} />;
 }
 
 export function TableCaption({
@@ -86,7 +79,7 @@ export function TableCaption({
 }: React.HTMLAttributes<HTMLTableCaptionElement>) {
   return (
     <caption
-      className={cn('mt-3 text-sm text-muted-foreground', className)}
+      className={cn("mt-3 text-sm text-muted-foreground", className)}
       {...props}
     />
   );
@@ -94,8 +87,8 @@ export function TableCaption({
 
 export function TableEmpty({
   colSpan,
-  title = 'No results',
-  description = 'Try adjusting your filters or create a new item.',
+  title = "No results",
+  description = "Try adjusting your filters or create a new item.",
 }: {
   colSpan: number;
   title?: string;
@@ -117,18 +110,18 @@ export function TableEmpty({
 
 export interface TableLoadingProps {
   colSpan: number;
-  ariaLive?: 'off' | 'polite' | 'assertive';
+  ariaLive?: "off" | "polite" | "assertive";
 }
 
 export function TableLoading({
   colSpan,
-  ariaLive = 'polite',
+  ariaLive = "polite",
 }: TableLoadingProps) {
   const role =
-    ariaLive === 'assertive'
-      ? 'alert'
-      : ariaLive === 'polite'
-        ? 'status'
+    ariaLive === "assertive"
+      ? "alert"
+      : ariaLive === "polite"
+        ? "status"
         : undefined;
 
   return (
@@ -136,7 +129,7 @@ export function TableLoading({
       <TableCell colSpan={colSpan} className="py-10">
         <div
           role={role}
-          aria-live={ariaLive === 'off' ? undefined : ariaLive}
+          aria-live={ariaLive === "off" ? undefined : ariaLive}
           className="flex items-center justify-center gap-2 text-sm text-muted-foreground"
         >
           <span
