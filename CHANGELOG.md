@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.2.0
+
+### Minor Changes
+
+- 9b2d872: Converge `EmptyState` and `TableLoading` on a typed `ariaLive` prop (`'off' | 'polite' | 'assertive'`) so live-region role and announcement behavior are computed consistently and preserve current default semantics.
+
 ## 1.1.4
 
 ### Patch Changes
