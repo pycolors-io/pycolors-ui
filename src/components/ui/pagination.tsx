@@ -1,12 +1,8 @@
-import * as React from 'react';
-import {
-  ChevronLeft,
-  ChevronRight,
-  MoreHorizontal,
-} from 'lucide-react';
+import * as React from "react";
+import { ChevronLeft, ChevronRight, MoreHorizontal } from "lucide-react";
 
-import { Button, type ButtonProps } from './button.js';
-import { cn } from '../../lib/utils.js';
+import { Button, type ButtonProps } from "./button.js";
+import { cn } from "../../lib/utils.js";
 
 /* -----------------------------------------------------------------------------
  * Pagination (Primitive)
@@ -15,21 +11,20 @@ import { cn } from '../../lib/utils.js';
  * - Works with links or buttons
  * -------------------------------------------------------------------------- */
 
-export type PaginationProps = React.ComponentPropsWithoutRef<'nav'>;
+export type PaginationProps = React.ComponentPropsWithoutRef<"nav">;
 
 export function Pagination({ className, ...props }: PaginationProps) {
   return (
     <nav
       aria-label="Pagination"
       data-slot="pagination"
-      className={cn('flex w-full justify-center', className)}
+      className={cn("flex w-full justify-center", className)}
       {...props}
     />
   );
 }
 
-export type PaginationContentProps =
-  React.ComponentPropsWithoutRef<'ul'>;
+export type PaginationContentProps = React.ComponentPropsWithoutRef<"ul">;
 
 export function PaginationContent({
   className,
@@ -38,29 +33,25 @@ export function PaginationContent({
   return (
     <ul
       data-slot="pagination-content"
-      className={cn('flex items-center gap-1', className)}
+      className={cn("flex items-center gap-1", className)}
       {...props}
     />
   );
 }
 
-export type PaginationItemProps =
-  React.ComponentPropsWithoutRef<'li'>;
+export type PaginationItemProps = React.ComponentPropsWithoutRef<"li">;
 
-export function PaginationItem({
-  className,
-  ...props
-}: PaginationItemProps) {
+export function PaginationItem({ className, ...props }: PaginationItemProps) {
   return (
     <li
       data-slot="pagination-item"
-      className={cn('list-none', className)}
+      className={cn("list-none", className)}
       {...props}
     />
   );
 }
 
-export interface PaginationLinkProps extends React.ComponentPropsWithoutRef<'button'> {
+export interface PaginationLinkProps extends React.ComponentPropsWithoutRef<"button"> {
   /**
    * Marks the current page for accessibility and styling.
    */
@@ -69,26 +60,26 @@ export interface PaginationLinkProps extends React.ComponentPropsWithoutRef<'but
    * Optional size mapping to Button sizes.
    * Defaults to "icon-sm" for compact pagination.
    */
-  size?: ButtonProps['size'];
+  size?: ButtonProps["size"];
 }
 
 export function PaginationLink({
   className,
   isActive = false,
-  size = 'icon-sm',
+  size = "icon-sm",
   ...props
 }: PaginationLinkProps) {
   return (
     <Button
       data-slot="pagination-link"
       type="button"
-      variant={isActive ? 'secondary' : 'outline'}
+      variant={isActive ? "secondary" : "outline"}
       size={size}
-      aria-current={isActive ? 'page' : undefined}
+      aria-current={isActive ? "page" : undefined}
       className={cn(
-        'min-w-8 px-2',
+        "min-w-8 px-2",
         // for icon sizes, Button already squares; for non-icon, ensure height rhythm
-        isActive && 'font-semibold',
+        isActive && "font-semibold",
         className,
       )}
       {...props}
@@ -96,7 +87,7 @@ export function PaginationLink({
   );
 }
 
-export interface PaginationPreviousProps extends React.ComponentPropsWithoutRef<'button'> {
+export interface PaginationPreviousProps extends React.ComponentPropsWithoutRef<"button"> {
   /**
    * Optional label for accessibility and i18n.
    */
@@ -105,7 +96,7 @@ export interface PaginationPreviousProps extends React.ComponentPropsWithoutRef<
 
 export function PaginationPrevious({
   className,
-  label = 'Previous page',
+  label = "Previous page",
   ...props
 }: PaginationPreviousProps) {
   return (
@@ -115,7 +106,7 @@ export function PaginationPrevious({
       variant="outline"
       size="sm"
       aria-label={label}
-      className={cn('gap-2 px-3', className)}
+      className={cn("gap-2 px-3", className)}
       {...props}
     >
       <ChevronLeft className="h-4 w-4" aria-hidden="true" />
@@ -124,7 +115,7 @@ export function PaginationPrevious({
   );
 }
 
-export interface PaginationNextProps extends React.ComponentPropsWithoutRef<'button'> {
+export interface PaginationNextProps extends React.ComponentPropsWithoutRef<"button"> {
   /**
    * Optional label for accessibility and i18n.
    */
@@ -133,7 +124,7 @@ export interface PaginationNextProps extends React.ComponentPropsWithoutRef<'but
 
 export function PaginationNext({
   className,
-  label = 'Next page',
+  label = "Next page",
   ...props
 }: PaginationNextProps) {
   return (
@@ -143,7 +134,7 @@ export function PaginationNext({
       variant="outline"
       size="sm"
       aria-label={label}
-      className={cn('gap-2 px-3', className)}
+      className={cn("gap-2 px-3", className)}
       {...props}
     >
       <span className="hidden sm:inline">Next</span>
@@ -152,7 +143,7 @@ export function PaginationNext({
   );
 }
 
-export interface PaginationEllipsisProps extends React.ComponentPropsWithoutRef<'span'> {
+export interface PaginationEllipsisProps extends React.ComponentPropsWithoutRef<"span"> {
   /**
    * Accessible label read by screen readers.
    */
@@ -161,20 +152,20 @@ export interface PaginationEllipsisProps extends React.ComponentPropsWithoutRef<
 
 export function PaginationEllipsis({
   className,
-  label = 'More pages',
+  label = "More pages",
   ...props
 }: PaginationEllipsisProps) {
   return (
     <span
       data-slot="pagination-ellipsis"
-      aria-label={label}
       className={cn(
-        'flex h-8 w-8 items-center justify-center text-muted-foreground',
+        "flex h-8 w-8 items-center justify-center text-muted-foreground",
         className,
       )}
       {...props}
     >
       <MoreHorizontal className="h-4 w-4" aria-hidden="true" />
+      <span className="sr-only">{label}</span>
     </span>
   );
 }
@@ -187,8 +178,8 @@ export function PaginationEllipsis({
  */
 
 export type PaginationToken =
-  | { type: 'page'; value: number; isActive?: boolean }
-  | { type: 'ellipsis'; key: string };
+  | { type: "page"; value: number; isActive?: boolean }
+  | { type: "ellipsis"; key: string };
 
 export function buildPaginationRange(args: {
   page: number;
@@ -196,12 +187,7 @@ export function buildPaginationRange(args: {
   siblingCount?: number;
   boundaryCount?: number;
 }): PaginationToken[] {
-  const {
-    page,
-    totalPages,
-    siblingCount = 1,
-    boundaryCount = 1,
-  } = args;
+  const { page, totalPages, siblingCount = 1, boundaryCount = 1 } = args;
 
   const clamp = (n: number) => Math.max(1, Math.min(totalPages, n));
   const current = clamp(page);
@@ -210,7 +196,7 @@ export function buildPaginationRange(args: {
   const totalNumbers = boundaryCount * 2 + siblingCount * 2 + 3; // incl current + 2 ellipsis
   if (totalPages <= totalNumbers) {
     return Array.from({ length: totalPages }, (_, i) => ({
-      type: 'page' as const,
+      type: "page" as const,
       value: i + 1,
       isActive: i + 1 === current,
     }));
@@ -235,16 +221,16 @@ export function buildPaginationRange(args: {
 
   // Left boundary
   for (let p = 1; p <= leftBoundaryEnd; p++) {
-    range.push({ type: 'page', value: p, isActive: p === current });
+    range.push({ type: "page", value: p, isActive: p === current });
   }
 
   // Left ellipsis or gap page
   if (showLeftEllipsis) {
-    range.push({ type: 'ellipsis', key: 'left' });
+    range.push({ type: "ellipsis", key: "left" });
   } else {
     const gapPage = leftBoundaryEnd + 1;
     range.push({
-      type: 'page',
+      type: "page",
       value: gapPage,
       isActive: gapPage === current,
     });
@@ -252,16 +238,16 @@ export function buildPaginationRange(args: {
 
   // Siblings
   for (let p = leftSiblingStart; p <= rightSiblingEnd; p++) {
-    range.push({ type: 'page', value: p, isActive: p === current });
+    range.push({ type: "page", value: p, isActive: p === current });
   }
 
   // Right ellipsis or gap page
   if (showRightEllipsis) {
-    range.push({ type: 'ellipsis', key: 'right' });
+    range.push({ type: "ellipsis", key: "right" });
   } else {
     const gapPage = rightBoundaryStart - 1;
     range.push({
-      type: 'page',
+      type: "page",
       value: gapPage,
       isActive: gapPage === current,
     });
@@ -269,7 +255,7 @@ export function buildPaginationRange(args: {
 
   // Right boundary
   for (let p = rightBoundaryStart; p <= totalPages; p++) {
-    range.push({ type: 'page', value: p, isActive: p === current });
+    range.push({ type: "page", value: p, isActive: p === current });
   }
 
   return range;
