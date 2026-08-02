@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.2.1
+
+### Patch Changes
+
+- 68d8d11: Update the Radix UI Tabs dependency to 1.1.21.
+
 ## 1.2.0
 
 ### Minor Changes
