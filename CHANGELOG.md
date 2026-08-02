@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.2.2
+
+### Patch Changes
+
+- e81dae3: Fix `PaginationEllipsis` accessibility by exposing its label through visually hidden text instead of an invalid `aria-label` on a generic span.
+
 ## 1.2.1
 
 ### Patch Changes
