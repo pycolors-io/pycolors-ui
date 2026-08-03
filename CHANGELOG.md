@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.2.3
+
+### Patch Changes
+
+- 9e0656b: Update ESLint dependency metadata for the publishable packages.
+
 ## 1.2.2
 
 ### Patch Changes
