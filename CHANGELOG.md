@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.2.4
+
+### Patch Changes
+
+- 7b636b6: Update the UI package test tooling to use @testing-library/jest-dom 7.
+
 ## 1.2.3
 
 ### Patch Changes
