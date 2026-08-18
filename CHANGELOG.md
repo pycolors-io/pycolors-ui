@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.2.5
+
+### Patch Changes
+
+- 55fa87b: Add the maintained Storybook example tooling for the public UI component surface.
+
 ## 1.2.4
 
 ### Patch Changes
