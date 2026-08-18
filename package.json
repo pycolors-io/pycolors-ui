@@ -44,11 +44,13 @@
   "scripts": {
     "clean": "rm -rf dist",
     "build": "tsc -p tsconfig.build.json",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
     "prepublishOnly": "pnpm clean && pnpm build",
     "lint": "eslint . --max-warnings 0",
     "test": "vitest run --config vitest.config.ts",
     "types:check": "tsc --noEmit",
-    "verify": "pnpm test && pnpm lint && pnpm types:check && pnpm build",
+    "verify": "pnpm test && pnpm lint && pnpm types:check && pnpm build && pnpm build-storybook",
     "generate:component": "turbo gen react-component",
     "release": "pnpm clean && pnpm build && pnpm publish --access public"
   },
@@ -76,7 +78,11 @@
   },
   "devDependencies": {
     "@pycolors/eslint-config": "^1.0.4",
+    "@pycolors/tokens": "workspace:^",
     "@pycolors/typescript-config": "^1.0.0",
+    "@storybook/addon-a11y": "^10.5.9",
+    "@storybook/react-vite": "^10.5.9",
+    "@tailwindcss/vite": "^4.3.3",
     "@testing-library/jest-dom": "^7.0.0",
     "@testing-library/react": "^16.3.2",
     "@types/node": "^22.15.3",
@@ -84,7 +90,10 @@
     "@types/react-dom": "19.2.2",
     "eslint": "^9.39.5",
     "jsdom": "^29.1.1",
+    "storybook": "^10.5.9",
+    "tailwindcss": "^4.3.0",
     "typescript": "5.9.2",
+    "vite": "^8.1.4",
     "vitest": "^4.1.10",
     "vitest-axe": "1.0.0-pre.5"
   }
