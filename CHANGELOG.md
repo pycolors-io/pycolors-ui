@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.2.6
+
+### Patch Changes
+
+- 755c0d8: Update the TypeScript build-tool dependency to 6.0.3.
+
 ## 1.2.5
 
 ### Patch Changes
