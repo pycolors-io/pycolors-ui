@@ -181,6 +181,20 @@ export const Checkboxes: Story = {
           <CheckboxDescription>Some projects are selected.</CheckboxDescription>
         </CheckboxContent>
       </CheckboxField>
+
+      <CheckboxField>
+        <Checkbox
+          id="terms"
+          required
+          error="You must accept the terms before continuing."
+        />
+        <CheckboxContent>
+          <CheckboxLabel htmlFor="terms">Accept the terms</CheckboxLabel>
+          <CheckboxDescription>
+            Required before creating a workspace.
+          </CheckboxDescription>
+        </CheckboxContent>
+      </CheckboxField>
     </div>
   ),
 };

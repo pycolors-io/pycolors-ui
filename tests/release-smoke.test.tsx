@@ -206,6 +206,67 @@ describe("@pycolors/ui release smoke coverage", () => {
     );
   });
 
+  it("preserves Checkbox defaults and wires its error message", () => {
+    const { unmount } = render(
+      <ui.Checkbox
+        id="release-updates"
+        defaultChecked
+        aria-describedby="release-updates-description"
+        aria-invalid="true"
+        aria-errormessage="release-updates-error"
+      />,
+    );
+
+    const checkbox = screen.getByRole("checkbox");
+
+    expect(checkbox).toBeChecked();
+    expect(checkbox).toHaveAttribute("data-slot", "checkbox");
+    expect(checkbox).toHaveAttribute(
+      "aria-describedby",
+      "release-updates-description",
+    );
+    expect(checkbox).toHaveAttribute("aria-invalid", "true");
+    expect(checkbox).toHaveAttribute(
+      "aria-errormessage",
+      "release-updates-error",
+    );
+    expect(screen.queryByRole("alert")).not.toBeInTheDocument();
+
+    fireEvent.click(checkbox);
+    expect(checkbox).not.toBeChecked();
+    unmount();
+
+    render(
+      <ui.CheckboxField>
+        <ui.Checkbox
+          id="terms"
+          aria-describedby="terms-description"
+          aria-invalid={false}
+          aria-errormessage="external-error"
+          error="You must accept the terms before continuing."
+        />
+        <ui.CheckboxContent>
+          <ui.CheckboxLabel htmlFor="terms">Accept terms</ui.CheckboxLabel>
+        </ui.CheckboxContent>
+      </ui.CheckboxField>,
+    );
+
+    const invalidCheckbox = screen.getByRole("checkbox", {
+      name: "Accept terms",
+    });
+
+    expect(invalidCheckbox).toHaveAttribute("aria-invalid", "true");
+    expect(invalidCheckbox).toHaveAttribute(
+      "aria-describedby",
+      "terms-error terms-description",
+    );
+    expect(invalidCheckbox).toHaveAttribute("aria-errormessage", "terms-error");
+    expect(screen.getByRole("alert")).toHaveAttribute("id", "terms-error");
+    expect(screen.getByRole("alert")).toHaveTextContent(
+      "You must accept the terms before continuing.",
+    );
+  });
+
   it("toggles PasswordInput visibility without changing the public field API", () => {
     render(<ui.PasswordInput id="password" label="Password" />);
 
