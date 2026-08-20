@@ -197,6 +197,7 @@ export const Badges: Story = {
           "success",
           "warning",
           "destructive",
+          "info",
         ] as const
       ).map((variant) => (
         <Badge key={variant} variant={variant}>
@@ -411,16 +412,41 @@ export const TabSets: Story = {
 };
 
 function ToastExample() {
+  const toastVariants = [
+    "default",
+    "success",
+    "warning",
+    "destructive",
+    "info",
+  ] as const;
+  const [openVariant, setOpenVariant] =
+    React.useState<(typeof toastVariants)[number]>("success");
   const [open, setOpen] = React.useState(false);
 
   return (
     <ToastProvider swipeDirection="right">
-      <Button onClick={() => setOpen(true)}>Save changes</Button>
-      <Toast open={open} onOpenChange={setOpen} variant="success">
+      <div className="space-y-2">
+        {toastVariants.map((variant) => (
+          <Button
+            key={variant}
+            onClick={() => {
+              setOpenVariant(variant);
+              setOpen(true);
+            }}
+            variant="outline"
+            size="sm"
+          >
+            Show {variant} toast
+          </Button>
+        ))}
+      </div>
+      <Toast open={open} onOpenChange={setOpen} variant={openVariant}>
         <div>
-          <ToastTitle className="font-medium">Changes saved</ToastTitle>
+          <ToastTitle className="font-medium">
+            {openVariant.charAt(0).toUpperCase() + openVariant.slice(1)} message
+          </ToastTitle>
           <ToastDescription className="text-muted-foreground">
-            Workspace settings are up to date.
+            This is a {openVariant} toast notification.
           </ToastDescription>
         </div>
         <Button asChild size="sm" variant="outline">
