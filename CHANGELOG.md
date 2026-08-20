@@ -1,5 +1,26 @@
 # Changelog
 
+## 1.4.0
+
+### Minor Changes
+
+- 3de709a: Add optional `info` variant to Badge and Toast components using semantic token styling consistent with Alert.
+
+  - Badge now accepts `variant="info"` with card-background semantic tokens (`bg-card text-card-foreground border-transparent`)
+  - Toast now accepts `variant="info"` with border-indicator styling (`bg-background text-foreground border-border`) and polite announcement behavior (`aria-live="polite"`)
+  - Existing variants, defaults, and Toast announcement behavior remain unchanged
+  - Focused tests and documentation coverage added for all new variants
+
+  ```tsx
+  // Badge info variant
+  <Badge variant="info">Informational status</Badge>
+
+  // Toast info variant (announces politely by default)
+  <Toast variant="info">
+    <ToastTitle>Information</ToastTitle>
+  </Toast>
+  ```
+
 ## 1.3.0
 
 ### Minor Changes
