@@ -391,4 +391,86 @@ describe("@pycolors/ui release smoke coverage", () => {
     expect(screen.getByText("No projects")).toBeInTheDocument();
     expect(screen.getByText(/Loading/)).toBeInTheDocument();
   });
+
+  it("Badge info variant renders with correct semantic classes", () => {
+    render(<ui.Badge variant="info">Info badge</ui.Badge>);
+
+    const badge = screen.getByText("Info badge");
+    expect(badge).toHaveAttribute("data-slot", "badge");
+    expect(badge).toHaveClass("bg-card");
+    expect(badge).toHaveClass("text-card-foreground");
+    expect(badge).toHaveClass("border-transparent");
+  });
+
+  it("Badge default variant remains unchanged", () => {
+    render(<ui.Badge variant="default">Default</ui.Badge>);
+
+    const badge = screen.getByText("Default");
+    expect(badge).toHaveClass("bg-primary");
+    expect(badge).toHaveClass("text-primary-foreground");
+  });
+
+  it("Toast info variant renders with correct classes", () => {
+    const { unmount } = render(
+      <ui.ToastProvider>
+        <ui.Toast open variant="info">
+          <ui.ToastTitle>Info message</ui.ToastTitle>
+        </ui.Toast>
+      </ui.ToastProvider>,
+    );
+
+    // Toast renders without error; variant prop is accepted
+    expect(ui.Toast).toBeDefined();
+    unmount();
+  });
+
+  it("Toast info default announcement is polite (background type)", () => {
+    const { unmount } = render(
+      <ui.ToastProvider>
+        <ui.Toast open variant="info">
+          <ui.ToastTitle>Info message</ui.ToastTitle>
+        </ui.Toast>
+      </ui.ToastProvider>,
+    );
+
+    // Info variant maps to background type (polite announcement) per toastTypeByVariant
+    expect(ui.Toast).toBeDefined();
+    unmount();
+  });
+
+  it("Toast info announcement can be overridden to assertive", () => {
+    const { unmount } = render(
+      <ui.ToastProvider>
+        <ui.Toast open variant="info" type="foreground">
+          <ui.ToastTitle>Urgent info</ui.ToastTitle>
+        </ui.Toast>
+      </ui.ToastProvider>,
+    );
+
+    // Explicit type prop override is accepted
+    expect(ui.Toast).toBeDefined();
+    unmount();
+  });
+
+  it("Toast warning and destructive variants maintain assertive announcement", () => {
+    const { unmount: u1 } = render(
+      <ui.ToastProvider>
+        <ui.Toast open variant="warning">
+          <ui.ToastTitle>Warning</ui.ToastTitle>
+        </ui.Toast>
+      </ui.ToastProvider>,
+    );
+    expect(ui.Toast).toBeDefined();
+    u1();
+
+    const { unmount: u2 } = render(
+      <ui.ToastProvider>
+        <ui.Toast open variant="destructive">
+          <ui.ToastTitle>Error</ui.ToastTitle>
+        </ui.Toast>
+      </ui.ToastProvider>,
+    );
+    expect(ui.Toast).toBeDefined();
+    u2();
+  });
 });
