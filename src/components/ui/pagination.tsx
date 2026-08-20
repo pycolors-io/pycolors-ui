@@ -1,5 +1,6 @@
 import * as React from "react";
 import { ChevronLeft, ChevronRight, MoreHorizontal } from "lucide-react";
+import { Slottable } from "@radix-ui/react-slot";
 
 import { Button, type ButtonProps } from "./button.js";
 import { cn } from "../../lib/utils.js";
@@ -61,87 +62,127 @@ export interface PaginationLinkProps extends React.ComponentPropsWithoutRef<"but
    * Defaults to "icon-sm" for compact pagination.
    */
   size?: ButtonProps["size"];
+  /**
+   * Render the control as a Slot wrapper so a real link element can be
+   * supplied as the child while keeping all pagination styling.
+   *
+   * @example
+   * <PaginationLink asChild isActive>
+   *   <a href="/page/2">2</a>
+   * </PaginationLink>
+   */
+  asChild?: boolean;
 }
 
-export function PaginationLink({
-  className,
-  isActive = false,
-  size = "icon-sm",
-  ...props
-}: PaginationLinkProps) {
+export const PaginationLink = React.forwardRef<
+  HTMLButtonElement,
+  PaginationLinkProps
+>(function PaginationLink(
+  { className, isActive = false, size = "icon-sm", asChild = false, ...props },
+  ref,
+) {
   return (
     <Button
+      ref={ref}
       data-slot="pagination-link"
-      type="button"
+      type={asChild ? undefined : "button"}
+      asChild={asChild}
       variant={isActive ? "secondary" : "outline"}
       size={size}
       aria-current={isActive ? "page" : undefined}
-      className={cn(
-        "min-w-8 px-2",
-        // for icon sizes, Button already squares; for non-icon, ensure height rhythm
-        isActive && "font-semibold",
-        className,
-      )}
+      className={cn("min-w-8 px-2", isActive && "font-semibold", className)}
       {...props}
     />
   );
-}
+});
 
 export interface PaginationPreviousProps extends React.ComponentPropsWithoutRef<"button"> {
   /**
    * Optional label for accessibility and i18n.
    */
   label?: string;
+  /**
+   * Render the control as a Slot wrapper so a real link element can be
+   * supplied as the child while keeping all pagination styling, the built-in
+   * ChevronLeft icon, and the visible "Previous" text.
+   *
+   * @example
+   * <PaginationPrevious asChild>
+   *   <a href="/page/1" />
+   * </PaginationPrevious>
+   */
+  asChild?: boolean;
 }
 
-export function PaginationPrevious({
-  className,
-  label = "Previous page",
-  ...props
-}: PaginationPreviousProps) {
+export const PaginationPrevious = React.forwardRef<
+  HTMLButtonElement,
+  PaginationPreviousProps
+>(function PaginationPrevious(
+  { className, label = "Previous page", asChild = false, children, ...props },
+  ref,
+) {
   return (
     <Button
+      ref={ref}
       data-slot="pagination-previous"
-      type="button"
+      type={asChild ? undefined : "button"}
+      asChild={asChild}
       variant="outline"
       size="sm"
       aria-label={label}
       className={cn("gap-2 px-3", className)}
       {...props}
     >
+      <Slottable>{children}</Slottable>
       <ChevronLeft className="h-4 w-4" aria-hidden="true" />
       <span className="hidden sm:inline">Previous</span>
     </Button>
   );
-}
+});
 
 export interface PaginationNextProps extends React.ComponentPropsWithoutRef<"button"> {
   /**
    * Optional label for accessibility and i18n.
    */
   label?: string;
+  /**
+   * Render the control as a Slot wrapper so a real link element can be
+   * supplied as the child while keeping all pagination styling, the built-in
+   * ChevronRight icon, and the visible "Next" text.
+   *
+   * @example
+   * <PaginationNext asChild>
+   *   <a href="/page/3" />
+   * </PaginationNext>
+   */
+  asChild?: boolean;
 }
 
-export function PaginationNext({
-  className,
-  label = "Next page",
-  ...props
-}: PaginationNextProps) {
+export const PaginationNext = React.forwardRef<
+  HTMLButtonElement,
+  PaginationNextProps
+>(function PaginationNext(
+  { className, label = "Next page", asChild = false, children, ...props },
+  ref,
+) {
   return (
     <Button
+      ref={ref}
       data-slot="pagination-next"
-      type="button"
+      type={asChild ? undefined : "button"}
+      asChild={asChild}
       variant="outline"
       size="sm"
       aria-label={label}
       className={cn("gap-2 px-3", className)}
       {...props}
     >
+      <Slottable>{children}</Slottable>
       <span className="hidden sm:inline">Next</span>
       <ChevronRight className="h-4 w-4" aria-hidden="true" />
     </Button>
   );
-}
+});
 
 export interface PaginationEllipsisProps extends React.ComponentPropsWithoutRef<"span"> {
   /**

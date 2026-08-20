@@ -436,6 +436,43 @@ export const Toasts: Story = {
   render: () => <ToastExample />,
 };
 
+export const PaginationLinkComposition: Story = {
+  render: () => (
+    <Pagination>
+      <PaginationContent>
+        <PaginationItem>
+          <PaginationPrevious asChild>
+            <a href="/page/1" />
+          </PaginationPrevious>
+        </PaginationItem>
+        <PaginationItem>
+          <PaginationLink asChild>
+            <a href="/page/1">1</a>
+          </PaginationLink>
+        </PaginationItem>
+        <PaginationItem>
+          <PaginationLink asChild isActive>
+            <a href="/page/2">2</a>
+          </PaginationLink>
+        </PaginationItem>
+        <PaginationItem>
+          <PaginationLink asChild>
+            <a href="/page/3">3</a>
+          </PaginationLink>
+        </PaginationItem>
+        <PaginationItem>
+          <PaginationEllipsis />
+        </PaginationItem>
+        <PaginationItem>
+          <PaginationNext asChild>
+            <a href="/page/3" />
+          </PaginationNext>
+        </PaginationItem>
+      </PaginationContent>
+    </Pagination>
+  ),
+};
+
 export const PaginationControls: Story = {
   render: () => (
     <Pagination>
