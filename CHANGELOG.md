@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.5.0
+
+### Minor Changes
+
+- 94a299a: Add an accessible `error` prop to Checkbox with visible error copy and ARIA error-message wiring.
+
 ## 1.4.0
 
 ### Minor Changes
