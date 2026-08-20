@@ -1,5 +1,28 @@
 # Changelog
 
+## 1.3.0
+
+### Minor Changes
+
+- 2a00d6f: Add `asChild` composition and ref forwarding to `PaginationLink`, `PaginationPrevious`, and `PaginationNext`.
+
+  Consumers can now render these controls as real links (e.g. a Next.js `Link` or a plain `<a>`) while preserving all existing button styling, accessible labels, `data-slot` attributes, and — for `PaginationPrevious` and `PaginationNext` — the built-in icon and visible text. Default button rendering is unchanged.
+
+  ```tsx
+  // Link composition example
+  <PaginationPrevious asChild>
+    <a href="/page/1" />
+  </PaginationPrevious>
+
+  <PaginationLink asChild isActive>
+    <a href="/page/2">2</a>
+  </PaginationLink>
+
+  <PaginationNext asChild>
+    <a href="/page/3" />
+  </PaginationNext>
+  ```
+
 ## 1.2.6
 
 ### Patch Changes
