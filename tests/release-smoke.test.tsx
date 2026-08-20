@@ -249,6 +249,27 @@ describe("@pycolors/ui release smoke coverage", () => {
     expect(screen.getByText("Next")).toBeInTheDocument();
   });
 
+  it("Pagination link composition — caller children are ignored on default path", () => {
+    // Pre-#331 compatibility: PaginationPrevious/Next ignore caller children
+    // when asChild is false so built-in icon/text remain the only output.
+    const { unmount: u1 } = render(
+      <ui.PaginationPrevious>
+        <span data-testid="extra-prev">extra</span>
+      </ui.PaginationPrevious>,
+    );
+    expect(screen.queryByTestId("extra-prev")).not.toBeInTheDocument();
+    expect(screen.getByText("Previous")).toBeInTheDocument();
+    u1();
+
+    render(
+      <ui.PaginationNext>
+        <span data-testid="extra-next">extra</span>
+      </ui.PaginationNext>,
+    );
+    expect(screen.queryByTestId("extra-next")).not.toBeInTheDocument();
+    expect(screen.getByText("Next")).toBeInTheDocument();
+  });
+
   it("Pagination link composition — asChild paths render anchors", () => {
     const { unmount: u1 } = render(
       <ui.PaginationLink asChild>

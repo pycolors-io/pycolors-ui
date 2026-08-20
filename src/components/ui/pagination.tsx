@@ -133,7 +133,7 @@ export const PaginationPrevious = React.forwardRef<
       className={cn("gap-2 px-3", className)}
       {...props}
     >
-      <Slottable>{children}</Slottable>
+      {asChild ? <Slottable>{children}</Slottable> : null}
       <ChevronLeft className="h-4 w-4" aria-hidden="true" />
       <span className="hidden sm:inline">Previous</span>
     </Button>
@@ -177,7 +177,7 @@ export const PaginationNext = React.forwardRef<
       className={cn("gap-2 px-3", className)}
       {...props}
     >
-      <Slottable>{children}</Slottable>
+      {asChild ? <Slottable>{children}</Slottable> : null}
       <span className="hidden sm:inline">Next</span>
       <ChevronRight className="h-4 w-4" aria-hidden="true" />
     </Button>
