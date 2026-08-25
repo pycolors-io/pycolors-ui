@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.5.1
+
+### Patch Changes
+
+- 6eae8d6: Update the Radix Checkbox dependency.
+- 5c5cc57: Update the Testing Library jest-dom dependency.
+
 ## 1.5.0
 
 ### Minor Changes

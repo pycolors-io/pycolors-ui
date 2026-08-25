@@ -1,6 +1,6 @@
 {
   "name": "@pycolors/ui",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "description": "Production-ready UI primitives for modern SaaS apps (Radix + Tailwind-friendly).",
   "keywords": [
     "pycolors",
