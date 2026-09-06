@@ -1,5 +1,110 @@
 # Changelog
 
+## 1.5.2
+
+### Patch Changes
+
+- bd31ef2: Update the UI package's Tailwind CSS development dependency to 4.3.3.
+
+## 1.5.1
+
+### Patch Changes
+
+- 6eae8d6: Update the Radix Checkbox dependency.
+- 5c5cc57: Update the Testing Library jest-dom dependency.
+
+## 1.5.0
+
+### Minor Changes
+
+- 94a299a: Add an accessible `error` prop to Checkbox with visible error copy and ARIA error-message wiring.
+
+## 1.4.0
+
+### Minor Changes
+
+- 3de709a: Add optional `info` variant to Badge and Toast components using semantic token styling consistent with Alert.
+
+  - Badge now accepts `variant="info"` with card-background semantic tokens (`bg-card text-card-foreground border-transparent`)
+  - Toast now accepts `variant="info"` with border-indicator styling (`bg-background text-foreground border-border`) and polite announcement behavior (`aria-live="polite"`)
+  - Existing variants, defaults, and Toast announcement behavior remain unchanged
+  - Focused tests and documentation coverage added for all new variants
+
+  ```tsx
+  // Badge info variant
+  <Badge variant="info">Informational status</Badge>
+
+  // Toast info variant (announces politely by default)
+  <Toast variant="info">
+    <ToastTitle>Information</ToastTitle>
+  </Toast>
+  ```
+
+## 1.3.0
+
+### Minor Changes
+
+- 2a00d6f: Add `asChild` composition and ref forwarding to `PaginationLink`, `PaginationPrevious`, and `PaginationNext`.
+
+  Consumers can now render these controls as real links (e.g. a Next.js `Link` or a plain `<a>`) while preserving all existing button styling, accessible labels, `data-slot` attributes, and — for `PaginationPrevious` and `PaginationNext` — the built-in icon and visible text. Default button rendering is unchanged.
+
+  ```tsx
+  // Link composition example
+  <PaginationPrevious asChild>
+    <a href="/page/1" />
+  </PaginationPrevious>
+
+  <PaginationLink asChild isActive>
+    <a href="/page/2">2</a>
+  </PaginationLink>
+
+  <PaginationNext asChild>
+    <a href="/page/3" />
+  </PaginationNext>
+  ```
+
+## 1.2.6
+
+### Patch Changes
+
+- 755c0d8: Update the TypeScript build-tool dependency to 6.0.3.
+
+## 1.2.5
+
+### Patch Changes
+
+- 55fa87b: Add the maintained Storybook example tooling for the public UI component surface.
+
+## 1.2.4
+
+### Patch Changes
+
+- 7b636b6: Update the UI package test tooling to use @testing-library/jest-dom 7.
+
+## 1.2.3
+
+### Patch Changes
+
+- 9e0656b: Update ESLint dependency metadata for the publishable packages.
+
+## 1.2.2
+
+### Patch Changes
+
+- e81dae3: Fix `PaginationEllipsis` accessibility by exposing its label through visually hidden text instead of an invalid `aria-label` on a generic span.
+
+## 1.2.1
+
+### Patch Changes
+
+- 68d8d11: Update the Radix UI Tabs dependency to 1.1.21.
+
+## 1.2.0
+
+### Minor Changes
+
+- 9b2d872: Converge `EmptyState` and `TableLoading` on a typed `ariaLive` prop (`'off' | 'polite' | 'assertive'`) so live-region role and announcement behavior are computed consistently and preserve current default semantics.
+
 ## 1.1.4
 
 ### Patch Changes

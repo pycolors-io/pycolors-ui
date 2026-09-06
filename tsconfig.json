@@ -4,6 +4,6 @@
     "noEmit": true,
     "rootDir": "."
   },
-  "include": ["src", "tests", "vitest.d.ts"],
+  "include": [".storybook", "stories", "src", "tests", "vitest.d.ts"],
   "exclude": ["node_modules", "dist"]
 }

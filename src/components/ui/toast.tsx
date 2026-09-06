@@ -1,26 +1,25 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import * as ToastPrimitive from '@radix-ui/react-toast';
-import { cva, type VariantProps } from 'class-variance-authority';
-import { cn } from '../../lib/utils.js';
+import * as React from "react";
+import * as ToastPrimitive from "@radix-ui/react-toast";
+import { cva, type VariantProps } from "class-variance-authority";
+import { cn } from "../../lib/utils.js";
 
 const toastVariants = cva(
-  'pointer-events-auto relative flex w-full items-center justify-between gap-4 rounded-md border px-4 py-3 text-sm shadow-lg',
+  "pointer-events-auto relative flex w-full items-center justify-between gap-4 rounded-md border px-4 py-3 text-sm shadow-lg",
   {
     variants: {
       variant: {
-        default: 'bg-background text-foreground border-border',
-        success:
-          'bg-background text-foreground border-success/40 text-success',
-        warning:
-          'bg-background text-foreground border-warning/40 text-warning',
+        default: "bg-background text-foreground border-border",
+        success: "bg-background text-foreground border-success/40 text-success",
+        warning: "bg-background text-foreground border-warning/40 text-warning",
         destructive:
-          'bg-background text-foreground border-destructive/40 text-destructive',
+          "bg-background text-foreground border-destructive/40 text-destructive",
+        info: "bg-background text-foreground border-border",
       },
     },
     defaultVariants: {
-      variant: 'default',
+      variant: "default",
     },
   },
 );
@@ -38,20 +37,21 @@ export interface ToastProps
 // should interrupt; routine confirmations should announce politely. An
 // explicit `type` prop from the consumer always wins over this default.
 const toastTypeByVariant: Record<
-  NonNullable<ToastProps['variant']>,
-  NonNullable<ToastProps['type']>
+  NonNullable<ToastProps["variant"]>,
+  NonNullable<ToastProps["type"]>
 > = {
-  default: 'background',
-  success: 'background',
-  warning: 'foreground',
-  destructive: 'foreground',
+  default: "background",
+  success: "background",
+  warning: "foreground",
+  destructive: "foreground",
+  info: "background",
 };
 
 export const Toast = React.forwardRef<
   React.ComponentRef<typeof ToastPrimitive.Root>,
   ToastProps
 >(({ className, variant, type, ...props }, ref) => {
-  const resolvedVariant = variant ?? 'default';
+  const resolvedVariant = variant ?? "default";
 
   return (
     <ToastPrimitive.Root
@@ -62,7 +62,7 @@ export const Toast = React.forwardRef<
     />
   );
 });
-Toast.displayName = 'Toast';
+Toast.displayName = "Toast";
 
 export const ToastTitle = ToastPrimitive.Title;
 export const ToastDescription = ToastPrimitive.Description;

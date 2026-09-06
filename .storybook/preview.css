@@ -1,0 +1,33 @@
+@import "tailwindcss";
+@import "@pycolors/tokens/tokens.css";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@source "../src";
+@source "../stories";
+
+@layer base {
+  :root {
+    font-family:
+      ui-sans-serif,
+      system-ui,
+      -apple-system,
+      BlinkMacSystemFont,
+      "Segoe UI",
+      sans-serif;
+  }
+
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+
+  button,
+  input,
+  textarea {
+    font: inherit;
+  }
+}
