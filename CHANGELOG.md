@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.5.2
+
+### Patch Changes
+
+- bd31ef2: Update the UI package's Tailwind CSS development dependency to 4.3.3.
+
 ## 1.5.1
 
 ### Patch Changes
