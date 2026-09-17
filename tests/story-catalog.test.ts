@@ -1,3 +1,5 @@
+// @vitest-environment node
+// Source/metadata contract only: no DOM or Storybook browser runner.
 /// <reference types="vite/client" />
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
