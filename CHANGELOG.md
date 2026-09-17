@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.5.3
+
+### Patch Changes
+
+- 88c69c2: Update the Radix Toast dependency to `^1.2.23` so consumers receive the upstream patch updates.
+
 ## 1.5.2
 
 ### Patch Changes
