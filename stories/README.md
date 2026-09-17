@@ -3,7 +3,10 @@
 Issues #417 and #418 implement the public catalog and browser quality contract
 of #416. The owner approved the coherent Vitest 4 alignment in
 [#418](https://github.com/pycolors-io/pycolors/issues/418#issuecomment-5720204149).
-This does not authorize private Pro, infrastructure, MCP or public behavior changes.
+The owner subsequently authorized the targeted token/Toast contrast repairs in
+[this follow-up](https://github.com/pycolors-io/pycolors/issues/418#issuecomment-5721531487).
+Those public corrections have real patch Changesets; private Pro, infrastructure
+and MCP remain outside this contract.
 
 ## Authoring and verification
 
@@ -124,11 +127,32 @@ Node, and their mocks/setup never enter the browser project. Storybook owns fixt
 unmounting; browser setup resets the theme after each test.
 
 The official addon-a11y hook uses `a11y.test: "error"`. The former global `region`
-exception is removed: the preview has a named `main` landmark. **No rule exceptions
-are currently configured.** A failure must be repaired or reported; do not set
+exception is removed: the preview has a named `main` landmark. A failure must be
+repaired or reported; do not set
 `off`, `todo`, disable a rule globally, remove a canonical tag or close an overlay
 to conceal it. Any future justified local exception needs the rule, exact story,
 reason, accountable owner, issue reference and removal condition/date in this guide.
+
+### Local axe exception ledger
+
+- Rule: `aria-hidden-focus`, only `components-dropdown-menu--default` and
+  `components-dropdown-menu--controlled`, including their theme/viewport executions.
+- Scope: the rule selector excludes only hidden background subtrees marked
+  `data-aria-hidden="true"` by Radix. The rule still scans hidden content inside the
+  menu; no rule is disabled globally or at component meta level.
+- Reason: installed Radix Menu 2.1.17 hides the background and traps focus while
+  open. axe-core 4.12.0 recognizes modal dialogs/large overlays, but not this menu
+  focus trap. Its static background check flags the unreachable trigger. The
+  stories assert Tab, Shift+Tab and forced programmatic focus containment; Default
+  also checks Escape and focus return, then reopens for the scan.
+- Owner: UI/QA maintainers. Tracking: [#418](https://github.com/pycolors-io/pycolors/issues/418).
+  Review/remove by **2026-10-17**, or sooner when the Radix/axe integration changes
+  or axe correctly recognizes this focus trap. Retest with the original selector
+  before removal; remove immediately if the justification no longer holds.
+- Evidence: temporarily disabling modality fails the focus assertion; temporarily
+  inserting a focusable button under `aria-hidden` inside the open menu still
+  fails the official rule. Both mutations were restored before the full runs.
+  The exact-version investigation is in the validation record linked below.
 
 `verify` includes the browser suite. Required `CI / validate` separately installs
 Chromium and runs `test:storybook` after root unit tests, before the build. Root
@@ -142,7 +166,7 @@ runtime and frozen lockfile before changing a dependency. Run the full matrix tw
 from fresh CLI/browser processes after a correction, and check the current PR HEAD
 and latest policy. Pending, skipped, cancelled or absent required checks are not
 success. See the [#418 validation record](../../../docs/internal/storybook-quality-validation.md)
-for measured runs, controlled failure probes and unresolved findings.
+for measured runs, controlled failure probes and the scoped contrast repairs.
 
 Automated Chromium/axe checks do not certify WCAG conformance or replace a human
 keyboard, screen-reader, 200% zoom, 320 CSS-pixel reflow, reduced-motion and visual

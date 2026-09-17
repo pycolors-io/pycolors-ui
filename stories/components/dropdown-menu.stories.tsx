@@ -34,7 +34,44 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+// Local axe 4.12 / Radix Menu 2.1.17 exception: the background is hidden by
+// Radix and unreachable through its focus trap. Keep the rule on menu content.
+// Owner: UI/QA maintainers; #418; review/remove by 2026-10-17. See README ledger.
+const modalBackgroundA11y = {
+  config: {
+    rules: [
+      {
+        id: "aria-hidden-focus",
+        selector: '[aria-hidden="true"]:not([data-aria-hidden="true"])',
+      },
+    ],
+  },
+};
+
+async function assertModalFocus(menu: HTMLElement, trigger: HTMLElement) {
+  // Exercise the real focus trap: attempting to focus the hidden trigger must
+  // immediately redirect focus inside the menu, including programmatic focus.
+  trigger.focus();
+  await waitFor(() =>
+    expect(
+      menu.contains(document.activeElement),
+      "menu/programmatic focus containment",
+    ).toBe(true),
+  );
+  await userEvent.tab();
+  await expect(
+    menu.contains(document.activeElement),
+    "menu/Tab containment",
+  ).toBe(true);
+  await userEvent.tab({ shift: true });
+  await expect(
+    menu.contains(document.activeElement),
+    "menu/Shift+Tab containment",
+  ).toBe(true);
+}
+
 export const Default: Story = {
+  parameters: { a11y: modalBackgroundA11y },
   play: async ({ canvasElement, step }) => {
     await step("interaction: Default", async () => {
       const trigger = within(canvasElement).getByRole("button", {
@@ -45,10 +82,7 @@ export const Default: Story = {
       await userEvent.keyboard("{Enter}");
       const menu = await page.findByRole("menu");
       await expect(menu).toBeVisible();
-      await userEvent.tab();
-      await expect(menu.contains(document.activeElement)).toBe(true);
-      await userEvent.tab({ shift: true });
-      await expect(menu.contains(document.activeElement)).toBe(true);
+      await assertModalFocus(menu, trigger);
       await userEvent.keyboard("{Escape}");
       await waitFor(() =>
         expect(page.queryByRole("menu")).not.toBeInTheDocument(),
@@ -111,6 +145,7 @@ function ControlledMenu() {
   );
 }
 export const Controlled: Story = {
+  parameters: { a11y: modalBackgroundA11y },
   play: async ({ canvasElement, step }) => {
     await step("interaction: Controlled", async () => {
       const trigger = within(canvasElement).getByRole("button", {
@@ -146,6 +181,7 @@ export const Controlled: Story = {
       await expect(
         await page.findByRole("menuitemcheckbox", { name: "Notifications" }),
       ).toHaveAttribute("aria-checked", "false");
+      await assertModalFocus(await page.findByRole("menu"), trigger);
     });
   },
   render: () => <ControlledMenu />,
