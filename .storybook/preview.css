@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import "tailwindcss" source(none);
 @import "@pycolors/tokens/tokens.css";
 
 @custom-variant dark (&:where(.dark, .dark *));

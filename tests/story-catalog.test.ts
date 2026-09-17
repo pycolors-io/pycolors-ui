@@ -114,8 +114,8 @@ describe("public Storybook catalog migration", () => {
 
 describe("browser matrix selection", () => {
   it("keeps every canonical export in the default test selection", () => {
-    expect(read("../.storybook/main.ts")).toContain(
-      "../stories/**/*.stories.@(ts|tsx)",
+    expect(read("../.storybook/public-boundary.ts")).toContain(
+      "../stories/components/*.stories.tsx",
     );
     for (const [file, module] of Object.entries(catalog)) {
       if (file.endsWith("/public-surface.stories.tsx")) {

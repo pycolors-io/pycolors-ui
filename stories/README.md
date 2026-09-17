@@ -213,3 +213,71 @@ New separate table states complement the retained rows-and-empty-section example
 Disabled/read-only/error/long-content states, sizes and controlled fixtures fill
 meaningful gaps without changing any primitive. Stateless display families do
 not acquire artificial loading, disabled or interaction props.
+
+## Public UI Explorer artifact
+
+Issue #419 provides the root-level public hosting entry point:
+
+```bash
+pnpm build:ui-explorer --repeat
+pnpm check:ui-explorer
+pnpm test:ui-explorer
+python3 -m http.server 6006 --bind 127.0.0.1 --directory packages/ui/storybook-static
+```
+
+Open `http://127.0.0.1:6006/` or a stable `?path=/story/<id>` URL.
+`--repeat` builds twice in fresh temporary directories and compares every output
+filename and SHA-256 hash. Omit it for a single local build. `check:ui-explorer`
+requires the installed Chromium runtime above; it serves the artifact on a random
+loopback port and checks manager/iframe URLs, bundled assets, real interactions,
+resource links, light/dark, desktop/mobile and legacy IDs. Browser, request and
+artifact failures fail the command. `test:ui-explorer` exercises the rejection
+paths without a browser. Required CI runs all three checks without conditional
+skips. The ordinary package `build-storybook` remains the development build;
+**use the root public command for the hosting handoff**.
+
+These root script names implement the proposed public/private entry-point split
+in #416 without changing the published package manifest for internal tooling.
+No private build exists yet. The output is always
+`packages/ui/storybook-static/`, relative to the monorepo root, and stays ignored
+by Git. A failure removes the output so stale artifacts cannot look deployable.
+
+The public build admits only the explicitly reviewed Storybook config, immediate
+Foundations/Components/Compositions stories, compatibility story, shared synthetic
+helpers and public UI source. Every local source import (including literal dynamic
+imports and re-exports) must resolve into those inputs. Variable imports,
+unreviewed aliases and environment access fail. Symlinks in inputs fail; the Vite
+plugin checks resolved real paths before tree shaking, including dependency
+imports. CSS auto-discovery is disabled and its two public scan roots are checked.
+Only the copied repository-owned PyColors favicon is admitted by `staticDirs`.
+
+The command copies these inputs and public token CSS into a fresh tree with no
+applications, core packages, Pro code or dotenv files, shares the frozen registry
+dependency store, and supplies a minimal non-secret process environment. It is a
+build-input boundary, **not an operating-system sandbox for malicious dependency
+code**: pinned packages, build configuration and Node are trusted and still need
+normal dependency/code review. Arbitrary secret detection is not claimed. Narrow
+credential/path/URL signatures supplement the structural boundary. Never place
+private code, data or credentials inside an approved public source file.
+
+Output inspection compares all generated story IDs to source exports (including
+legacy IDs), checks local entry assets, rejects source maps, extra HTML/JSON
+manifests and unexpected file types, and scans text artifacts. Storybook telemetry,
+project metadata and component manifests are disabled. Both HTML entries have the
+exact `noindex, follow` directive, no canonical and the PyColors UI Explorer title.
+No sitemap or crawler-blocking robots file is generated. Fumadocs owns indexable
+documentation and canonical SEO.
+
+The manager uses the repository-owned mark and system light/dark appearance.
+Its toolbar links to the selected family's Fumadocs page, installation guide and
+UI product page. The preview theme remains independently selectable. The pinned
+Storybook manager hardcodes its browser-title suffix; a title-only observer keeps
+that suffix branded when navigating. The public builder normalizes the two
+initial HTML titles; all other files must be byte-identical across repeated builds.
+Recheck this behavior on Storybook upgrades.
+
+This is a locally validated, root-hosted static artifact, not a deployed service.
+Human-only #420 owns the Vercel project, output-directory setting, deployment
+protection decision, DNS and domain; none is configured here. Production Marketing
+navigation must wait for that verified hosting handoff. No Pro source, entitlement
+flow, access boundary or credential-bearing URL belongs in this public artifact.

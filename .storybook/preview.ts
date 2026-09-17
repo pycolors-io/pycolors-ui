@@ -22,6 +22,7 @@ const preview: Preview = {
   },
   decorators: [
     (Story, context) => {
+      document.title = `${context.title} - ${context.name} ⋅ PyColors UI Explorer`;
       const isDark = context.globals.theme === "dark";
 
       document.documentElement.classList.toggle("dark", isDark);

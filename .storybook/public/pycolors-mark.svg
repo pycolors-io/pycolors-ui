@@ -1,0 +1,43 @@
+<svg
+  width="64"
+  height="64"
+  viewBox="0 0 64 64"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <!-- background -->
+  <rect
+    width="64"
+    height="64"
+    rx="14"
+    fill="#0B0B10"
+  />
+
+  <!-- subtle border -->
+  <rect
+    x="0.5"
+    y="0.5"
+    width="63"
+    height="63"
+    rx="13.5"
+    stroke="rgba(255,255,255,0.06)"
+  />
+
+  <!-- larger logo -->
+  <path
+    d="M11 51
+       Q12.5 47.8 14.2 45
+       L27.6 17.8
+       Q29.2 14 32 14
+       Q34.8 14 36.4 17.8
+       L49.8 45
+       Q51.5 47.8 53 51
+       H43.2
+       Q41.2 51 40 48.6
+       L32 32.2
+       L24 48.6
+       Q22.8 51 20.8 51
+       H11Z"
+    fill="#6A30D4"
+  />
+</svg>
