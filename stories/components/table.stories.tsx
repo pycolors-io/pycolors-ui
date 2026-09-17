@@ -13,6 +13,7 @@ import {
 } from "../../src/index.js";
 
 const meta = {
+  tags: ["theme", "responsive"],
   id: "components-table",
   title: "Components/Data display/Table",
   component: Table,
@@ -78,6 +79,7 @@ function TableExample({
   );
 }
 export const Default: Story = {
+  tags: ["theme"],
   render: () => <TableExample state="populated" />,
 };
 export const Empty: Story = { render: () => <TableExample state="empty" /> };

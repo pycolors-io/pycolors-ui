@@ -1,3 +1,4 @@
+import { exerciseDialog } from "../interaction-helpers.js";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import {
   Button,
@@ -12,6 +13,7 @@ import {
 } from "../../src/index.js";
 
 const meta = {
+  tags: ["theme", "responsive"],
   id: "components-dialog",
   title: "Components/Overlays/Dialog",
   component: Dialog,
@@ -30,6 +32,12 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
+  play: async ({ canvasElement, step }) => {
+    await step("interaction: Default", async () => {
+      await exerciseDialog(canvasElement, "Open dialog", "Cancel");
+    });
+  },
+  tags: ["theme"],
   render: () => (
     <Dialog>
       <DialogTrigger asChild>
@@ -56,6 +64,11 @@ export const Default: Story = {
 };
 
 export const LongContent: Story = {
+  play: async ({ canvasElement, step }) => {
+    await step("interaction: LongContent", async () => {
+      await exerciseDialog(canvasElement, "Review project details", "Done");
+    });
+  },
   render: () => (
     <Dialog>
       <DialogTrigger asChild>

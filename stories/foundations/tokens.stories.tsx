@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Button, Input } from "../../src/index.js";
 
 const meta = {
+  tags: ["theme", "responsive"],
   id: "foundations-tokens",
   title: "Foundations/Tokens",
   parameters: {
@@ -18,6 +19,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
+  tags: ["theme"],
   render: () => (
     <div className="grid max-w-3xl gap-4 sm:grid-cols-2">
       {[

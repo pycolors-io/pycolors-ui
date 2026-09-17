@@ -36,6 +36,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
+  tags: ["theme"],
   render: (args) => (
     <Card {...args} className="max-w-xl">
       <CardHeader>
@@ -100,6 +101,7 @@ export const Variants: Story = {
   parameters: { controls: { disable: true } },
 };
 export const LongContent: Story = {
+  tags: ["theme", "responsive"],
   render: (args) => (
     <Card {...args} className="max-w-xs">
       <CardHeader>

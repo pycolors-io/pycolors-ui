@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Skeleton } from "../../src/index.js";
 
 const meta = {
+  tags: ["theme"],
   id: "components-skeleton",
   title: "Components/Feedback/Skeleton",
   component: Skeleton,
@@ -20,6 +21,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
+  tags: ["theme"],
   render: () => (
     <div className="flex max-w-md items-center gap-4">
       <Skeleton circle className="size-12" />

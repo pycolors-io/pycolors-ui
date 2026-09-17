@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Button, EmptyState } from "../../src/index.js";
 
 const meta = {
+  tags: ["theme"],
   id: "components-empty-state",
   title: "Components/Feedback/EmptyState",
   component: EmptyState,
@@ -25,7 +26,9 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {};
+export const Default: Story = {
+  tags: ["theme"],
+};
 
 export const WithAction: Story = {
   parameters: { controls: { disable: true } },
@@ -47,6 +50,7 @@ export const WithAction: Story = {
 };
 
 export const LongContent: Story = {
+  tags: ["theme", "responsive"],
   args: {
     title: "No projects match all of these filters",
     description:

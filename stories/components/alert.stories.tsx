@@ -8,6 +8,7 @@ import {
 } from "../../src/index.js";
 
 const meta = {
+  tags: ["theme"],
   id: "components-alert",
   title: "Components/Feedback/Alert",
   component: Alert,
@@ -34,6 +35,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
+  tags: ["theme"],
   render: (args) => (
     <Alert {...args} className="max-w-xl">
       <AlertTitle>Workspace updated</AlertTitle>
@@ -72,6 +74,7 @@ export const Variants: Story = {
 };
 
 export const LongContent: Story = {
+  tags: ["theme", "responsive"],
   render: (args) => (
     <Alert {...args} className="max-w-xs">
       <AlertTitle>Some workspace changes could not be saved</AlertTitle>

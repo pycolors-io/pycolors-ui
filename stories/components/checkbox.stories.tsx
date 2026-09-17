@@ -1,3 +1,4 @@
+import { expect, userEvent, within } from "storybook/test";
 import * as React from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import {
@@ -9,6 +10,7 @@ import {
 } from "../../src/index.js";
 
 const meta = {
+  tags: ["theme", "responsive"],
   id: "components-checkbox",
   title: "Components/Forms/Checkbox",
   component: Checkbox,
@@ -32,6 +34,19 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
+  play: async ({ canvasElement, step }) => {
+    await step("interaction: Default", async () => {
+      const checkbox = within(canvasElement).getByRole("checkbox", {
+        name: "Release updates",
+      });
+      await expect(checkbox).not.toBeChecked();
+      await userEvent.click(within(canvasElement).getByText("Release updates"));
+      await expect(checkbox).toBeChecked();
+      await userEvent.keyboard(" ");
+      await expect(checkbox).not.toBeChecked();
+    });
+  },
+  tags: ["theme"],
   render: (args) => (
     <CheckboxField>
       <Checkbox {...args} id="updates" />
@@ -41,6 +56,20 @@ export const Default: Story = {
 };
 
 export const States: Story = {
+  play: async ({ canvasElement, step }) => {
+    await step("interaction: States", async () => {
+      const view = within(canvasElement);
+      await expect(
+        view.getByRole("checkbox", { name: "Select workspace projects" }),
+      ).toBePartiallyChecked();
+      await expect(
+        view.getByRole("checkbox", { name: "Accept the terms" }),
+      ).toHaveAttribute("aria-invalid", "true");
+      await expect(
+        view.getByRole("checkbox", { name: "Accept the terms" }),
+      ).toHaveAccessibleDescription(/You must accept the terms/);
+    });
+  },
   parameters: { controls: { disable: true } },
   render: () => (
     <div className="grid max-w-xl gap-5">
@@ -102,7 +131,31 @@ function ControlledCheckbox() {
   );
 }
 export const Controlled: Story = {
+  play: async ({ canvasElement, step }) => {
+    await step("interaction: Controlled", async () => {
+      const view = within(canvasElement);
+      await userEvent.click(
+        view.getByRole("checkbox", { name: "Send release updates" }),
+      );
+      await expect(view.getByRole("status")).toHaveTextContent(
+        "Updates enabled",
+      );
+    });
+  },
   render: () => <ControlledCheckbox />,
   parameters: { controls: { disable: true } },
 };
-export const Disabled: Story = { ...Default, args: { disabled: true } };
+export const Disabled: Story = {
+  play: async ({ canvasElement, step }) => {
+    await step("interaction: Disabled", async () => {
+      const checkbox = within(canvasElement).getByRole("checkbox", {
+        name: "Release updates",
+      });
+      await expect(checkbox).toBeDisabled();
+      await userEvent.click(within(canvasElement).getByText("Release updates"));
+      await expect(checkbox).not.toBeChecked();
+    });
+  },
+  args: { disabled: true },
+  render: Default.render,
+};

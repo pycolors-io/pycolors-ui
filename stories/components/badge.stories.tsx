@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Badge } from "../../src/index.js";
 
 const meta = {
+  tags: ["theme"],
   id: "components-badge",
   title: "Components/Feedback/Badge",
   component: Badge,
@@ -36,7 +37,9 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {};
+export const Default: Story = {
+  tags: ["theme"],
+};
 
 export const Variants: Story = {
   parameters: { controls: { disable: true } },
@@ -75,6 +78,7 @@ export const Sizes: Story = {
   parameters: { controls: { disable: true } },
 };
 export const LongContent: Story = {
+  tags: ["theme", "responsive"],
   args: {
     children: "Waiting for the workspace administrator to review this request",
     className: "max-w-xs h-auto whitespace-normal",

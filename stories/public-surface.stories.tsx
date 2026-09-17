@@ -22,6 +22,7 @@ import { Default as PasswordInputsStory } from "./components/password-input.stor
 // Compatibility only: do not add examples here. See stories/README.md.
 export default {
   id: "ui-public-component-surface",
+  tags: ["legacy"],
   title: "UI/Public component surface",
   parameters: { controls: { disable: true } },
 } satisfies Meta;

@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Button } from "../../src/index.js";
 
 const meta = {
+  tags: ["theme", "responsive"],
   id: "components-button",
   title: "Components/Forms/Button",
   component: Button,
@@ -43,7 +44,9 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {};
+export const Default: Story = {
+  tags: ["theme"],
+};
 
 export const Variants: Story = {
   parameters: { controls: { disable: true } },

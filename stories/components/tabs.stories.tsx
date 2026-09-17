@@ -1,3 +1,4 @@
+import { exerciseTabs } from "../interaction-helpers.js";
 import * as React from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import {
@@ -30,6 +31,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
+  tags: ["theme"],
   render: () => (
     <Tabs defaultValue="overview" className="max-w-xl">
       <TabsList aria-label="Project sections">
@@ -88,8 +90,24 @@ function ControlledTabs({
     </Tabs>
   );
 }
-export const Controlled: Story = { render: () => <ControlledTabs /> };
-export const Vertical: Story = { render: () => <ControlledTabs vertical /> };
+export const Controlled: Story = {
+  tags: ["theme"],
+  play: async ({ canvasElement, step }) => {
+    await step("interaction: Controlled", async () => {
+      await exerciseTabs(canvasElement, "ArrowRight");
+    });
+  },
+  render: () => <ControlledTabs />,
+};
+export const Vertical: Story = {
+  tags: ["theme", "responsive"],
+  play: async ({ canvasElement, step }) => {
+    await step("interaction: Vertical", async () => {
+      await exerciseTabs(canvasElement, "ArrowDown");
+    });
+  },
+  render: () => <ControlledTabs vertical />,
+};
 export const Sizes: Story = {
   render: () => (
     <div className="space-y-6">

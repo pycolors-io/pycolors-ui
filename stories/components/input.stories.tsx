@@ -1,8 +1,10 @@
+import { expect, userEvent, within } from "storybook/test";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Input } from "../../src/index.js";
 import { StoryGrid } from "../fixtures.js";
 
 const meta = {
+  tags: ["theme", "responsive"],
   id: "components-input",
   title: "Components/Forms/Input",
   component: Input,
@@ -40,9 +42,34 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {};
+export const Default: Story = {
+  play: async ({ canvasElement, step }) => {
+    await step("interaction: Default", async () => {
+      const input = within(canvasElement).getByRole("textbox", {
+        name: "Work email",
+      });
+      await userEvent.type(input, "demo@example.com");
+      await expect(input).toHaveValue("demo@example.com");
+    });
+  },
+  tags: ["theme"],
+};
 
 export const States: Story = {
+  play: async ({ canvasElement, step }) => {
+    await step("interaction: States", async () => {
+      const view = within(canvasElement);
+      await expect(
+        view.getByRole("textbox", { name: "Workspace slug" }),
+      ).toHaveAttribute("aria-invalid", "true");
+      await expect(
+        view.getByRole("textbox", { name: "Workspace slug" }),
+      ).toHaveAccessibleDescription(/Use lowercase letters/);
+      await expect(
+        view.getByRole("textbox", { name: "Disabled field" }),
+      ).toBeDisabled();
+    });
+  },
   parameters: { controls: { disable: true } },
   render: () => (
     <StoryGrid>
@@ -78,6 +105,15 @@ export const Sizes: Story = {
   parameters: { controls: { disable: true } },
 };
 export const ReadOnly: Story = {
+  play: async ({ canvasElement, step }) => {
+    await step("interaction: ReadOnly", async () => {
+      const input = within(canvasElement).getByRole("textbox", {
+        name: "Workspace ID",
+      });
+      await userEvent.type(input, "replacement");
+      await expect(input).toHaveValue("workspace-demo-2026");
+    });
+  },
   args: {
     label: "Workspace ID",
     defaultValue: "workspace-demo-2026",

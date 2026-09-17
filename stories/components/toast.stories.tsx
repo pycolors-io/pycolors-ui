@@ -1,3 +1,4 @@
+import { expect, userEvent, waitFor, within } from "storybook/test";
 import * as React from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import {
@@ -11,6 +12,7 @@ import {
 } from "../../src/index.js";
 
 const meta = {
+  tags: ["theme", "responsive"],
   id: "components-toast",
   title: "Components/Feedback/Toast",
   component: Toast,
@@ -78,7 +80,86 @@ function ToastExample({ long = false }: { long?: boolean }) {
 }
 
 export const Default: Story = {
+  play: async ({ canvasElement, step }) => {
+    await step("interaction: Default", async () => {
+      const page = within(document.body);
+      const trigger = within(canvasElement).getByRole("button", {
+        name: "Show success toast",
+      });
+      await userEvent.click(trigger);
+      await expect(await page.findByText("Success message")).toBeVisible();
+      await userEvent.click(page.getByRole("button", { name: "Dismiss" }));
+      await waitFor(() =>
+        expect(page.queryByText("Success message")).not.toBeInTheDocument(),
+      );
+      await userEvent.click(trigger);
+      await expect(await page.findByText("Success message")).toBeVisible();
+    });
+  },
+  tags: ["theme"],
   render: () => <ToastExample />,
 };
 
-export const LongContent: Story = { render: () => <ToastExample long /> };
+export const LongContent: Story = {
+  play: async ({ canvasElement, step }) => {
+    await step("interaction: LongContent", async () => {
+      await userEvent.click(
+        within(canvasElement).getByRole("button", { name: "Show info toast" }),
+      );
+      await expect(
+        await within(document.body).findByText(
+          /deliberately long notification/,
+        ),
+      ).toBeVisible();
+    });
+  },
+  render: () => <ToastExample long />,
+};
+
+export const Neutral: Story = {
+  render: () => <ToastExample />,
+  play: async ({ canvasElement, step }) => {
+    await step("interaction: default notification", async () => {
+      await userEvent.click(
+        within(canvasElement).getByRole("button", {
+          name: "Show default toast",
+        }),
+      );
+      await expect(
+        await within(document.body).findByText("Default message"),
+      ).toBeVisible();
+    });
+  },
+};
+
+export const Warning: Story = {
+  render: () => <ToastExample />,
+  play: async ({ canvasElement, step }) => {
+    await step("interaction: warning notification", async () => {
+      await userEvent.click(
+        within(canvasElement).getByRole("button", {
+          name: "Show warning toast",
+        }),
+      );
+      await expect(
+        await within(document.body).findByText("Warning message"),
+      ).toBeVisible();
+    });
+  },
+};
+
+export const Destructive: Story = {
+  render: () => <ToastExample />,
+  play: async ({ canvasElement, step }) => {
+    await step("interaction: destructive notification", async () => {
+      await userEvent.click(
+        within(canvasElement).getByRole("button", {
+          name: "Show destructive toast",
+        }),
+      );
+      await expect(
+        await within(document.body).findByText("Destructive message"),
+      ).toBeVisible();
+    });
+  },
+};

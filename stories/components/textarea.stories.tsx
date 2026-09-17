@@ -1,8 +1,10 @@
+import { expect, userEvent, within } from "storybook/test";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Textarea } from "../../src/index.js";
 import { StoryGrid } from "../fixtures.js";
 
 const meta = {
+  tags: ["theme", "responsive"],
   id: "components-textarea",
   title: "Components/Forms/Textarea",
   component: Textarea,
@@ -50,9 +52,34 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {};
+export const Default: Story = {
+  play: async ({ canvasElement, step }) => {
+    await step("interaction: Default", async () => {
+      const input = within(canvasElement).getByRole("textbox", {
+        name: "Release notes",
+      });
+      await userEvent.type(input, "First line{Enter}Second line");
+      await expect(input).toHaveValue("First line\nSecond line");
+    });
+  },
+  tags: ["theme"],
+};
 
 export const States: Story = {
+  play: async ({ canvasElement, step }) => {
+    await step("interaction: States", async () => {
+      await expect(
+        within(canvasElement).getByRole("textbox", {
+          name: "Required context",
+        }),
+      ).toHaveAttribute("aria-invalid", "true");
+      await expect(
+        within(canvasElement).getByRole("textbox", {
+          name: "Required context",
+        }),
+      ).toHaveAccessibleDescription(/Add at least one validation note/);
+    });
+  },
   parameters: { controls: { disable: true } },
   render: () => (
     <StoryGrid>
@@ -81,9 +108,27 @@ export const Sizes: Story = {
   parameters: { controls: { disable: true } },
 };
 export const Disabled: Story = {
+  play: async ({ canvasElement, step }) => {
+    await step("interaction: Disabled", async () => {
+      await expect(
+        within(canvasElement).getByRole("textbox", { name: "Release notes" }),
+      ).toBeDisabled();
+    });
+  },
   args: { disabled: true, defaultValue: "Notes are unavailable while saving." },
 };
 export const LongContent: Story = {
+  play: async ({ canvasElement, step }) => {
+    await step("interaction: LongContent", async () => {
+      const input = within(canvasElement).getByRole("textbox", {
+        name: "Release notes",
+      });
+      await expect(input).toHaveAttribute("readonly");
+      await expect((input as HTMLTextAreaElement).value).toContain(
+        "synthetic notes",
+      );
+    });
+  },
   args: {
     readOnly: true,
     defaultValue:

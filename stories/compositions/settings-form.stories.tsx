@@ -1,3 +1,4 @@
+import { expect, userEvent, within } from "storybook/test";
 import * as React from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import {
@@ -54,6 +55,7 @@ function SettingsForm() {
   );
 }
 const meta = {
+  tags: ["theme", "responsive"],
   id: "compositions-settings-form",
   title: "Compositions/Settings form",
   component: SettingsForm,
@@ -69,4 +71,43 @@ const meta = {
 } satisfies Meta<typeof SettingsForm>;
 export default meta;
 type Story = StoryObj<typeof meta>;
-export const Default: Story = {};
+export const Default: Story = {
+  play: async ({ canvasElement, step }) => {
+    await step("interaction: Default", async () => {
+      const view = within(canvasElement);
+      await userEvent.click(view.getByRole("button", { name: "Save locally" }));
+      await expect(
+        view.getByRole("textbox", { name: /^Workspace name/ }),
+      ).toHaveAccessibleDescription("Enter a workspace name.");
+      await userEvent.type(
+        view.getByRole("textbox", { name: /^Workspace name/ }),
+        "Demo workspace",
+      );
+      await userEvent.type(
+        view.getByRole("textbox", { name: "Review notes" }),
+        "Synthetic review",
+      );
+      await userEvent.click(view.getByRole("button", { name: "Save locally" }));
+      await expect(
+        await view.findByText("Example saved in this preview only."),
+      ).toBeVisible();
+    });
+  },
+  tags: ["theme"],
+};
+
+// Separate final error state so the official a11y scan sees validation feedback.
+export const ValidationError: Story = {
+  play: async ({ canvasElement, step }) => {
+    await step("interaction: validation error", async () => {
+      const view = within(canvasElement);
+      await userEvent.click(view.getByRole("button", { name: "Save locally" }));
+      await expect(
+        view.getByRole("textbox", { name: /^Workspace name/ }),
+      ).toHaveAttribute("aria-invalid", "true");
+      await expect(
+        view.getByRole("textbox", { name: /^Workspace name/ }),
+      ).toHaveAccessibleDescription("Enter a workspace name.");
+    });
+  },
+};

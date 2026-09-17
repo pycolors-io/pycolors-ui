@@ -1,3 +1,5 @@
+import { expect, userEvent, waitFor, within } from "storybook/test";
+import { exerciseDialog } from "../interaction-helpers.js";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import {
   Button,
@@ -16,6 +18,7 @@ import {
 } from "../../src/index.js";
 
 const meta = {
+  tags: ["theme", "responsive"],
   id: "components-sheet",
   title: "Components/Overlays/Sheet",
   component: Sheet,
@@ -34,6 +37,12 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
+  play: async ({ canvasElement, step }) => {
+    await step("interaction: Default", async () => {
+      await exerciseDialog(canvasElement, "Open filters", "Apply filters");
+    });
+  },
+  tags: ["theme"],
   render: () => (
     <Sheet>
       <SheetTrigger asChild>
@@ -66,6 +75,21 @@ export const Default: Story = {
 };
 
 export const Sides: Story = {
+  play: async ({ canvasElement, step }) => {
+    await step("interaction: Sides", async () => {
+      for (const side of ["top", "right", "bottom", "left"]) {
+        await exerciseDialog(canvasElement, `Open ${side}`, "Close panel");
+        if (side !== "left") {
+          await userEvent.keyboard("{Escape}");
+          await waitFor(() =>
+            expect(
+              within(document.body).queryByRole("dialog"),
+            ).not.toBeInTheDocument(),
+          );
+        }
+      }
+    });
+  },
   render: () => (
     <div className="flex flex-wrap gap-3">
       {(["top", "right", "bottom", "left"] as const).map((side) => (

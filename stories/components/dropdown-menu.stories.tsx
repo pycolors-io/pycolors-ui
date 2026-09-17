@@ -1,3 +1,4 @@
+import { expect, userEvent, waitFor, within } from "storybook/test";
 import * as React from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import {
@@ -15,6 +16,7 @@ import {
 } from "../../src/index.js";
 
 const meta = {
+  tags: ["theme", "responsive"],
   id: "components-dropdown-menu",
   title: "Components/Overlays/DropdownMenu",
   component: DropdownMenu,
@@ -33,6 +35,30 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
+  play: async ({ canvasElement, step }) => {
+    await step("interaction: Default", async () => {
+      const trigger = within(canvasElement).getByRole("button", {
+        name: "Open workspace menu",
+      });
+      const page = within(document.body);
+      trigger.focus();
+      await userEvent.keyboard("{Enter}");
+      const menu = await page.findByRole("menu");
+      await expect(menu).toBeVisible();
+      await userEvent.tab();
+      await expect(menu.contains(document.activeElement)).toBe(true);
+      await userEvent.tab({ shift: true });
+      await expect(menu.contains(document.activeElement)).toBe(true);
+      await userEvent.keyboard("{Escape}");
+      await waitFor(() =>
+        expect(page.queryByRole("menu")).not.toBeInTheDocument(),
+      );
+      await waitFor(() => expect(trigger).toHaveFocus());
+      await userEvent.keyboard("{Enter}");
+      await expect(await page.findByRole("menu")).toBeVisible();
+    });
+  },
+  tags: ["theme"],
   render: () => (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -84,4 +110,43 @@ function ControlledMenu() {
     </DropdownMenu>
   );
 }
-export const Controlled: Story = { render: () => <ControlledMenu /> };
+export const Controlled: Story = {
+  play: async ({ canvasElement, step }) => {
+    await step("interaction: Controlled", async () => {
+      const trigger = within(canvasElement).getByRole("button", {
+        name: "Change preferences",
+      });
+      const page = within(document.body);
+      trigger.focus();
+      await userEvent.keyboard("{Enter}");
+      const menu = await page.findByRole("menu");
+      await expect(
+        within(menu).getByRole("menuitem", {
+          name: "Delete workspace (unavailable)",
+        }),
+      ).toHaveAttribute("aria-disabled", "true");
+      await userEvent.keyboard("{End}");
+      await waitFor(() =>
+        expect(
+          page.getByRole("menuitemradio", { name: "Editor" }),
+        ).toHaveFocus(),
+      );
+      await userEvent.keyboard("{ArrowUp}{Enter}");
+      await waitFor(() =>
+        expect(page.queryByRole("menu")).not.toBeInTheDocument(),
+      );
+      await userEvent.click(trigger);
+      await expect(
+        await page.findByRole("menuitemradio", { name: "Viewer" }),
+      ).toHaveAttribute("aria-checked", "true");
+      await userEvent.click(
+        page.getByRole("menuitemcheckbox", { name: "Notifications" }),
+      );
+      await userEvent.click(trigger);
+      await expect(
+        await page.findByRole("menuitemcheckbox", { name: "Notifications" }),
+      ).toHaveAttribute("aria-checked", "false");
+    });
+  },
+  render: () => <ControlledMenu />,
+};

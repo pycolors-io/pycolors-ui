@@ -1,3 +1,4 @@
+import { createElement } from "react";
 import type { Preview } from "@storybook/react-vite";
 
 import "./preview.css";
@@ -26,16 +27,25 @@ const preview: Preview = {
       document.documentElement.classList.toggle("dark", isDark);
       document.documentElement.style.colorScheme = isDark ? "dark" : "light";
 
-      return Story();
+      return createElement(
+        "main",
+        { "aria-label": "Component preview" },
+        createElement(Story),
+      );
     },
   ],
   parameters: {
     layout: "padded",
-    a11y: {
-      config: {
-        rules: [{ id: "region", enabled: false }],
+    viewport: {
+      options: {
+        desktop: {
+          name: "Desktop",
+          styles: { width: "1280px", height: "800px" },
+        },
+        mobile: { name: "Mobile", styles: { width: "390px", height: "844px" } },
       },
     },
+    a11y: { test: "error" },
     controls: {
       matchers: {
         color: /(background|color)$/i,

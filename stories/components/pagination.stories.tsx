@@ -1,3 +1,4 @@
+import { expect, userEvent, within } from "storybook/test";
 import * as React from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import {
@@ -11,6 +12,7 @@ import {
 } from "../../src/index.js";
 
 const meta = {
+  tags: ["theme", "responsive"],
   id: "components-pagination",
   title: "Components/Navigation/Pagination",
   component: Pagination,
@@ -29,6 +31,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
+  tags: ["theme"],
   render: () => (
     <Pagination>
       <PaginationContent>
@@ -56,6 +59,21 @@ export const Default: Story = {
 };
 
 export const LinkComposition: Story = {
+  play: async ({ canvasElement, step }) => {
+    await step("interaction: LinkComposition", async () => {
+      const view = within(canvasElement);
+      await expect(view.getByRole("link", { name: "2" })).toHaveAttribute(
+        "aria-current",
+        "page",
+      );
+      await expect(
+        view.getByRole("link", { name: "Previous page" }),
+      ).toHaveAttribute("href", "#page-1");
+      await expect(
+        view.getByRole("link", { name: "Next page" }),
+      ).toHaveAttribute("href", "#page-3");
+    });
+  },
   render: () => (
     <Pagination>
       <PaginationContent>
@@ -124,5 +142,31 @@ function ControlledPagination() {
   );
 }
 export const BoundaryControls: Story = {
+  play: async ({ canvasElement, step }) => {
+    await step("interaction: BoundaryControls", async () => {
+      const view = within(canvasElement);
+      await expect(
+        view.getByRole("button", { name: "Previous page" }),
+      ).toBeDisabled();
+      await expect(view.getByRole("button", { name: "1" })).toHaveAttribute(
+        "aria-current",
+        "page",
+      );
+      await userEvent.click(view.getByRole("button", { name: "Next page" }));
+      await expect(view.getByRole("status")).toHaveTextContent("Page 2 of 3");
+      await userEvent.click(view.getByRole("button", { name: "Next page" }));
+      await expect(view.getByRole("button", { name: "3" })).toHaveAttribute(
+        "aria-current",
+        "page",
+      );
+      await expect(
+        view.getByRole("button", { name: "Next page" }),
+      ).toBeDisabled();
+      await userEvent.click(
+        view.getByRole("button", { name: "Previous page" }),
+      );
+      await expect(view.getByRole("status")).toHaveTextContent("Page 2 of 3");
+    });
+  },
   render: () => <ControlledPagination />,
 };

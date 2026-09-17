@@ -5,8 +5,13 @@ import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import * as legacy from "../stories/public-surface.stories.js";
 
+type Selection = {
+  tags?: string[];
+  parameters?: { a11y?: { test?: string; disable?: boolean } };
+};
 type CatalogModule = {
   default: {
+    tags?: string[];
     id: string;
     title: string;
     component: unknown;
@@ -16,6 +21,10 @@ type CatalogModule = {
 };
 const families = import.meta.glob<CatalogModule>(
   "../stories/components/*.stories.tsx",
+  { eager: true },
+);
+const catalog = import.meta.glob<CatalogModule>(
+  "../stories/**/*.stories.{ts,tsx}",
   { eager: true },
 );
 const read = (relative: string) =>
@@ -99,6 +108,54 @@ describe("public Storybook catalog migration", () => {
         throw new Error(`Missing shared render for ${oldId}`);
       }
       expect(old.render).toBe(canonical.render);
+    }
+  });
+});
+
+describe("browser matrix selection", () => {
+  it("keeps every canonical export in the default test selection", () => {
+    expect(read("../.storybook/main.ts")).toContain(
+      "../stories/**/*.stories.@(ts|tsx)",
+    );
+    for (const [file, module] of Object.entries(catalog)) {
+      if (file.endsWith("/public-surface.stories.tsx")) {
+        expect(module.default.tags).toContain("legacy");
+        continue;
+      }
+      expect(read(file), file).not.toMatch(
+        /(?:includeStories|excludeStories)\s*:/,
+      );
+      const stories = Object.entries(module).filter(
+        ([name]) => name !== "default",
+      );
+      expect(stories.length, file).toBeGreaterThan(0);
+      for (const [name, story] of stories) {
+        const selection = story as Selection;
+        const tags = [
+          ...(module.default.tags ?? []),
+          ...(selection.tags ?? []),
+        ];
+        for (const tag of tags) {
+          expect(tag, `${file} ${name}`).not.toMatch(
+            /^(legacy|!test|!theme|!responsive)$/,
+          );
+        }
+        for (const entry of [module.default as Selection, selection]) {
+          expect(entry.parameters?.a11y?.disable, `${file} ${name}`).not.toBe(
+            true,
+          );
+          expect(
+            entry.parameters?.a11y?.test ?? "error",
+            `${file} ${name}`,
+          ).toBe("error");
+        }
+        if (name === "Default") expect(tags, file).toContain("theme");
+        if (tags.includes("responsive"))
+          expect(tags, `${file} ${name}`).toContain("theme");
+        if (/LongContent|Error|Disabled/.test(name)) {
+          expect(tags, `${file} ${name}`).toContain("theme");
+        }
+      }
     }
   });
 });
