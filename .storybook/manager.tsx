@@ -84,6 +84,14 @@ function DocumentationLinks() {
           >
             PyColors UI
           </a>
+          <a
+            href="https://pycolors.io/starters/free"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: "inherit" }}
+          >
+            Starter Free
+          </a>
         </nav>
       }
     >
