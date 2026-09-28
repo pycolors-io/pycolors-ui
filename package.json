@@ -83,7 +83,7 @@
     "@pycolors/tokens": "workspace:^",
     "@pycolors/typescript-config": "^1.0.0",
     "@storybook/addon-a11y": "10.5.9",
-    "@storybook/addon-vitest": "10.5.9",
+    "@storybook/addon-vitest": "10.6.0",
     "@storybook/react-vite": "10.5.9",
     "@tailwindcss/vite": "^4.3.3",
     "@testing-library/jest-dom": "^7.0.1",
