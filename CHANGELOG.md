@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.5.5
+
+### Patch Changes
+
+- Refresh the published component declarations using the React 19.3 types. Keep the existing component props, exports, runtime implementation and React 18+ peer range unchanged.
+
 ## 1.5.4
 
 ### Patch Changes
