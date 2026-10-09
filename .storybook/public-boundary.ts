@@ -18,6 +18,9 @@ export const publicConfigFiles = [
   "preview-head.html",
   "public-boundary.ts",
   "public/pycolors-mark.svg",
+  "public/pycolors-symbol.svg",
+  "public/geist-sans.woff2",
+  "public/geist-OFL.txt",
 ];
 export function isPublicInput(relative: string): boolean {
   return (

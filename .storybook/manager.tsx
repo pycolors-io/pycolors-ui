@@ -23,18 +23,38 @@ brandDocumentTitle();
 
 const appearance = window.matchMedia("(prefers-color-scheme: dark)");
 function applyBrand() {
+  const dark = appearance.matches;
   addons.setConfig({
     theme: create({
       base: appearance.matches ? "dark" : "light",
-      brandTitle: "PyColors UI Explorer",
-      brandUrl: "https://pycolors.io/ui",
-      brandImage: "./pycolors-mark.svg",
-      brandTarget: "_blank",
+      brandTitle: "PyColors UI Explorer home",
+      brandUrl: "./?path=/story/foundations-overview--default",
+      brandImage: "./pycolors-symbol.svg",
+      brandTarget: "_self",
       colorPrimary: "#6A30D4",
       colorSecondary: appearance.matches ? "#a78bfa" : "#6A30D4",
       fontBase: "ui-sans-serif, system-ui, sans-serif",
+      appBg: dark ? "#111113" : "#fafafa",
+      appContentBg: dark ? "#18181b" : "#ffffff",
+      appBorderColor: dark ? "#2b2b30" : "#e4e4e7",
+      appBorderRadius: 6,
+      textColor: dark ? "#f4f4f5" : "#18181b",
+      textMutedColor: dark ? "#a1a1aa" : "#64646f",
+      barBg: dark ? "#111113" : "#ffffff",
+      barTextColor: dark ? "#a1a1aa" : "#64646f",
+      inputBg: dark ? "#18181b" : "#ffffff",
+      inputBorder: dark ? "#3f3f46" : "#d4d4d8",
+      inputTextColor: dark ? "#f4f4f5" : "#18181b",
+      inputBorderRadius: 6,
     }),
     showOnboarding: false,
+    sidebar: { collapsedRoots: ["ui"] },
+    layoutCustomisations: {
+      showPanel: (state, defaultValue) =>
+        state.storyId === "foundations-overview--default"
+          ? false
+          : defaultValue,
+    },
   });
 }
 applyBrand();
@@ -54,9 +74,9 @@ function DocumentationLinks() {
           aria-label="PyColors UI Explorer resources"
           style={{
             display: "grid",
-            gap: 12,
-            minWidth: 150,
-            padding: 16,
+            gap: 4,
+            minWidth: 220,
+            padding: 8,
             fontSize: 13,
           }}
         >
@@ -64,7 +84,7 @@ function DocumentationLinks() {
             href={docs}
             target="_blank"
             rel="noopener noreferrer"
-            style={{ color: "inherit" }}
+            className="pycolors-resource-link"
           >
             Docs
           </a>
@@ -72,7 +92,7 @@ function DocumentationLinks() {
             href="https://pycolors.io/docs/ui/installation"
             target="_blank"
             rel="noopener noreferrer"
-            style={{ color: "inherit" }}
+            className="pycolors-resource-link"
           >
             Install
           </a>
@@ -80,7 +100,7 @@ function DocumentationLinks() {
             href="https://pycolors.io/ui"
             target="_blank"
             rel="noopener noreferrer"
-            style={{ color: "inherit" }}
+            className="pycolors-resource-link"
           >
             PyColors UI
           </a>
@@ -88,7 +108,7 @@ function DocumentationLinks() {
             href="https://pycolors.io/starters/free"
             target="_blank"
             rel="noopener noreferrer"
-            style={{ color: "inherit" }}
+            className="pycolors-resource-link"
           >
             Starter Free
           </a>

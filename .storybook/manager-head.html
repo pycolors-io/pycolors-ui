@@ -1,3 +1,49 @@
 <meta name="robots" content="noindex, follow" />
 <meta name="application-name" content="PyColors UI Explorer" />
 <link rel="icon" type="image/svg+xml" href="./pycolors-mark.svg" />
+<style>
+  @font-face {
+    font-family: "PyColors Geist";
+    src: url("./geist-sans.woff2") format("woff2");
+    font-weight: 100 900;
+    font-display: swap;
+  }
+  /* Scope the lockup to our brand URL rather than Storybook's generated classes. */
+  a[href="./?path=/story/foundations-overview--default"]:has(img) {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    min-height: 44px;
+    color: inherit;
+    text-decoration: none;
+  }
+  a[href="./?path=/story/foundations-overview--default"] img {
+    width: 17px;
+    height: 17px;
+  }
+  a[href="./?path=/story/foundations-overview--default"]:has(img)::after {
+    content: "pycolors";
+    font-family: "PyColors Geist", sans-serif;
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 20px;
+    letter-spacing: -0.025em;
+    transform: translateY(-1.25px);
+  }
+  .pycolors-resource-link {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 12px;
+    border-radius: 5px;
+    color: inherit;
+    text-decoration: none;
+  }
+  .pycolors-resource-link:hover {
+    background: color-mix(in srgb, currentColor 7%, transparent);
+  }
+  .pycolors-resource-link:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: -2px;
+  }
+</style>

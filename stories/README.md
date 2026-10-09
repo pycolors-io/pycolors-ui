@@ -28,6 +28,21 @@ Data display, Layout), then Compositions. Default precedes named states. The
 legacy UI group is last. Foundations use existing semantic tokens and utility
 styles; compositions are bounded synthetic teaching fixtures, not product APIs.
 
+`foundations-overview--default` is the first entry for new visitors. It links to
+the six component families, installation and semantic tokens; its links target
+the manager so navigation also works from the preview iframe. The manager hides
+the addon panel only on this overview and retains the visitor's preference for
+component stories. Existing story IDs remain unchanged. The compact PyColors
+lockup and neutral manager surfaces support the system light/dark preference;
+preview themes remain independently selectable. Its transparent 17px symbol and
+Geist wordmark match the site header; the logo returns to the Explorer home.
+The checked-in font and its OFL license are copied from the site's public assets
+and verified for drift during public preflight. The home includes a small public
+Input/Checkbox/Button composition: edits, save feedback and reset stay local to
+the preview. No backend or persistent storage is connected.
+The token gallery pairs every
+surface with its actual semantic foreground rather than hardcoded sample colors.
+
 IDs are independent of filenames/titles through explicit meta IDs and stable
 story export keys. Renaming a key still changes its story URL. Update owned
 links and record a compatibility mapping before removing any ID. Do not infer
@@ -249,7 +264,8 @@ imports and re-exports) must resolve into those inputs. Variable imports,
 unreviewed aliases and environment access fail. Symlinks in inputs fail; the Vite
 plugin checks resolved real paths before tree shaking, including dependency
 imports. CSS auto-discovery is disabled and its two public scan roots are checked.
-Only the copied repository-owned PyColors favicon is admitted by `staticDirs`.
+Only the reviewed PyColors favicon, transparent symbol, Geist font and its license
+are admitted by `staticDirs`.
 
 The command copies these inputs and public token CSS into a fresh tree with no
 applications, core packages, Pro code or dotenv files, shares the frozen registry
