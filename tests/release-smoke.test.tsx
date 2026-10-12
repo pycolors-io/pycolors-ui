@@ -9,6 +9,7 @@ const exported = ui as Record<string, unknown>;
 describe("@pycolors/ui release smoke coverage", () => {
   it("exports the public package surface", () => {
     const expectedExports = [
+      "AIComposer",
       "Alert",
       "AlertContent",
       "AlertDescription",
