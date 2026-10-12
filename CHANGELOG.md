@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.6.0
+
+### Minor Changes
+
+- 0584f2d: Add a controlled, provider-neutral AIComposer built from Textarea and Button, with accessible submit/stop actions, IME-safe Enter submission and consumer-owned request state.
+
 ## 1.5.5
 
 ### Patch Changes
