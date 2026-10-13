@@ -67,13 +67,16 @@ const Checkbox = React.forwardRef<
       >
         <CheckboxPrimitive.Indicator
           data-slot="checkbox-indicator"
-          className="flex items-center justify-center text-current"
+          className="group/checkbox-indicator flex items-center justify-center text-current"
         >
-          {checked === "indeterminate" ? (
-            <Minus className="size-3" aria-hidden="true" />
-          ) : (
-            <Check className="size-3" aria-hidden="true" />
-          )}
+          <Check
+            className="size-3 group-data-[state=indeterminate]/checkbox-indicator:hidden"
+            aria-hidden="true"
+          />
+          <Minus
+            className="hidden size-3 group-data-[state=indeterminate]/checkbox-indicator:block"
+            aria-hidden="true"
+          />
         </CheckboxPrimitive.Indicator>
       </CheckboxPrimitive.Root>
     );

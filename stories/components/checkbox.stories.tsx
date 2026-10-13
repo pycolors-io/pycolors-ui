@@ -7,6 +7,7 @@ import {
   CheckboxDescription,
   CheckboxField,
   CheckboxLabel,
+  Button,
 } from "../../src/index.js";
 
 const meta = {
@@ -68,6 +69,26 @@ export const States: Story = {
       await expect(
         view.getByRole("checkbox", { name: "Accept the terms" }),
       ).toHaveAccessibleDescription(/You must accept the terms/);
+      const partial = view.getByRole("checkbox", {
+        name: "Select local projects",
+      });
+      await expect(partial).toBePartiallyChecked();
+      await expect(partial.querySelector(".lucide-minus")).toBeVisible();
+      const form = partial.closest("form")!;
+      await expect(new FormData(form).has("projects")).toBe(false);
+      partial.focus();
+      await userEvent.keyboard(" ");
+      await expect(partial).toBeChecked();
+      await expect(new FormData(form).get("projects")).toBe("all");
+      await expect(partial.querySelector(".lucide-check")).toBeVisible();
+      await expect(partial.querySelector(".lucide-minus")).not.toBeVisible();
+      await userEvent.click(
+        view.getByRole("button", { name: "Reset selection" }),
+      );
+      await expect(partial).toBePartiallyChecked();
+      await expect(new FormData(form).has("projects")).toBe(false);
+      await expect(partial.querySelector(".lucide-minus")).toBeVisible();
+      await expect(partial.querySelector(".lucide-check")).not.toBeVisible();
     });
   },
   parameters: { controls: { disable: true } },
@@ -108,6 +129,32 @@ export const States: Story = {
           </CheckboxDescription>
         </CheckboxContent>
       </CheckboxField>
+      <form className="grid gap-3">
+        <CheckboxField>
+          <Checkbox
+            id="local-projects"
+            name="projects"
+            value="all"
+            defaultChecked="indeterminate"
+          />
+          <CheckboxContent>
+            <CheckboxLabel htmlFor="local-projects">
+              Select local projects
+            </CheckboxLabel>
+            <CheckboxDescription>
+              Uncontrolled selection; reset restores the partial state.
+            </CheckboxDescription>
+          </CheckboxContent>
+        </CheckboxField>
+        <Button
+          type="reset"
+          variant="outline"
+          size="sm"
+          className="justify-self-start"
+        >
+          Reset selection
+        </Button>
+      </form>
     </div>
   ),
 };
