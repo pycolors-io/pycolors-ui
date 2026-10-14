@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.6.1
+
+### Patch Changes
+
+- 6e124f4: Fix the partial-selection indicator for uncontrolled Checkbox instances initialized with `defaultChecked="indeterminate"`. The indicator now follows Radix state, including selection and native form reset, while preserving the existing API.
+
 ## 1.6.0
 
 ### Minor Changes
