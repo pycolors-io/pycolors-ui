@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { Check, Copy, LoaderCircle, TriangleAlert } from "lucide-react";
 import { Button } from "./button.js";
 import { cn } from "../../lib/utils.js";
 
@@ -86,6 +87,18 @@ export const AIMessageActions = React.forwardRef<
             }
           }}
         >
+          {state === "pending" ? (
+            <LoaderCircle
+              className="size-4 animate-spin motion-reduce:animate-none"
+              aria-hidden="true"
+            />
+          ) : state === "success" ? (
+            <Check className="size-4" aria-hidden="true" />
+          ) : state === "error" ? (
+            <TriangleAlert className="size-4" aria-hidden="true" />
+          ) : (
+            <Copy className="size-4" aria-hidden="true" />
+          )}
           {copyLabel}
         </Button>
         <span role="status" className="text-xs text-muted-foreground">

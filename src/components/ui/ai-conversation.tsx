@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { ArrowDown } from "lucide-react";
 import { Button } from "./button.js";
 import { cn } from "../../lib/utils.js";
 
@@ -125,6 +126,7 @@ export const AIConversation = React.forwardRef<
                 element.focus({ preventScroll: true });
               }}
             >
+              <ArrowDown className="size-4" aria-hidden="true" />
               {jumpLabel}
             </Button>
           </div>
