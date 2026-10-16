@@ -185,3 +185,13 @@ Docs → https://pycolors.io/docs \
 Starters → https://pycolors.io/starters \
 Roadmap → https://pycolors.io/roadmap \
 Discussions → https://github.com/pycolors-io/pycolors-ui/discussions
+
+### AI conversation primitives
+
+Alongside `AIComposer`, the workspace exports `AIConversation`, `AIMessage`, and
+`AIMessageActions` for reader-aware message lists and explicit copy feedback.
+These additive exports require the conversation primitives minor release; they
+are not in UI 1.6.1 or earlier. Until publication, use the repository workspace.
+The application owns message state, model transport, clipboard access and storage.
+See the [conversation composition guide](https://pycolors.io/docs/ui/ai-conversation)
+and the canonical Storybook examples. No AI runtime dependency is included.

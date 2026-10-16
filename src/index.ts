@@ -18,3 +18,7 @@ export * from "./components/ui/textarea.js";
 export * from "./components/ui/password-input.js";
 export * from "./lib/utils.js";
 export * from "./components/ui/ai-composer.js";
+
+export * from "./components/ui/ai-message.js";
+export * from "./components/ui/ai-message-actions.js";
+export * from "./components/ui/ai-conversation.js";
