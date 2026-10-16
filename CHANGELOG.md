@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.7.0
+
+### Minor Changes
+
+- d5940c0: Add AIMessage, AIMessageActions and AIConversation primitives for composing chat interfaces with explicit copy feedback and reader-aware scroll following. Applications retain ownership of messages, clipboard access and model transport.
+
 ## 1.6.1
 
 ### Patch Changes
