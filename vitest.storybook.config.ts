@@ -85,6 +85,20 @@ export default defineConfig({
           },
           tags: { include: [tag], exclude: ["legacy"] },
         }),
+        {
+          name: "pycolors-storybook-project-cache",
+          enforce: "post",
+          // Storybook keys its default cache only by configDir. Concurrent
+          // browser projects need separate optimizer outputs to avoid races.
+          config: () => ({
+            cacheDir: fileURLToPath(
+              new URL(
+                `node_modules/.cache/storybook-vitest/${theme}-${viewport}-${width}x${height}`,
+                import.meta.url,
+              ),
+            ),
+          }),
+        },
       ],
       test: {
         name: `storybook-${theme}-${viewport}-${width}x${height}`,
