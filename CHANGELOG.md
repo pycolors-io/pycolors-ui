@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.7.1
+
+### Patch Changes
+
+- Align Radix dropdown-menu 2.2.1 with compatible Dialog, AlertDialog and Toast dependencies so menu-to-dialog compositions restore page pointer interaction correctly while preserving the PyColors component API.
+
 ## 1.7.0
 
 ### Minor Changes
