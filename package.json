@@ -1,6 +1,6 @@
 {
   "name": "@pycolors/ui",
-  "version": "1.7.0",
+  "version": "1.7.1",
   "description": "Production-ready UI primitives for modern SaaS apps (Radix + Tailwind-friendly).",
   "keywords": [
     "pycolors",
@@ -83,7 +83,7 @@
     "@pycolors/tokens": "workspace:^",
     "@pycolors/typescript-config": "^1.0.0",
     "@storybook/addon-a11y": "10.6.1",
-    "@storybook/addon-vitest": "10.6.1",
+    "@storybook/addon-vitest": "10.6.5",
     "@storybook/react-vite": "10.6.1",
     "@tailwindcss/vite": "^4.3.3",
     "@testing-library/jest-dom": "^7.0.1",
