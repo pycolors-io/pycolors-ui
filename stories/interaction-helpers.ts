@@ -38,12 +38,14 @@ export async function exerciseDialog(
 export async function exerciseTabs(
   canvas: HTMLElement,
   arrow: "ArrowRight" | "ArrowDown",
+  runInteractions: boolean,
 ) {
   const view = within(canvas);
   const overview = view.getByRole("tab", { name: "Overview" });
   const activity = view.getByRole("tab", { name: "Activity" });
   const disabled = view.getByRole("tab", { name: "Settings" });
   await expect(disabled).toBeDisabled();
+  if (!runInteractions) return;
   await userEvent.click(overview);
   await userEvent.keyboard(`{${arrow}}`);
   await waitFor(() =>

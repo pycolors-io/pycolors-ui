@@ -35,7 +35,8 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  play: async ({ canvasElement, step }) => {
+  play: async ({ canvasElement, step, globals }) => {
+    if (globals.runStoryInteractions !== true) return;
     await step("interaction: Default", async () => {
       const checkbox = within(canvasElement).getByRole("checkbox", {
         name: "Release updates",
@@ -57,7 +58,8 @@ export const Default: Story = {
 };
 
 export const States: Story = {
-  play: async ({ canvasElement, step }) => {
+  play: async ({ canvasElement, step, globals }) => {
+    if (globals.runStoryInteractions !== true) return;
     await step("interaction: States", async () => {
       const view = within(canvasElement);
       await expect(
@@ -178,9 +180,13 @@ function ControlledCheckbox() {
   );
 }
 export const Controlled: Story = {
-  play: async ({ canvasElement, step }) => {
+  play: async ({ canvasElement, step, globals }) => {
+    if (globals.runStoryInteractions !== true) return;
     await step("interaction: Controlled", async () => {
       const view = within(canvasElement);
+      await expect(view.getByRole("status")).toHaveTextContent(
+        "Updates disabled",
+      );
       await userEvent.click(
         view.getByRole("checkbox", { name: "Send release updates" }),
       );
@@ -193,7 +199,8 @@ export const Controlled: Story = {
   parameters: { controls: { disable: true } },
 };
 export const Disabled: Story = {
-  play: async ({ canvasElement, step }) => {
+  play: async ({ canvasElement, step, globals }) => {
+    if (globals.runStoryInteractions !== true) return;
     await step("interaction: Disabled", async () => {
       const checkbox = within(canvasElement).getByRole("checkbox", {
         name: "Release updates",

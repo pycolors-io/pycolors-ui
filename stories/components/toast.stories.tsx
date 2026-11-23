@@ -30,20 +30,32 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-function ToastExample({ long = false }: { long?: boolean }) {
-  const toastVariants = [
-    "default",
-    "success",
-    "warning",
-    "destructive",
-    "info",
-  ] as const;
+const toastVariants = [
+  "default",
+  "success",
+  "warning",
+  "destructive",
+  "info",
+] as const;
+
+function ToastExample({
+  long = false,
+  initialVariant = "success",
+  initialOpen = false,
+}: {
+  long?: boolean;
+  initialVariant?: (typeof toastVariants)[number];
+  initialOpen?: boolean;
+}) {
   const [openVariant, setOpenVariant] =
-    React.useState<(typeof toastVariants)[number]>("success");
-  const [open, setOpen] = React.useState(false);
+    React.useState<(typeof toastVariants)[number]>(initialVariant);
+  const [open, setOpen] = React.useState(initialOpen);
 
   return (
-    <ToastProvider swipeDirection="right">
+    <ToastProvider
+      swipeDirection="right"
+      duration={initialOpen ? Infinity : undefined}
+    >
       <div className="space-y-2">
         {toastVariants.map((variant) => (
           <Button
@@ -80,12 +92,14 @@ function ToastExample({ long = false }: { long?: boolean }) {
 }
 
 export const Default: Story = {
-  play: async ({ canvasElement, step }) => {
+  play: async ({ canvasElement, step, globals }) => {
+    if (globals.runStoryInteractions !== true) return;
     await step("interaction: Default", async () => {
       const page = within(document.body);
       const trigger = within(canvasElement).getByRole("button", {
         name: "Show success toast",
       });
+      await expect(trigger).toBeEnabled();
       await userEvent.click(trigger);
       await expect(await page.findByText("Success message")).toBeVisible();
       await userEvent.click(page.getByRole("button", { name: "Dismiss" }));
@@ -101,10 +115,13 @@ export const Default: Story = {
 };
 
 export const LongContent: Story = {
-  play: async ({ canvasElement, step }) => {
+  play: async ({ canvasElement, step, globals }) => {
+    if (globals.runStoryInteractions !== true) return;
     await step("interaction: LongContent", async () => {
       await userEvent.click(
-        within(canvasElement).getByRole("button", { name: "Show info toast" }),
+        within(canvasElement).getByRole("button", {
+          name: "Show info toast",
+        }),
       );
       await expect(
         await within(document.body).findByText(
@@ -113,12 +130,24 @@ export const LongContent: Story = {
       ).toBeVisible();
     });
   },
-  render: () => <ToastExample long />,
+  render: (_args, { globals }) => (
+    <ToastExample
+      long
+      initialVariant="info"
+      initialOpen={globals.runStoryInteractions !== true}
+    />
+  ),
 };
 
 export const Neutral: Story = {
-  render: () => <ToastExample />,
-  play: async ({ canvasElement, step }) => {
+  render: (_args, { globals }) => (
+    <ToastExample
+      initialVariant="default"
+      initialOpen={globals.runStoryInteractions !== true}
+    />
+  ),
+  play: async ({ canvasElement, step, globals }) => {
+    if (globals.runStoryInteractions !== true) return;
     await step("interaction: default notification", async () => {
       await userEvent.click(
         within(canvasElement).getByRole("button", {
@@ -133,8 +162,14 @@ export const Neutral: Story = {
 };
 
 export const Warning: Story = {
-  render: () => <ToastExample />,
-  play: async ({ canvasElement, step }) => {
+  render: (_args, { globals }) => (
+    <ToastExample
+      initialVariant="warning"
+      initialOpen={globals.runStoryInteractions !== true}
+    />
+  ),
+  play: async ({ canvasElement, step, globals }) => {
+    if (globals.runStoryInteractions !== true) return;
     await step("interaction: warning notification", async () => {
       await userEvent.click(
         within(canvasElement).getByRole("button", {
@@ -149,8 +184,14 @@ export const Warning: Story = {
 };
 
 export const Destructive: Story = {
-  render: () => <ToastExample />,
-  play: async ({ canvasElement, step }) => {
+  render: (_args, { globals }) => (
+    <ToastExample
+      initialVariant="destructive"
+      initialOpen={globals.runStoryInteractions !== true}
+    />
+  ),
+  play: async ({ canvasElement, step, globals }) => {
+    if (globals.runStoryInteractions !== true) return;
     await step("interaction: destructive notification", async () => {
       await userEvent.click(
         within(canvasElement).getByRole("button", {

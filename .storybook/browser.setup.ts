@@ -33,9 +33,47 @@ setProjectAnnotations([
   a11y,
   preview,
   {
+    beforeEach: async ({ id, globals }) => {
+      await expect(
+        globals.runStoryInteractions,
+        "Browser projects must exercise the scripted story interactions",
+      ).toBe(true);
+      if (id === "foundations-overview--default")
+        await expect(
+          globals.runOverviewInteractions,
+          "Overview browser tests must exercise the form interactions",
+        ).toBe(true);
+      if (id === "foundations-tokens--appearance")
+        await expect(
+          globals.runAppearanceInteractions,
+          "Appearance browser tests must exercise palette and radius choices",
+        ).toBe(true);
+      if (/^components-(?:dialog|sheet)--/.test(id))
+        await expect(
+          globals.runOverlayInteractions,
+          "Overlay browser tests must exercise dialog and sheet interactions",
+        ).toBe(true);
+    },
     afterEach: async ({ id, canvasElement, globals }) => {
       const label = `${id} [${matrix.theme} ${matrix.width}x${matrix.height}]`;
       const root = document.documentElement;
+      if (/^components-dropdown-menu--/.test(id))
+        await expect(
+          within(canvasElement.ownerDocument.body).getByRole("menu"),
+          label + " final menu remains open for accessibility scanning",
+        ).toBeVisible();
+      if (/^components-toast--/.test(id))
+        await expect(
+          within(canvasElement.ownerDocument.body).getByRole("button", {
+            name: "Dismiss",
+          }),
+          label + " final notification remains open for accessibility scanning",
+        ).toBeVisible();
+      if (/^components-(?:dialog|sheet)--/.test(id))
+        await expect(
+          within(canvasElement.ownerDocument.body).getByRole("dialog"),
+          label + " final modal remains open for accessibility scanning",
+        ).toBeVisible();
       await expect(globals.theme, `${label} theme/global`).toBe(matrix.theme);
       await expect(
         root.classList.contains("dark"),

@@ -59,7 +59,8 @@ export const Default: Story = {
 };
 
 export const LinkComposition: Story = {
-  play: async ({ canvasElement, step }) => {
+  play: async ({ canvasElement, step, globals }) => {
+    if (globals.runStoryInteractions !== true) return;
     await step("interaction: LinkComposition", async () => {
       const view = within(canvasElement);
       await expect(view.getByRole("link", { name: "2" })).toHaveAttribute(
@@ -142,7 +143,8 @@ function ControlledPagination() {
   );
 }
 export const BoundaryControls: Story = {
-  play: async ({ canvasElement, step }) => {
+  play: async ({ canvasElement, step, globals }) => {
+    if (globals.runStoryInteractions !== true) return;
     await step("interaction: BoundaryControls", async () => {
       const view = within(canvasElement);
       await expect(

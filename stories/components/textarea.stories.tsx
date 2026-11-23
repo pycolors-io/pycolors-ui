@@ -53,11 +53,13 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  play: async ({ canvasElement, step }) => {
+  play: async ({ canvasElement, step, globals }) => {
+    if (globals.runStoryInteractions !== true) return;
     await step("interaction: Default", async () => {
       const input = within(canvasElement).getByRole("textbox", {
         name: "Release notes",
       });
+      await expect(input).toBeVisible();
       await userEvent.type(input, "First line{Enter}Second line");
       await expect(input).toHaveValue("First line\nSecond line");
     });
@@ -66,7 +68,8 @@ export const Default: Story = {
 };
 
 export const States: Story = {
-  play: async ({ canvasElement, step }) => {
+  play: async ({ canvasElement, step, globals }) => {
+    if (globals.runStoryInteractions !== true) return;
     await step("interaction: States", async () => {
       await expect(
         within(canvasElement).getByRole("textbox", {
@@ -108,7 +111,8 @@ export const Sizes: Story = {
   parameters: { controls: { disable: true } },
 };
 export const Disabled: Story = {
-  play: async ({ canvasElement, step }) => {
+  play: async ({ canvasElement, step, globals }) => {
+    if (globals.runStoryInteractions !== true) return;
     await step("interaction: Disabled", async () => {
       await expect(
         within(canvasElement).getByRole("textbox", { name: "Release notes" }),
@@ -118,7 +122,8 @@ export const Disabled: Story = {
   args: { disabled: true, defaultValue: "Notes are unavailable while saving." },
 };
 export const LongContent: Story = {
-  play: async ({ canvasElement, step }) => {
+  play: async ({ canvasElement, step, globals }) => {
+    if (globals.runStoryInteractions !== true) return;
     await step("interaction: LongContent", async () => {
       const input = within(canvasElement).getByRole("textbox", {
         name: "Release notes",

@@ -43,11 +43,13 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  play: async ({ canvasElement, step }) => {
+  play: async ({ canvasElement, step, globals }) => {
+    if (globals.runStoryInteractions !== true) return;
     await step("interaction: Default", async () => {
       const input = within(canvasElement).getByRole("textbox", {
         name: "Work email",
       });
+      await expect(input).toBeVisible();
       await userEvent.type(input, "demo@example.com");
       await expect(input).toHaveValue("demo@example.com");
     });
@@ -56,7 +58,8 @@ export const Default: Story = {
 };
 
 export const States: Story = {
-  play: async ({ canvasElement, step }) => {
+  play: async ({ canvasElement, step, globals }) => {
+    if (globals.runStoryInteractions !== true) return;
     await step("interaction: States", async () => {
       const view = within(canvasElement);
       await expect(
@@ -105,7 +108,8 @@ export const Sizes: Story = {
   parameters: { controls: { disable: true } },
 };
 export const ReadOnly: Story = {
-  play: async ({ canvasElement, step }) => {
+  play: async ({ canvasElement, step, globals }) => {
+    if (globals.runStoryInteractions !== true) return;
     await step("interaction: ReadOnly", async () => {
       const input = within(canvasElement).getByRole("textbox", {
         name: "Workspace ID",

@@ -19,8 +19,10 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 export const Default: Story = {
-  play: async ({ canvasElement }) => {
+  play: async ({ canvasElement, globals }) => {
+    if (globals.runStoryInteractions !== true) return;
     const canvas = within(canvasElement);
+    await expect(canvas.getByRole("button")).toBeEnabled();
     await userEvent.tab();
     await expect(
       canvas.getByRole("button", { name: "Copy message" }),
@@ -35,8 +37,10 @@ export const Error: Story = {
       throw new globalThis.Error("Simulated failure");
     },
   },
-  play: async ({ canvasElement }) => {
+  play: async ({ canvasElement, globals }) => {
+    if (globals.runStoryInteractions !== true) return;
     const canvas = within(canvasElement);
+    await expect(canvas.getByRole("button")).toBeEnabled();
     await userEvent.click(canvas.getByRole("button"));
     await expect(canvas.getByRole("status")).toHaveTextContent(
       "Could not copy",
