@@ -356,7 +356,7 @@
   letter-spacing: 0;
 }
 .explorer-license {
-  color: var(--muted-foreground);
+  color: var(--foreground);
   font-size: 11px;
   line-height: 1.6;
 }
@@ -411,7 +411,7 @@
 .explorer-description {
   max-width: 52ch;
   margin-top: 20px;
-  color: var(--muted-foreground);
+  color: var(--foreground);
   font-size: 14px;
   line-height: 1.8;
 }
