@@ -56,9 +56,11 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  play: async ({ canvasElement }) => {
+  play: async ({ canvasElement, globals }) => {
+    if (globals.runStoryInteractions !== true) return;
     const canvas = within(canvasElement);
     const input = canvas.getByRole("textbox", { name: "Message" });
+    await expect(input).toBeVisible();
     await userEvent.type(input, "Summarize this release");
     await userEvent.keyboard("{Shift>}{Enter}{/Shift}Keep it concise");
     await expect(input).toHaveValue("Summarize this release\nKeep it concise");

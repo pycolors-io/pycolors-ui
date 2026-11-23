@@ -23,25 +23,117 @@ controls for fixed multi-example fixtures; never expose invented props or a
 controlled value without its state handler. Use awaited `play` functions from
 `storybook/test` for meaningful browser behavior; Autodocs remains separate work.
 
+The **Code example** disclosure below component and composition previews contains
+complete React/TypeScript consumer code with public package imports. The
+repository-owned example catalog covers all 22 public component families;
+compositions provide their code through `parameters.docs.source.code`. Keep the
+snippet aligned with its rendered state and public API. **Copy example** uses the
+clipboard when available and otherwise selects the code for manual copying.
+The linked Fumadocs guide remains canonical; this disclosure does not install
+Autodocs or another documentation library.
+
 Navigation is Foundations, Components (Forms, Feedback, Overlays, Navigation,
 Data display, Layout), then Compositions. Default precedes named states. The
 legacy UI group is last. Foundations use existing semantic tokens and utility
 styles; compositions are bounded synthetic teaching fixtures, not product APIs.
+The built-in development "Get started" checklist is disabled with Storybook's
+`sidebarOnboardingChecklist` feature; Overview is the Explorer's entry point.
 
-`foundations-overview--default` is the first entry for new visitors. It links to
-the six component families, installation and semantic tokens; its links target
-the manager so navigation also works from the preview iframe. The manager hides
+`foundations-overview--default` is the first entry for new visitors. Its editorial
+layout combines six component-family links, compact installation guidance and
+semantic-token resources. Its links target the manager so navigation also works
+from the preview iframe. The manager hides
 the addon panel only on this overview and retains the visitor's preference for
 component stories. Existing story IDs remain unchanged. The compact PyColors
 lockup and neutral manager surfaces support the system light/dark preference;
 preview themes remain independently selectable. Its transparent 17px symbol and
 Geist wordmark match the site header; the logo returns to the Explorer home.
+The **UI Explorer** toolbar disclosure presents Docs, Install, PyColors UI and
+Starter Free as labelled resource links with short descriptions. Docs follows
+the selected component family. At widths of 360px or less, the visible label is
+**UI**; its accessible name remains **UI Explorer**.
+
+The overview masthead identifies **PyColors UI / Component explorer** and the
+component package's MIT license. Three starting paths lead to Components
+(`components-button--default`), Appearance (`foundations-tokens--appearance`)
+and Compositions (`compositions-settings-form--default`).
+
+Its technical proof points describe the existing React/TypeScript components,
+Radix-backed interactions and shared light/dark tokens. The local workspace form
+remains interactive, with a link to
+`compositions-settings-form--validation-error` for inspecting validation feedback.
+
+Overview's shell carries one continuous full-page gradient with a progressive
+fade, inspired by the public marketing home. The hero shares this background
+without a separate local gradient.
+The form retains its **UI preview** frame and a short diagonal divider introduces
+the three paths. These decorative layers adapt to accessibility preferences;
+component canvases retain their existing token styling.
+
+Internal stories use a lighter workbench background around a plain preview
+surface. Its non-interactive header identifies the category, family and selected
+state; the canvas bar identifies the preview theme. The named `main` still
+contains the story directly, preserving component keyboard order and portal
+behavior. Overview and Docs mode keep their own presentation; public component
+styles and root tokens are unchanged.
+
+Dialog and Sheet stories start closed and open from their visible triggers.
+Their scripted interaction paths run only when test projects enable
+`runOverlayInteractions`; public visits leave this flag off.
+
+Component and Settings form `play` paths use `runStoryInteractions`, which defaults to
+`false` publicly and is enabled by the browser test projects. Together with the
+dedicated Overview, Appearance and Overlay flags, this keeps scripted typing,
+clicking and focus movement in the opt-in test runs. Named states render directly
+from their props or initial state, so public visitors can inspect them without
+running an interaction script.
+
+Three additional local compositions provide eight stable stories alongside the
+existing Settings form. They use synthetic data and public primitives, with no
+backend, email sending or persisted notification settings:
+
+| Composition              | Stable story IDs                                                                                                                         |
+| ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| Team invitation          | `compositions-team-invitation--default`, `compositions-team-invitation--validation-error`, `compositions-team-invitation--local-success` |
+| Filtered list            | `compositions-filtered-list--default`, `compositions-filtered-list--empty-results`, `compositions-filtered-list--second-page`            |
+| Notification preferences | `compositions-notification-preferences--default`, `compositions-notification-preferences--saved`                                         |
+
+The maintenance footer links to `foundations-maintenance--default`. Its version,
+React/React DOM peer ranges and license are injected at build time from the public
+UI package manifest, and its release history comes from `packages/ui/CHANGELOG.md`.
+The build requires an entry matching the package version. Declared peer ranges
+are package metadata, not evidence that every matching runtime combination was
+tested; keep the separately verified consumer setup documented in Fumadocs.
+
+Reach the toolbar with Tab and use its arrow-key navigation to select
+**UI Explorer**. Enter or Space opens the resources and focuses Docs. Tab and
+Shift+Tab move through the links; Escape closes the disclosure and returns focus
+to its trigger. Shift+Tab from Docs also returns to the trigger; Tab from the
+last resource closes the disclosure and continues the native tab order. Clicking
+outside closes it without taking focus away from the chosen control. Each
+resource opens in a new tab, announced in its accessible description.
+
 The checked-in font and its OFL license are copied from the site's public assets
 and verified for drift during public preflight. The home includes a small public
 Input/Checkbox/Button composition: edits, save feedback and reset stay local to
 the preview. No backend or persistent storage is connected.
+Its scripted form checks run only when `runOverviewInteractions` is enabled by
+the Vitest project's initial globals. The public preview leaves it off so opening
+the welcome page does not type into fields, move focus or scroll past the hero.
+The browser setup asserts this global is enabled for Overview tests, preserving
+the existing form-interaction coverage in every selected matrix case.
 The token gallery pairs every
 surface with its actual semantic foreground rather than hardcoded sample colors.
+
+`foundations-tokens--appearance` demonstrates the shared palette and radius
+choices using `nativePalettes`, `nativePaletteOptions` and
+`nativeRadiusPreferences` from `@pycolors/tokens/native`. This framework-independent
+public ESM data is generated from `config/appearance-presets.json`; no Starter Pro
+source or copied preset constants are imported. Changes apply only to the local
+demonstration, preserving the published token defaults and the surrounding
+Explorer. Starter Pro's Signature and Classic compositions remain app-owned.
+The test projects enable `runAppearanceInteractions` to exercise every palette,
+radius extremes and local save feedback; public visits leave this flag off.
 
 IDs are independent of filenames/titles through explicit meta IDs and stable
 story export keys. Renaming a key still changes its story URL. Update owned
@@ -267,14 +359,19 @@ imports. CSS auto-discovery is disabled and its two public scan roots are checke
 Only the reviewed PyColors favicon, transparent symbol, Geist font and its license
 are admitted by `staticDirs`.
 
-The command copies these inputs and public token CSS into a fresh tree with no
-applications, core packages, Pro code or dotenv files, shares the frozen registry
+The command copies these inputs, the public UI package manifest and changelog,
+the public token CSS and the framework-independent
+`native.js` data module with its types and package manifest into a fresh tree with
+no applications, core packages, Pro code or dotenv files, shares the frozen registry
 dependency store, and supplies a minimal non-secret process environment. It is a
 build-input boundary, **not an operating-system sandbox for malicious dependency
 code**: pinned packages, build configuration and Node are trusted and still need
 normal dependency/code review. Arbitrary secret detection is not claimed. Narrow
 credential/path/URL signatures supplement the structural boundary. Never place
 private code, data or credentials inside an approved public source file.
+The resolved token import boundary admits exactly `tokens.css` and `native.js`,
+including verification of their real paths; sibling files and symlink escapes
+remain prohibited.
 
 Output inspection compares all generated story IDs to source exports (including
 legacy IDs), checks local entry assets, rejects source maps, extra HTML/JSON

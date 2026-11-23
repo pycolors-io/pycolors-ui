@@ -13,6 +13,8 @@ export const publicConfigFiles = [
   "main.ts",
   "preview.ts",
   "preview.css",
+  "explorer-tools.tsx",
+  "source-examples.ts",
   "manager.tsx",
   "manager-head.html",
   "preview-head.html",
@@ -24,6 +26,7 @@ export const publicConfigFiles = [
 ];
 export function isPublicInput(relative: string): boolean {
   return (
+    relative === "CHANGELOG.md" ||
     /^src\/(?:[\w-]+\/)*[\w.-]+\.tsx?$/.test(relative) ||
     /^stories\/(?:components|foundations|compositions)\/[\w-]+\.stories\.tsx$/.test(
       relative,
@@ -58,7 +61,11 @@ export function assertPublicModule(id: string, uiRoot: string): void {
     .split(path.sep)
     .join("/");
   if (isPublicInput(relative)) return;
-  if (real === realpathSync(path.resolve(uiRoot, "../tokens/tokens.css")))
+  if (
+    ["tokens.css", "native.js"].some(
+      (name) => real === path.resolve(realpathSync(uiRoot), "../tokens", name),
+    )
+  )
     return;
   // Only installed registry dependencies. Workspace links resolve outside this
   // directory and must pass the first-party allowlist above instead.

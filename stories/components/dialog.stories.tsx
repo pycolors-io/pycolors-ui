@@ -68,7 +68,9 @@ const reviewSections = [
 ] as const;
 
 export const Default: Story = {
-  play: async ({ canvasElement, step }) => {
+  play: async ({ canvasElement, step, globals }) => {
+    if (globals.runStoryInteractions !== true) return;
+    if (globals.runOverlayInteractions !== true) return;
     await step("interaction: Default", async () => {
       await exerciseDialog(canvasElement, "Open dialog", "Cancel");
     });
@@ -100,7 +102,9 @@ export const Default: Story = {
 };
 
 export const LongContent: Story = {
-  play: async ({ canvasElement, step }) => {
+  play: async ({ canvasElement, step, globals }) => {
+    if (globals.runStoryInteractions !== true) return;
+    if (globals.runOverlayInteractions !== true) return;
     await step("interaction: LongContent", async () => {
       await exerciseDialog(canvasElement, "Review project details", "Done");
     });

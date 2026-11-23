@@ -37,7 +37,9 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  play: async ({ canvasElement, step }) => {
+  play: async ({ canvasElement, step, globals }) => {
+    if (globals.runStoryInteractions !== true) return;
+    if (globals.runOverlayInteractions !== true) return;
     await step("interaction: Default", async () => {
       await exerciseDialog(canvasElement, "Open filters", "Apply filters");
     });
@@ -75,7 +77,9 @@ export const Default: Story = {
 };
 
 export const Sides: Story = {
-  play: async ({ canvasElement, step }) => {
+  play: async ({ canvasElement, step, globals }) => {
+    if (globals.runStoryInteractions !== true) return;
+    if (globals.runOverlayInteractions !== true) return;
     await step("interaction: Sides", async () => {
       for (const side of ["top", "right", "bottom", "left"]) {
         await exerciseDialog(canvasElement, `Open ${side}`, "Close panel");

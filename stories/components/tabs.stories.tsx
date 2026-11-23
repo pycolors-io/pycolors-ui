@@ -92,18 +92,28 @@ function ControlledTabs({
 }
 export const Controlled: Story = {
   tags: ["theme"],
-  play: async ({ canvasElement, step }) => {
+  play: async ({ canvasElement, step, globals }) => {
+    if (globals.runStoryInteractions !== true) return;
     await step("interaction: Controlled", async () => {
-      await exerciseTabs(canvasElement, "ArrowRight");
+      await exerciseTabs(
+        canvasElement,
+        "ArrowRight",
+        globals.runStoryInteractions === true,
+      );
     });
   },
   render: () => <ControlledTabs />,
 };
 export const Vertical: Story = {
   tags: ["theme", "responsive"],
-  play: async ({ canvasElement, step }) => {
+  play: async ({ canvasElement, step, globals }) => {
+    if (globals.runStoryInteractions !== true) return;
     await step("interaction: Vertical", async () => {
-      await exerciseTabs(canvasElement, "ArrowDown");
+      await exerciseTabs(
+        canvasElement,
+        "ArrowDown",
+        globals.runStoryInteractions === true,
+      );
     });
   },
   render: () => <ControlledTabs vertical />,

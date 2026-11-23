@@ -72,12 +72,14 @@ async function assertModalFocus(menu: HTMLElement, trigger: HTMLElement) {
 
 export const Default: Story = {
   parameters: { a11y: modalBackgroundA11y },
-  play: async ({ canvasElement, step }) => {
+  play: async ({ canvasElement, step, globals }) => {
+    if (globals.runStoryInteractions !== true) return;
     await step("interaction: Default", async () => {
       const trigger = within(canvasElement).getByRole("button", {
         name: "Open workspace menu",
       });
       const page = within(document.body);
+      await expect(trigger).toBeEnabled();
       trigger.focus();
       await userEvent.keyboard("{Enter}");
       const menu = await page.findByRole("menu");
@@ -117,11 +119,11 @@ export const Default: Story = {
   ),
 };
 
-function ControlledMenu() {
+function ControlledMenu({ initialOpen = false }: { initialOpen?: boolean }) {
   const [notifications, setNotifications] = React.useState(true);
   const [role, setRole] = React.useState("editor");
   return (
-    <DropdownMenu>
+    <DropdownMenu defaultOpen={initialOpen}>
       <DropdownMenuTrigger asChild>
         <Button>Change preferences</Button>
       </DropdownMenuTrigger>
@@ -146,7 +148,8 @@ function ControlledMenu() {
 }
 export const Controlled: Story = {
   parameters: { a11y: modalBackgroundA11y },
-  play: async ({ canvasElement, step }) => {
+  play: async ({ canvasElement, step, globals }) => {
+    if (globals.runStoryInteractions !== true) return;
     await step("interaction: Controlled", async () => {
       const trigger = within(canvasElement).getByRole("button", {
         name: "Change preferences",
@@ -184,5 +187,7 @@ export const Controlled: Story = {
       await assertModalFocus(await page.findByRole("menu"), trigger);
     });
   },
-  render: () => <ControlledMenu />,
+  render: (_args, { globals }) => (
+    <ControlledMenu initialOpen={globals.runStoryInteractions !== true} />
+  ),
 };

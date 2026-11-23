@@ -81,6 +81,10 @@ export default defineConfig({
           configDir,
           initialGlobals: {
             theme,
+            runOverviewInteractions: true,
+            runAppearanceInteractions: true,
+            runOverlayInteractions: true,
+            runStoryInteractions: true,
             viewport: { value: viewport, isRotated: false },
           },
           tags: { include: [tag], exclude: ["legacy"] },

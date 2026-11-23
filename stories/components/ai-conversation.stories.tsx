@@ -35,7 +35,8 @@ export const LongConversation: Story = {
       </AIMessage>
     )),
   },
-  play: async ({ canvasElement }) => {
+  play: async ({ canvasElement, globals }) => {
+    if (globals.runStoryInteractions !== true) return;
     const canvas = within(canvasElement);
     const viewport = canvas.getByRole("group", { name: "Conversation" });
     await expect(viewport.scrollTop).toBeGreaterThan(0);

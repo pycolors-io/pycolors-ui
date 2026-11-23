@@ -9,10 +9,14 @@ import {
   Textarea,
 } from "../../src/index.js";
 
-function SettingsForm() {
+function SettingsForm({
+  initialSubmitted = false,
+}: {
+  initialSubmitted?: boolean;
+}) {
   const [name, setName] = React.useState("");
   const [notes, setNotes] = React.useState("");
-  const [submitted, setSubmitted] = React.useState(false);
+  const [submitted, setSubmitted] = React.useState(initialSubmitted);
   const error =
     submitted && !name.trim() ? "Enter a workspace name." : undefined;
   return (
@@ -72,9 +76,13 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 export const Default: Story = {
-  play: async ({ canvasElement, step }) => {
+  play: async ({ canvasElement, step, globals }) => {
+    if (globals.runStoryInteractions !== true) return;
     await step("interaction: Default", async () => {
       const view = within(canvasElement);
+      await expect(
+        view.getByRole("textbox", { name: /^Workspace name/ }),
+      ).toBeVisible();
       await userEvent.click(view.getByRole("button", { name: "Save locally" }));
       await expect(
         view.getByRole("textbox", { name: /^Workspace name/ }),
@@ -98,7 +106,11 @@ export const Default: Story = {
 
 // Separate final error state so the official a11y scan sees validation feedback.
 export const ValidationError: Story = {
-  play: async ({ canvasElement, step }) => {
+  render: (_args, { globals }) => (
+    <SettingsForm initialSubmitted={globals.runStoryInteractions !== true} />
+  ),
+  play: async ({ canvasElement, step, globals }) => {
+    if (globals.runStoryInteractions !== true) return;
     await step("interaction: validation error", async () => {
       const view = within(canvasElement);
       await userEvent.click(view.getByRole("button", { name: "Save locally" }));

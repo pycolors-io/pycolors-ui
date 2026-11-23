@@ -22,7 +22,8 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  play: async ({ canvasElement, step }) => {
+  play: async ({ canvasElement, step, globals }) => {
+    if (globals.runStoryInteractions !== true) return;
     await step("interaction: Default", async () => {
       const view = within(canvasElement);
       const input = view.getByLabelText("Password", { selector: "input" });
@@ -53,7 +54,8 @@ export const Default: Story = {
 };
 
 export const Error: Story = {
-  play: async ({ canvasElement, step }) => {
+  play: async ({ canvasElement, step, globals }) => {
+    if (globals.runStoryInteractions !== true) return;
     await step("interaction: Error", async () => {
       await expect(
         within(canvasElement).getByLabelText("Password", { selector: "input" }),
@@ -69,7 +71,8 @@ export const Error: Story = {
   ),
 };
 export const Disabled: Story = {
-  play: async ({ canvasElement, step }) => {
+  play: async ({ canvasElement, step, globals }) => {
+    if (globals.runStoryInteractions !== true) return;
     await step("interaction: Disabled", async () => {
       const view = within(canvasElement);
       await expect(
