@@ -350,7 +350,7 @@
 .explorer-masthead-label {
   padding-left: 10px;
   border-left: 1px solid var(--border);
-  color: var(--muted-foreground);
+  color: var(--foreground);
   font-size: 12px;
   font-weight: 400;
   letter-spacing: 0;
@@ -375,7 +375,7 @@
   align-items: center;
   gap: 8px;
   margin-bottom: 20px;
-  color: var(--muted-foreground);
+  color: var(--foreground);
   font-size: 11px;
   font-weight: 500;
   letter-spacing: 0.08em;
